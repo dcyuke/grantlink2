@@ -4,7 +4,8 @@ import { FilterPanel } from '@/components/search/filter-panel'
 import { FilterMobile } from '@/components/search/filter-mobile'
 import { ActiveFilters } from '@/components/search/active-filters'
 import { SortSelect } from '@/components/search/sort-select'
-import { OpportunityCard } from '@/components/opportunity/opportunity-card'
+import { OrgProfilePanel } from '@/components/search/org-profile-panel'
+import { SearchResultsWithFit } from '@/components/search/search-results-with-fit'
 import { searchOpportunities } from '@/lib/data'
 import { FileSearch } from 'lucide-react'
 import Link from 'next/link'
@@ -66,11 +67,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       <div className="mt-6 flex gap-6">
         {/* Desktop filter sidebar */}
         <aside className="hidden w-64 shrink-0 lg:block">
-          <div className="sticky top-20 rounded-xl border border-border/60 bg-card p-4 shadow-sm">
-            <h2 className="mb-1 text-sm font-semibold text-foreground">Filters</h2>
-            <Suspense fallback={null}>
-              <FilterPanel />
-            </Suspense>
+          <div className="sticky top-20 space-y-4">
+            {/* Org Profile Panel */}
+            <OrgProfilePanel />
+
+            {/* Filters */}
+            <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
+              <h2 className="mb-1 text-sm font-semibold text-foreground">Filters</h2>
+              <Suspense fallback={null}>
+                <FilterPanel />
+              </Suspense>
+            </div>
           </div>
         </aside>
 
@@ -94,11 +101,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
           {/* Results list */}
           {opportunities.length > 0 ? (
-            <div className="space-y-3">
-              {opportunities.map((opp) => (
-                <OpportunityCard key={opp.id} opportunity={opp} />
-              ))}
-            </div>
+            <SearchResultsWithFit opportunities={opportunities} />
           ) : (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16 text-center">
               <FileSearch className="mb-4 h-12 w-12 text-muted-foreground/40" />

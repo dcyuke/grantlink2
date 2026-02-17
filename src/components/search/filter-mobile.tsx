@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { FilterPanel } from './filter-panel'
+import { OrgProfilePanel } from './org-profile-panel'
 
 export function FilterMobile() {
   return (
@@ -24,7 +25,8 @@ export function FilterMobile() {
         <SheetHeader>
           <SheetTitle>Filters</SheetTitle>
         </SheetHeader>
-        <div className="mt-4">
+        <div className="mt-4 space-y-4">
+          <OrgProfilePanel />
           <FilterPanel />
         </div>
       </SheetContent>

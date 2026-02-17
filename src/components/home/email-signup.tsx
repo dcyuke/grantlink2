@@ -1,15 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { Mail, CheckCircle2, ArrowRight } from 'lucide-react'
+import { Bell, CheckCircle2, ArrowRight, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FOCUS_AREAS } from '@/lib/constants'
 import { emailSignupSchema } from '@/types/email-signup'
+import type { AlertPreference } from '@/types/email-signup'
 import { saveEmailSignup, isEmailAlreadySignedUp } from '@/lib/storage'
+import { cn } from '@/lib/utils'
 
 export function EmailSignup() {
   const [email, setEmail] = useState('')
   const [selectedAreas, setSelectedAreas] = useState<string[]>([])
+  const [alertPref, setAlertPref] = useState<AlertPreference>('all_grants')
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -23,9 +26,17 @@ export function EmailSignup() {
     e.preventDefault()
     setErrorMessage('')
 
+    // Validate that "similar_only" has focus areas selected
+    if (alertPref === 'similar_only' && selectedAreas.length === 0) {
+      setErrorMessage('Please select at least one focus area to receive similar grant alerts.')
+      setStatus('error')
+      return
+    }
+
     const result = emailSignupSchema.safeParse({
       email,
       focusAreas: selectedAreas.length > 0 ? selectedAreas : undefined,
+      alertPreference: alertPref,
     })
 
     if (!result.success) {
@@ -41,14 +52,14 @@ export function EmailSignup() {
 
     const focusAreas = selectedAreas.length > 0 ? selectedAreas : undefined
 
-    saveEmailSignup({ email, focusAreas })
+    saveEmailSignup({ email, focusAreas, alertPreference: alertPref })
     setStatus('success')
 
     // Send welcome email in the background (don't block UI)
     fetch('/api/send-welcome', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, focusAreas }),
+      body: JSON.stringify({ email, focusAreas, alertPreference: alertPref }),
     }).catch(() => {
       // Email send failure is non-blocking — signup still succeeds
     })
@@ -64,11 +75,13 @@ export function EmailSignup() {
             </div>
             <h2 className="mb-2 text-2xl font-bold text-foreground">You&apos;re signed up!</h2>
             <p className="text-muted-foreground">
-              We&apos;ll send curated funding reports to <span className="font-medium text-foreground">{email}</span>
-              {selectedAreas.length > 0 ? (
-                <> focused on your selected interests.</>
+              We&apos;ll send grant alerts to <span className="font-medium text-foreground">{email}</span>
+              {alertPref === 'similar_only' ? (
+                <> focused on grants similar to your selected interests.</>
+              ) : selectedAreas.length > 0 ? (
+                <> covering all new grants, with a focus on your selected interests.</>
               ) : (
-                <> covering all funding areas.</>
+                <> covering all new grant opportunities.</>
               )}
             </p>
           </div>
@@ -83,15 +96,15 @@ export function EmailSignup() {
         <div className="mx-auto max-w-2xl text-center">
           {/* Icon */}
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-            <Mail className="h-7 w-7 text-primary" />
+            <Bell className="h-7 w-7 text-primary" />
           </div>
 
           {/* Heading */}
           <h2 className="mb-2 text-2xl font-bold text-foreground md:text-3xl">
-            Get Curated Funding Reports
+            Get New Grant Alerts
           </h2>
           <p className="mb-8 text-muted-foreground">
-            Receive personalized funding opportunities matching your interests, delivered to your inbox.
+            Be the first to know when new grants matching your interests are posted.
           </p>
 
           {/* Form */}
@@ -113,7 +126,7 @@ export function EmailSignup() {
                 />
               </div>
               <Button type="submit" className="shrink-0">
-                Subscribe
+                Get Alerts
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </Button>
             </div>
@@ -123,11 +136,52 @@ export function EmailSignup() {
               <p className="mt-2 text-left text-sm text-destructive">{errorMessage}</p>
             )}
 
+            {/* Alert preference toggles */}
+            <div className="mt-6">
+              <p className="mb-3 text-sm font-medium text-foreground">
+                What grants do you want to hear about?
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setAlertPref('similar_only')}
+                  className={cn(
+                    'rounded-lg border px-4 py-2 text-sm transition-all',
+                    alertPref === 'similar_only'
+                      ? 'border-primary bg-primary/10 font-medium text-primary'
+                      : 'border-border text-muted-foreground hover:border-primary/30'
+                  )}
+                >
+                  Similar grants only
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAlertPref('all_grants')}
+                  className={cn(
+                    'rounded-lg border px-4 py-2 text-sm transition-all',
+                    alertPref === 'all_grants'
+                      ? 'border-primary bg-primary/10 font-medium text-primary'
+                      : 'border-border text-muted-foreground hover:border-primary/30'
+                  )}
+                >
+                  All new grants
+                </button>
+              </div>
+            </div>
+
             {/* Focus area interests */}
             <div className="mt-6">
               <p className="mb-3 text-sm font-medium text-foreground">
-                Select your interests <span className="font-normal text-muted-foreground">(optional)</span>
+                Select your interests{' '}
+                <span className="font-normal text-muted-foreground">
+                  {alertPref === 'similar_only' ? '(required)' : '(optional)'}
+                </span>
               </p>
+              {alertPref === 'similar_only' && selectedAreas.length === 0 && (
+                <p className="mb-3 text-xs text-amber-600">
+                  Select at least one focus area to receive similar grant alerts.
+                </p>
+              )}
               <div className="flex flex-wrap justify-center gap-2">
                 {FOCUS_AREAS.map((area) => {
                   const isSelected = selectedAreas.includes(area.slug)

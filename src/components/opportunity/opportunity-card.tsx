@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { DeadlineBadge } from './deadline-badge'
+import { FitBadge } from '@/components/search/fit-badge'
 import { formatAmountRange } from '@/lib/utils'
 import { OPPORTUNITY_TYPE_LABELS } from '@/lib/constants'
 import { MapPin, ArrowRight, DollarSign, Building2 } from 'lucide-react'
@@ -8,9 +9,10 @@ import type { OpportunityListItem } from '@/types/opportunity'
 
 interface OpportunityCardProps {
   opportunity: OpportunityListItem
+  fitScore?: { score: number; label: string; color: string }
 }
 
-export function OpportunityCard({ opportunity }: OpportunityCardProps) {
+export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps) {
   const amount = formatAmountRange(
     opportunity.amount_min,
     opportunity.amount_max,
@@ -21,7 +23,7 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
   return (
     <Link href={`/opportunity/${opportunity.slug}`} className="group block">
       <div className="rounded-xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md">
-        {/* Top row: type badge + deadline */}
+        {/* Top row: type badge + fit badge + deadline */}
         <div className="mb-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="text-xs font-medium">
@@ -31,6 +33,9 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
               <Badge className="bg-amber-50 text-amber-600 text-xs font-medium hover:bg-amber-50">
                 Featured
               </Badge>
+            )}
+            {fitScore && (
+              <FitBadge score={fitScore.score} label={fitScore.label} color={fitScore.color} />
             )}
           </div>
           <DeadlineBadge

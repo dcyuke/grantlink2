@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { DeadlineBadge } from '@/components/opportunity/deadline-badge'
 import { FitAssessment } from '@/components/opportunity/fit-assessment'
+import { GrantAlertCTA } from '@/components/opportunity/grant-alert-cta'
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
 import { getOpportunityBySlug, searchOpportunities } from '@/lib/data'
 import { formatAmountRange } from '@/lib/utils'
@@ -362,12 +363,17 @@ export default async function OpportunityPage({ params }: PageProps) {
           <Separator className="mb-8" />
           <h2 className="mb-6 text-xl font-bold text-foreground">Similar Opportunities</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {similarFiltered.map((opp) => (
-              <OpportunityCard key={opp.id} opportunity={opp} />
+            {similarFiltered.map((s) => (
+              <OpportunityCard key={s.id} opportunity={s} />
             ))}
           </div>
         </section>
       )}
+
+      {/* Grant Alert CTA */}
+      <section className="mt-8">
+        <GrantAlertCTA focusAreaSlugs={opp.focus_area_slugs} />
+      </section>
     </div>
   )
 }

@@ -28,14 +28,14 @@ export function FooterSignup() {
       return
     }
 
-    saveEmailSignup({ email })
+    saveEmailSignup({ email, alertPreference: 'all_grants' })
     setStatus('success')
 
     // Send welcome email in the background (don't block UI)
     fetch('/api/send-welcome', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, alertPreference: 'all_grants' }),
     }).catch(() => {
       // Email send failure is non-blocking — signup still succeeds
     })
@@ -52,8 +52,8 @@ export function FooterSignup() {
 
   return (
     <div>
-      <h3 className="mb-2 text-sm font-semibold text-foreground">Stay Updated</h3>
-      <p className="mb-3 text-sm text-muted-foreground">Get curated funding reports in your inbox.</p>
+      <h3 className="mb-2 text-sm font-semibold text-foreground">Get Grant Alerts</h3>
+      <p className="mb-3 text-sm text-muted-foreground">Get notified about new grants in your inbox.</p>
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="email"

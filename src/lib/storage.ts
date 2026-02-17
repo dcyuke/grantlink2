@@ -6,9 +6,11 @@ const FEEDBACK_KEY = 'grantlink_feedback'
 
 // --- Email Signups ---
 
-export function saveEmailSignup(data: { email: string; focusAreas?: string[] }): StoredSignup {
+export function saveEmailSignup(data: { email: string; focusAreas?: string[]; alertPreference?: 'similar_only' | 'all_grants' }): StoredSignup {
   const stored: StoredSignup = {
-    ...data,
+    email: data.email,
+    focusAreas: data.focusAreas,
+    alertPreference: data.alertPreference ?? 'all_grants',
     id: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
   }
