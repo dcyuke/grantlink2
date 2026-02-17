@@ -39,9 +39,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const opp = await getOpportunityBySlug(slug)
   if (!opp) return {}
+
+  const description = opp.summary || `${opp.title} from ${opp.funder_name}`
+  const url = `https://grantlink.org/opportunity/${slug}`
+
   return {
     title: opp.title,
-    description: opp.summary || `${opp.title} from ${opp.funder_name}`,
+    description,
+    openGraph: {
+      title: `${opp.title} | GrantLink`,
+      description,
+      url,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${opp.title} | GrantLink`,
+      description,
+    },
+    alternates: {
+      canonical: url,
+    },
   }
 }
 
@@ -66,8 +84,40 @@ export default async function OpportunityPage({ params }: PageProps) {
     (p) => POPULATION_OPTIONS.find((o) => o.value === p)?.label || p
   )
 
+  // JSON-LD structured data for search engines
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'MonetaryGrant',
+    name: opp.title,
+    description: opp.summary || opp.description,
+    url: `https://grantlink.org/opportunity/${slug}`,
+    funder: opp.funder_name
+      ? {
+          '@type': 'Organization',
+          name: opp.funder_name,
+        }
+      : undefined,
+    ...(opp.amount_max
+      ? {
+          amount: {
+            '@type': 'MonetaryAmount',
+            currency: 'USD',
+            maxValue: opp.amount_max / 100,
+            ...(opp.amount_min ? { minValue: opp.amount_min / 100 } : {}),
+          },
+        }
+      : {}),
+    ...(opp.deadline_date ? { applicationDeadline: opp.deadline_date } : {}),
+  }
+
   return (
     <div className="container mx-auto px-4 py-6">
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Breadcrumb */}
       <nav className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/" className="transition-colors hover:text-foreground">
