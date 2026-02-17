@@ -44,7 +44,7 @@ export function HeroSection() {
             </span>
           </h1>
           <p className="mb-8 text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Search thousands of grants, fellowships, prizes, and funding opportunities
+            Search available grants, fellowships, prizes, and funding opportunities
             from foundations, corporations, and government agencies.
           </p>
 

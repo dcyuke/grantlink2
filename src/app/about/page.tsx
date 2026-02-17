@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Search, Shield, Heart, Mail } from 'lucide-react'
+import { Search, Heart, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -54,32 +54,6 @@ export default function AboutPage() {
             </p>
           </section>
 
-          <section>
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <Shield className="h-5 w-5 text-primary" />
-              </div>
-              <h2 className="text-xl font-semibold text-foreground">Our Commitment</h2>
-            </div>
-            <ul className="space-y-2 text-muted-foreground">
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>Always free to search and browse</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>Direct links to application pages &mdash; no gateways</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>Transparent about our data sources and coverage</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>Regularly updated opportunity listings</span>
-              </li>
-            </ul>
-          </section>
         </div>
 
         <section className="mb-16">
