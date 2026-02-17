@@ -36,6 +36,12 @@ export function Header() {
           >
             About
           </Link>
+          <Link
+            href="/submit"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Submit Opportunity
+          </Link>
           <FeedbackDialog />
           <Button asChild size="sm">
             <Link href="/search">
@@ -71,6 +77,13 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               About
+            </Link>
+            <Link
+              href="/submit"
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Submit Opportunity
             </Link>
             <div className="px-3 py-1">
               <FeedbackDialog

@@ -22,6 +22,7 @@ export async function getFunders(): Promise<FunderDetail[]> {
   const { data, error } = await supabase
     .from('funders')
     .select('id, slug, name, funder_type, description, website_url, logo_url, headquarters, country_code, total_giving, assets, ein, contact_email')
+    .eq('is_verified', true)
     .order('name')
 
   if (error) {
@@ -47,6 +48,7 @@ async function fetchAllOpportunityListItems(): Promise<OpportunityListItem[]> {
       funders!inner ( name, slug, funder_type, logo_url ),
       opportunity_focus_areas ( focus_areas ( name, slug ) )
     `)
+    .eq('is_verified', true)
 
   if (error) {
     console.error('fetchAllOpportunityListItems error:', error)
@@ -254,6 +256,7 @@ export async function getOpportunityBySlug(slug: string): Promise<OpportunityDet
       opportunity_focus_areas ( focus_areas ( name, slug ) )
     `)
     .eq('slug', slug)
+    .eq('is_verified', true)
     .single()
 
   if (error || !data) return null
@@ -330,8 +333,8 @@ export async function getOpportunityStats() {
   const supabase = await createClient()
 
   const [opps, fundrs, fas] = await Promise.all([
-    supabase.from('opportunities').select('id', { count: 'exact', head: true }),
-    supabase.from('funders').select('id', { count: 'exact', head: true }),
+    supabase.from('opportunities').select('id', { count: 'exact', head: true }).eq('is_verified', true),
+    supabase.from('funders').select('id', { count: 'exact', head: true }).eq('is_verified', true),
     supabase.from('focus_areas').select('id', { count: 'exact', head: true }),
   ])
 

@@ -61,6 +61,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/submit" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Submit Opportunity
+                </Link>
+              </li>
+              <li>
                 <FeedbackDialog />
               </li>
               <li>
