@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { DeadlineBadge } from './deadline-badge'
-import { BookmarkButton } from './bookmark-button'
 import { FitBadge } from '@/components/search/fit-badge'
 import { formatAmountRange, isWithinLastWeek } from '@/lib/utils'
 import { OPPORTUNITY_TYPE_LABELS } from '@/lib/constants'
@@ -47,7 +46,6 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
             )}
           </div>
           <div className="flex items-center gap-2">
-            <BookmarkButton opportunityId={opportunity.id} />
             <DeadlineBadge
               deadlineDate={opportunity.deadline_date}
               deadlineType={opportunity.deadline_type}

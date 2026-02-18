@@ -82,12 +82,12 @@ export default function AboutPage() {
               >
                 Rocket Social Impact
               </a>
-              , partnering with nonprofit development teams and corporate social
-              impact teams to build sustainable funding strategies. Before that, I
-              spent time in the tech sector, where I saw how the right tools can
-              eliminate busywork and let people focus on what they do best. My
-              background is in nonprofit management, so this space has been a
-              through-line in my career from the start.
+              , partnering with nonprofit development teams to build sustainable
+              funding strategies and CSR and Foundation teams develop strong
+              community impact strategies. Before that, I spent time in the tech
+              sector, where I saw how the right tools can let people focus on what
+              they do best. My background is in nonprofit management, so this space
+              has been a through-line in my career from the start.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               GrantLink is the tool I wished existed when I was helping organizations

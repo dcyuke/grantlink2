@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { Search, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FeedbackDialog } from '@/components/feedback-dialog'
-import { AuthButton } from '@/components/auth/auth-button'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -44,7 +43,6 @@ export function Header() {
             Submit Opportunity
           </Link>
           <FeedbackDialog />
-          <AuthButton />
         </nav>
 
         {/* Mobile menu button */}
@@ -80,13 +78,6 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Submit Opportunity
-            </Link>
-            <Link
-              href="/dashboard"
-              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Dashboard
             </Link>
             <div className="px-3 py-1">
               <FeedbackDialog
