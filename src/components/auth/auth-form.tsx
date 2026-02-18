@@ -181,23 +181,14 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         </Button>
       </form>
 
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        {mode === 'login' ? (
-          <>
-            Don&apos;t have an account?{' '}
-            <Link href="/signup" className="font-medium text-primary hover:text-primary/80">
-              Sign up
-            </Link>
-          </>
-        ) : (
-          <>
-            Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:text-primary/80">
-              Log in
-            </Link>
-          </>
-        )}
-      </p>
+      {mode === 'signup' && (
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link href="/login" className="font-medium text-primary hover:text-primary/80">
+            Log in
+          </Link>
+        </p>
+      )}
     </div>
   )
 }
