@@ -32,6 +32,37 @@ export async function getFunders(): Promise<FunderDetail[]> {
   return data ?? []
 }
 
+export async function getFunderBySlug(slug: string): Promise<{
+  funder: FunderDetail
+  opportunities: OpportunityListItem[]
+} | null> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('funders')
+    .select('id, slug, name, funder_type, description, website_url, logo_url, headquarters, country_code, total_giving, assets, ein, contact_email')
+    .eq('slug', slug)
+    .eq('is_verified', true)
+    .single()
+
+  if (error || !data) return null
+
+  const funder = data as FunderDetail
+  const allOpps = await fetchAllOpportunityListItems()
+  const opportunities = allOpps.filter((opp) => opp.funder_slug === slug)
+
+  return { funder, opportunities }
+}
+
+export async function getAllFunderSlugs(): Promise<string[]> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('funders')
+    .select('slug')
+    .eq('is_verified', true)
+  return (data ?? []).map((f) => f.slug)
+}
+
 // Helper: fetch all opportunities with funder + focus area joins and map to OpportunityListItem
 async function fetchAllOpportunityListItems(): Promise<OpportunityListItem[]> {
   const supabase = await createClient()
@@ -44,7 +75,7 @@ async function fetchAllOpportunityListItems(): Promise<OpportunityListItem[]> {
       deadline_type, deadline_date, deadline_display,
       eligible_org_types, eligible_geography, eligible_populations,
       geo_scope_display, application_url, application_complexity,
-      is_featured, is_verified,
+      is_featured, is_verified, created_at,
       funders!inner ( name, slug, funder_type, logo_url ),
       opportunity_focus_areas ( focus_areas ( name, slug ) )
     `)
@@ -85,6 +116,7 @@ async function fetchAllOpportunityListItems(): Promise<OpportunityListItem[]> {
       funder_slug: (funder?.slug as string) ?? null,
       funder_type: (funder?.funder_type as OpportunityListItem['funder_type']) ?? null,
       funder_logo_url: (funder?.logo_url as string) ?? null,
+      created_at: row.created_at as string,
       focus_area_names: ofas.map((ofa) => ofa.focus_areas?.name).filter(Boolean) as string[],
       focus_area_slugs: ofas.map((ofa) => ofa.focus_areas?.slug).filter(Boolean) as string[],
     }
@@ -110,6 +142,8 @@ export interface SearchFilters {
   amountMax?: number
   deadline?: string
   orgTypes?: string[]
+  complexity?: string[]
+  newThisWeek?: boolean
   sort?: string
   page?: number
 }
@@ -199,6 +233,17 @@ export async function searchOpportunities(filters: SearchFilters): Promise<{
     results = results.filter((opp) =>
       opp.eligible_org_types?.some((t) => filters.orgTypes!.includes(t))
     )
+  }
+
+  // Complexity filter
+  if (filters.complexity?.length) {
+    results = results.filter((opp) => filters.complexity!.includes(opp.application_complexity))
+  }
+
+  // New this week filter
+  if (filters.newThisWeek) {
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+    results = results.filter((opp) => opp.created_at >= weekAgo)
   }
 
   // Sort

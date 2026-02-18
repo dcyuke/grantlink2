@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { DeadlineBadge } from '@/components/opportunity/deadline-badge'
 import { FitAssessment } from '@/components/opportunity/fit-assessment'
+import { BookmarkButton } from '@/components/opportunity/bookmark-button'
+import { TrackButton } from '@/components/opportunity/track-button'
 import { GrantAlertCTA } from '@/components/opportunity/grant-alert-cta'
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
 import { getOpportunityBySlug, searchOpportunities } from '@/lib/data'
@@ -159,7 +161,13 @@ export default async function OpportunityPage({ params }: PageProps) {
             {opp.funder_name && (
               <p className="flex items-center gap-2 text-muted-foreground">
                 <Building2 className="h-4 w-4" />
-                {opp.funder_name}
+                {opp.funder_slug ? (
+                  <Link href={`/funder/${opp.funder_slug}`} className="transition-colors hover:text-foreground hover:underline">
+                    {opp.funder_name}
+                  </Link>
+                ) : (
+                  opp.funder_name
+                )}
                 {opp.funder_type && (
                   <span className="text-xs">
                     ({FUNDER_TYPE_LABELS[opp.funder_type]})
@@ -350,6 +358,14 @@ export default async function OpportunityPage({ params }: PageProps) {
               </Button>
             )}
 
+            {/* Save & Track */}
+            <div className="flex gap-2">
+              <BookmarkButton opportunityId={opp.id} className="flex-1 !h-10 !w-auto !rounded-lg" />
+              <div className="flex-1">
+                <TrackButton opportunityId={opp.id} />
+              </div>
+            </div>
+
             {/* Fit Assessment */}
             <FitAssessment
               eligibleOrgTypes={opp.eligible_org_types}
@@ -365,7 +381,11 @@ export default async function OpportunityPage({ params }: PageProps) {
               <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
                 <h3 className="mb-3 text-sm font-semibold text-foreground">About the Funder</h3>
                 <div className="space-y-2.5">
-                  <p className="text-base font-semibold text-foreground">{opp.funder.name}</p>
+                  <p className="text-base font-semibold text-foreground">
+                    <Link href={`/funder/${opp.funder.slug}`} className="transition-colors hover:text-primary">
+                      {opp.funder.name}
+                    </Link>
+                  </p>
                   <Badge variant="secondary" className="text-xs">
                     {FUNDER_TYPE_LABELS[opp.funder.funder_type]}
                   </Badge>

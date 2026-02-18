@@ -61,8 +61,16 @@ export function GrantAlertCTA({ focusAreaSlugs }: GrantAlertCTAProps) {
 
     const focusAreas = selectedAreas.length > 0 ? selectedAreas : undefined
 
+    // Save to localStorage
     saveEmailSignup({ email, focusAreas, alertPreference: alertPref })
     setStatus('success')
+
+    // Persist to database
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, focusAreas, alertPreference: alertPref }),
+    }).catch(() => {})
 
     // Send welcome email in the background
     fetch('/api/send-welcome', {

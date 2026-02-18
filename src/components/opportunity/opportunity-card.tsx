@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { DeadlineBadge } from './deadline-badge'
+import { BookmarkButton } from './bookmark-button'
 import { FitBadge } from '@/components/search/fit-badge'
-import { formatAmountRange } from '@/lib/utils'
+import { formatAmountRange, isWithinLastWeek } from '@/lib/utils'
 import { OPPORTUNITY_TYPE_LABELS } from '@/lib/constants'
 import { MapPin, ArrowRight, DollarSign, Building2 } from 'lucide-react'
 import type { OpportunityListItem } from '@/types/opportunity'
@@ -20,15 +21,22 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
     opportunity.amount_display
   )
 
+  const isNewThisWeek = isWithinLastWeek(opportunity.created_at)
+
   return (
     <Link href={`/opportunity/${opportunity.slug}`} className="group block">
       <div className="rounded-xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md">
-        {/* Top row: type badge + fit badge + deadline */}
-        <div className="mb-3 flex items-center justify-between gap-3">
+        {/* Top row: type badge + fit badge + bookmark + deadline */}
+        <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="text-xs font-medium">
               {OPPORTUNITY_TYPE_LABELS[opportunity.opportunity_type]}
             </Badge>
+            {isNewThisWeek && (
+              <Badge className="bg-emerald-50 text-emerald-700 text-[10px] font-semibold hover:bg-emerald-50">
+                NEW
+              </Badge>
+            )}
             {opportunity.is_featured && (
               <Badge className="bg-amber-50 text-amber-600 text-xs font-medium hover:bg-amber-50">
                 Featured
@@ -38,11 +46,14 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
               <FitBadge score={fitScore.score} label={fitScore.label} color={fitScore.color} />
             )}
           </div>
-          <DeadlineBadge
-            deadlineDate={opportunity.deadline_date}
-            deadlineType={opportunity.deadline_type}
-            deadlineDisplay={opportunity.deadline_display}
-          />
+          <div className="flex items-center gap-2">
+            <BookmarkButton opportunityId={opportunity.id} />
+            <DeadlineBadge
+              deadlineDate={opportunity.deadline_date}
+              deadlineType={opportunity.deadline_type}
+              deadlineDisplay={opportunity.deadline_display}
+            />
+          </div>
         </div>
 
         {/* Title */}

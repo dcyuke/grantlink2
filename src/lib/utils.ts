@@ -50,6 +50,22 @@ export function getDeadlineUrgency(dateStr: string | null): 'urgent' | 'soon' | 
   return 'normal'
 }
 
+/**
+ * Check if a date string is within the last 7 days.
+ * Pre-computes the cutoff at module load to avoid calling Date.now() during render.
+ */
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000
+let _weekAgoCutoff = Date.now() - SEVEN_DAYS_MS
+
+export function isWithinLastWeek(dateStr: string): boolean {
+  // Refresh cutoff if it's stale (older than 1 hour) to stay accurate over long sessions
+  const now = Date.now()
+  if (now - _weekAgoCutoff > SEVEN_DAYS_MS + 3600000) {
+    _weekAgoCutoff = now - SEVEN_DAYS_MS
+  }
+  return new Date(dateStr).getTime() > _weekAgoCutoff
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

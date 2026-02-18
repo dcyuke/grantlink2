@@ -37,6 +37,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const amountMax = parseParam(params.amountMax) ? Number(parseParam(params.amountMax)) : undefined
   const deadline = parseParam(params.deadline)
   const orgTypes = parseParam(params.orgTypes)?.split(',')
+  const complexity = parseParam(params.complexity)?.split(',')
+  const newThisWeek = parseParam(params.newThisWeek) === 'true'
   const sort = parseParam(params.sort) || 'relevance'
   const page = parseParam(params.page) ? Number(parseParam(params.page)) : 1
 
@@ -50,6 +52,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     amountMax,
     deadline,
     orgTypes,
+    complexity,
+    newThisWeek: newThisWeek || undefined,
     sort,
     page,
   })

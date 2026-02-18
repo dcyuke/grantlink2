@@ -34,7 +34,7 @@ export function CategoryCards({ categories }: CategoryCardsProps) {
             return (
               <Link
                 key={cat.slug}
-                href={`/search?focusAreas=${cat.slug}`}
+                href={`/grants-for/${cat.slug}`}
                 className="group flex flex-col items-center gap-2.5 rounded-xl border border-border/60 bg-card p-4 text-center transition-all duration-200 hover:border-primary/30 hover:shadow-md"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">

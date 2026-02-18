@@ -57,6 +57,7 @@ export interface OpportunityListItem {
   application_complexity: ApplicationComplexity
   is_featured: boolean
   is_verified: boolean
+  created_at: string
   funder_name: string | null
   funder_slug: string | null
   funder_type: FunderType | null
