@@ -61,39 +61,45 @@ export default function AboutPage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
               <User className="h-5 w-5 text-primary" />
             </div>
-            <h2 className="text-xl font-semibold text-foreground">Meet the Founder</h2>
+            <h2 className="text-xl font-semibold text-foreground">
+              Message from the Creator:{' '}
+              <a
+                href="https://www.linkedin.com/in/drewyukelson/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Drew Yukelson
+              </a>
+            </h2>
           </div>
           <div className="rounded-xl border border-border/60 bg-card p-6">
             <p className="mb-4 text-muted-foreground leading-relaxed">
-              Hi, I&apos;m <span className="font-semibold text-foreground">Drew Yukelson</span>.
-              I built GrantLink to help nonprofits and social entrepreneurs identify
-              grant opportunities that actually align with their programs and services.
-              The goal is simple: make the search more focused, more relevant, and
-              less draining.
+              Stretching every dollar has always been part of nonprofit work, but
+              securing the right funding feels more critical than ever. That is why
+              I built GrantLink.
             </p>
             <p className="mb-4 text-muted-foreground leading-relaxed">
-              For the last four-plus years, I&apos;ve worked as a strategy consultant
+              For the past four-plus years, I have worked as a strategy consultant
               at{' '}
               <a
-                href="https://www.rocketsocialimpact.com"
+                href="https://rocketsocialimpact.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-primary hover:underline"
               >
                 Rocket Social Impact
               </a>
-              , partnering with nonprofit development teams to build sustainable
-              funding strategies and CSR and Foundation teams develop strong
-              community impact strategies. Before that, I spent time in the tech
-              sector, where I saw how the right tools can let people focus on what
-              they do best. My background is in nonprofit management, so this space
-              has been a through-line in my career from the start.
+              , building funding strategies with nonprofit teams and designing
+              community programs for corporate social impact teams. Before that, I
+              worked in tech and managed nonprofit programs. Those experiences shaped
+              how I approach practical tools that support mission-driven work.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              GrantLink is the tool I wished existed when I was helping organizations
-              piece together their funding pipelines from a dozen different sources.
-              No gimmicks, just direct links to real opportunities &mdash; built to
-              make the search more focused, more relevant, and less draining.
+              GrantLink is designed to help nonprofits and social entrepreneurs find
+              grant opportunities that actually fit their programs and services. No
+              gimmicks, just direct links to real opportunities, built to help teams
+              spend less time searching and more time advancing their work.
             </p>
           </div>
         </section>
