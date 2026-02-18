@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { runScraper, closeExpiredOpportunities, markClosingSoon } from '@/lib/scraper'
+import { fetchGrantsGov } from '@/lib/scraper/grants-gov'
 
 /**
  * Cron endpoint: runs daily to scrape funder websites for new opportunities,
@@ -36,8 +37,12 @@ async function handleScrape(request: Request) {
     // 2. Mark closing soon
     const closingSoonCount = await markClosingSoon()
 
-    // 3. Run the scraper
+    // 3. Run the website scraper (foundation pages)
     const scrapeResults = await runScraper()
+
+    // 4. Fetch from Grants.gov API (federal grants)
+    console.log('[Cron] Fetching Grants.gov federal opportunities...')
+    const grantsGovResults = await fetchGrantsGov()
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(1)
 
@@ -47,9 +52,15 @@ async function handleScrape(request: Request) {
       expired_closed: closedCount,
       marked_closing_soon: closingSoonCount,
       funders_checked: scrapeResults.fundersChecked,
-      new_opportunities: scrapeResults.newOpportunities,
-      updated_opportunities: scrapeResults.updatedOpportunities,
-      errors: scrapeResults.errors,
+      new_opportunities: scrapeResults.newOpportunities + grantsGovResults.newOpportunities,
+      updated_opportunities: scrapeResults.updatedOpportunities + grantsGovResults.updatedOpportunities,
+      grants_gov: {
+        fetched: grantsGovResults.fetched,
+        new: grantsGovResults.newOpportunities,
+        updated: grantsGovResults.updatedOpportunities,
+        errors: grantsGovResults.errors,
+      },
+      scraper_errors: scrapeResults.errors,
     }
 
     console.log('[Cron] Job complete:', JSON.stringify(response, null, 2))

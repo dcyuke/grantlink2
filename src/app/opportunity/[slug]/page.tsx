@@ -356,14 +356,6 @@ export default async function OpportunityPage({ params }: PageProps) {
               </Button>
             )}
 
-            {/* Save & Track */}
-            <div className="flex gap-2">
-              <BookmarkButton opportunityId={opp.id} className="flex-1 !h-10 !w-auto !rounded-lg" />
-              <div className="flex-1">
-                <TrackButton opportunityId={opp.id} />
-              </div>
-            </div>
-
             {/* Fit Assessment */}
             <FitAssessment
               eligibleOrgTypes={opp.eligible_org_types}

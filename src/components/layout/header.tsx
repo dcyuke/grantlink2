@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Search, Menu, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { FeedbackDialog } from '@/components/feedback-dialog'
 
 export function Header() {
