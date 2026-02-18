@@ -97,9 +97,7 @@ export default function AboutPage() {
             </p>
             <p className="text-muted-foreground leading-relaxed">
               GrantLink is designed to help nonprofits and social entrepreneurs find
-              grant opportunities that actually fit their programs and services. No
-              gimmicks, just direct links to real opportunities, built to help teams
-              spend less time searching and more time advancing their work.
+              grant opportunities that actually fit their programs and services.
             </p>
           </div>
         </section>

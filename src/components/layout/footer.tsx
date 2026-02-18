@@ -19,9 +19,8 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Discover funding opportunities for nonprofits and social enterprises.
-              Search thousands of grants, fellowships, prizes, and more from foundations,
-              corporations, and government agencies.
+              Search available grants, fellowships, prizes, and funding opportunities
+              from foundations, corporations, and government agencies.
             </p>
           </div>
 
