@@ -7,8 +7,9 @@ import { DeadlineBadge } from '@/components/opportunity/deadline-badge'
 import { FitAssessment } from '@/components/opportunity/fit-assessment'
 import { GrantAlertCTA } from '@/components/opportunity/grant-alert-cta'
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
+import { AddToCalendar } from '@/components/opportunity/add-to-calendar'
 import { getOpportunityBySlug, searchOpportunities } from '@/lib/data'
-import { formatAmountRange } from '@/lib/utils'
+import { formatAmountRange, isFirstTimeFriendly } from '@/lib/utils'
 import {
   OPPORTUNITY_TYPE_LABELS,
   FUNDER_TYPE_LABELS,
@@ -145,6 +146,11 @@ export default async function OpportunityPage({ params }: PageProps) {
                 deadlineType={opp.deadline_type}
                 deadlineDisplay={opp.deadline_display}
               />
+              {isFirstTimeFriendly(opp) && (
+                <Badge className="bg-violet-50 text-violet-700 hover:bg-violet-50">
+                  Good for First-Time Applicants
+                </Badge>
+              )}
               {opp.is_featured && (
                 <Badge className="bg-amber-50 text-amber-600 hover:bg-amber-50">
                   Featured
@@ -354,6 +360,18 @@ export default async function OpportunityPage({ params }: PageProps) {
                   Apply Now
                 </a>
               </Button>
+            )}
+
+            {/* Add to Calendar */}
+            {opp.deadline_date && (
+              <div className="flex justify-center">
+                <AddToCalendar
+                  title={opp.title}
+                  deadlineDate={opp.deadline_date}
+                  applicationUrl={opp.application_url}
+                  funderName={opp.funder_name}
+                />
+              </div>
             )}
 
             {/* Fit Assessment */}

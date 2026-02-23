@@ -144,6 +144,8 @@ export interface SearchFilters {
   orgTypes?: string[]
   complexity?: string[]
   newThisWeek?: boolean
+  geography?: string[]
+  firstTimeFriendly?: boolean
   sort?: string
   page?: number
 }
@@ -244,6 +246,31 @@ export async function searchOpportunities(filters: SearchFilters): Promise<{
   if (filters.newThisWeek) {
     const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
     results = results.filter((opp) => opp.created_at >= weekAgo)
+  }
+
+  // Geography filter — match against eligible_geography and geo_scope_display
+  if (filters.geography?.length) {
+    results = results.filter((opp) => {
+      // If "US" is selected and opportunity is national, include it
+      const geos = opp.eligible_geography ?? []
+      const display = (opp.geo_scope_display ?? '').toLowerCase()
+
+      return filters.geography!.some((geo) => {
+        // Direct match in eligible_geography array
+        if (geos.includes(geo)) return true
+        // National US grants match any US state filter
+        if (geos.includes('US') || display.includes('united states') || display.includes('national')) return true
+        // Match state name in geo_scope_display
+        if (display.includes(geo.toLowerCase())) return true
+        return false
+      })
+    })
+  }
+
+  // First-time friendly filter
+  if (filters.firstTimeFriendly) {
+    const { isFirstTimeFriendly } = await import('@/lib/utils')
+    results = results.filter((opp) => isFirstTimeFriendly(opp))
   }
 
   // Sort

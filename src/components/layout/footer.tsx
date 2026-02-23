@@ -30,22 +30,22 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/search" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Browse All
+                  Browse All Grants
                 </Link>
               </li>
               <li>
-                <Link href="/search?types=grant" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Grants
+                <Link href="/partners" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Corporate Partners
                 </Link>
               </li>
               <li>
-                <Link href="/search?types=fellowship" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Fellowships
+                <Link href="/readiness" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Readiness Assessment
                 </Link>
               </li>
               <li>
-                <Link href="/search?types=corporate_giving" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Corporate Giving
+                <Link href="/search?firstTimeFriendly=true" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  First-Time Friendly
                 </Link>
               </li>
             </ul>

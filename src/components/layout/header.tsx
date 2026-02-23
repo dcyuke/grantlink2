@@ -22,24 +22,30 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 md:flex">
           <Link
             href="/search"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            Browse Opportunities
+            Browse Grants
+          </Link>
+          <Link
+            href="/partners"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Corporate Partners
+          </Link>
+          <Link
+            href="/readiness"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Readiness Check
           </Link>
           <Link
             href="/about"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             About
-          </Link>
-          <Link
-            href="/submit"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Submit Opportunity
           </Link>
           <FeedbackDialog />
         </nav>
@@ -62,7 +68,21 @@ export function Header() {
               className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Browse Opportunities
+              Browse Grants
+            </Link>
+            <Link
+              href="/partners"
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Corporate Partners
+            </Link>
+            <Link
+              href="/readiness"
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Readiness Check
             </Link>
             <Link
               href="/about"
@@ -70,13 +90,6 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               About
-            </Link>
-            <Link
-              href="/submit"
-              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Submit Opportunity
             </Link>
             <div className="px-3 py-1">
               <FeedbackDialog

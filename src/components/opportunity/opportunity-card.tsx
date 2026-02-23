@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { DeadlineBadge } from './deadline-badge'
 import { FitBadge } from '@/components/search/fit-badge'
-import { formatAmountRange, isWithinLastWeek } from '@/lib/utils'
+import { formatAmountRange, isWithinLastWeek, isFirstTimeFriendly } from '@/lib/utils'
 import { OPPORTUNITY_TYPE_LABELS } from '@/lib/constants'
 import { MapPin, ArrowRight, DollarSign, Building2 } from 'lucide-react'
 import type { OpportunityListItem } from '@/types/opportunity'
@@ -21,19 +21,25 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
   )
 
   const isNewThisWeek = isWithinLastWeek(opportunity.created_at)
+  const firstTimeFriendly = isFirstTimeFriendly(opportunity)
 
   return (
     <Link href={`/opportunity/${opportunity.slug}`} className="group block">
       <div className="rounded-xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md">
         {/* Top row: type badge + fit badge + bookmark + deadline */}
         <div className="mb-3 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="secondary" className="text-xs font-medium">
               {OPPORTUNITY_TYPE_LABELS[opportunity.opportunity_type]}
             </Badge>
             {isNewThisWeek && (
               <Badge className="bg-emerald-50 text-emerald-700 text-[10px] font-semibold hover:bg-emerald-50">
                 NEW
+              </Badge>
+            )}
+            {firstTimeFriendly && (
+              <Badge className="bg-violet-50 text-violet-700 text-[10px] font-semibold hover:bg-violet-50">
+                First-Time Friendly
               </Badge>
             )}
             {opportunity.is_featured && (

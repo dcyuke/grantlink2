@@ -13,6 +13,7 @@ import {
   ORG_TYPE_OPTIONS,
   POPULATION_OPTIONS,
   FOCUS_AREAS,
+  US_STATES,
 } from '@/lib/constants'
 import type { OpportunityType, FunderType, ApplicationComplexity } from '@/types/opportunity'
 
@@ -73,6 +74,8 @@ export function FilterPanel() {
   const activeAmountMin = searchParams.get('amountMin')
   const activeAmountMax = searchParams.get('amountMax')
   const activeNewThisWeek = searchParams.get('newThisWeek') === 'true'
+  const activeGeography = getArrayParam('geography')
+  const activeFirstTimeFriendly = searchParams.get('firstTimeFriendly') === 'true'
 
   const sliderMin = activeAmountMin ? Number(activeAmountMin) : 0
   const sliderMax = activeAmountMax ? Number(activeAmountMax) : SLIDER_MAX
@@ -122,8 +125,8 @@ export function FilterPanel() {
 
   return (
     <div className="space-y-0">
-      {/* New This Week Toggle */}
-      <div className="border-b border-border/40 py-3">
+      {/* Quick Toggles */}
+      <div className="border-b border-border/40 py-3 space-y-1">
         <label className="flex cursor-pointer items-center gap-2.5 rounded-md px-1 py-1 text-sm transition-colors hover:bg-muted/50">
           <Checkbox
             checked={activeNewThisWeek}
@@ -132,6 +135,16 @@ export function FilterPanel() {
           <span className="font-medium text-foreground">New this week</span>
           <span className="ml-auto rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700">
             NEW
+          </span>
+        </label>
+        <label className="flex cursor-pointer items-center gap-2.5 rounded-md px-1 py-1 text-sm transition-colors hover:bg-muted/50">
+          <Checkbox
+            checked={activeFirstTimeFriendly}
+            onCheckedChange={(checked) => updateParam('firstTimeFriendly', checked ? 'true' : null)}
+          />
+          <span className="font-medium text-foreground">First-time friendly</span>
+          <span className="ml-auto rounded-full bg-violet-100 px-1.5 py-0.5 text-[10px] font-semibold text-violet-700">
+            TIP
           </span>
         </label>
       </div>
@@ -300,6 +313,33 @@ export function FilterPanel() {
             <span className="text-muted-foreground">{option.label}</span>
           </label>
         ))}
+      </FilterSection>
+
+      {/* Geographic Focus */}
+      <FilterSection title="State / Region" defaultOpen={false}>
+        <div className="max-h-56 space-y-0.5 overflow-y-auto pr-1">
+          <label
+            className="flex cursor-pointer items-center gap-2.5 rounded-md px-1 py-1 text-sm transition-colors hover:bg-muted/50"
+          >
+            <Checkbox
+              checked={activeGeography.includes('US')}
+              onCheckedChange={() => toggleArrayValue('geography', 'US')}
+            />
+            <span className="font-medium text-foreground">National (All US)</span>
+          </label>
+          {US_STATES.map((state) => (
+            <label
+              key={state.value}
+              className="flex cursor-pointer items-center gap-2.5 rounded-md px-1 py-1 text-sm transition-colors hover:bg-muted/50"
+            >
+              <Checkbox
+                checked={activeGeography.includes(state.value)}
+                onCheckedChange={() => toggleArrayValue('geography', state.value)}
+              />
+              <span className="text-muted-foreground">{state.label}</span>
+            </label>
+          ))}
+        </div>
       </FilterSection>
     </div>
   )
