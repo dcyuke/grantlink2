@@ -18,7 +18,7 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
             Featured Opportunities
           </h2>
           <p className="mt-1 text-muted-foreground">
-            Hand-picked funding opportunities worth exploring
+            Timely funding opportunities updated daily
           </p>
         </div>
         <Link

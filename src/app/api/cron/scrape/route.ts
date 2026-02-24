@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { runScraper, closeExpiredOpportunities, markClosingSoon } from '@/lib/scraper'
 import { fetchGrantsGov } from '@/lib/scraper/grants-gov'
+import { rotateFeaturedOpportunities } from '@/lib/scraper/rotate-featured'
 
 /**
  * Cron endpoint: runs daily to scrape funder websites for new opportunities,
@@ -44,6 +45,10 @@ async function handleScrape(request: Request) {
     console.log('[Cron] Fetching Grants.gov federal opportunities...')
     const grantsGovResults = await fetchGrantsGov()
 
+    // 5. Rotate featured opportunities on the homepage
+    console.log('[Cron] Rotating featured opportunities...')
+    const featuredResults = await rotateFeaturedOpportunities()
+
     const duration = ((Date.now() - startTime) / 1000).toFixed(1)
 
     const response = {
@@ -60,6 +65,7 @@ async function handleScrape(request: Request) {
         updated: grantsGovResults.updatedOpportunities,
         errors: grantsGovResults.errors,
       },
+      featured_rotated: featuredResults,
       scraper_errors: scrapeResults.errors,
     }
 
