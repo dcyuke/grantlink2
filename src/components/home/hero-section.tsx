@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search } from 'lucide-react'
+import { Search, CalendarClock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -15,7 +15,11 @@ const QUICK_FILTERS = [
   { label: 'Accelerators', param: 'types=accelerator' },
 ]
 
-export function HeroSection() {
+interface HeroSectionProps {
+  deadlinesThisMonth?: number
+}
+
+export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
   const [query, setQuery] = useState('')
   const router = useRouter()
 
@@ -43,10 +47,18 @@ export function HeroSection() {
               What Matters
             </span>
           </h1>
-          <p className="mb-8 text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mb-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
             Search available grants, fellowships, prizes, and funding opportunities
             from foundations, corporations, and government agencies.
           </p>
+
+          {/* Deadline counter badge */}
+          {deadlinesThisMonth != null && deadlinesThisMonth > 0 && (
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800">
+              <CalendarClock className="h-4 w-4" />
+              {deadlinesThisMonth} deadline{deadlinesThisMonth === 1 ? '' : 's'} closing this month
+            </div>
+          )}
 
           {/* Search bar */}
           <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-2xl">

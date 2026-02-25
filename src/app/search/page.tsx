@@ -7,7 +7,9 @@ import { SortSelect } from '@/components/search/sort-select'
 import { OrgProfilePanel } from '@/components/search/org-profile-panel'
 import { SearchResultsWithFit } from '@/components/search/search-results-with-fit'
 import { searchOpportunities } from '@/lib/data'
-import { FileSearch } from 'lucide-react'
+import {
+  FileSearch, DollarSign, RefreshCw, Sparkles, Heart, Building, Briefcase,
+} from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -24,6 +26,45 @@ interface SearchPageProps {
 function parseParam(val: string | string[] | undefined): string | undefined {
   return Array.isArray(val) ? val[0] : val
 }
+
+const CURATED_COLLECTIONS = [
+  {
+    label: 'Under $10K',
+    description: 'Small grants for growing organizations',
+    href: '/search?amountMax=1000000',
+    icon: DollarSign,
+  },
+  {
+    label: 'Rolling Deadlines',
+    description: 'Apply anytime — no deadline pressure',
+    href: '/search?deadline=rolling',
+    icon: RefreshCw,
+  },
+  {
+    label: 'New This Week',
+    description: 'Freshly added opportunities',
+    href: '/search?newThisWeek=true',
+    icon: Sparkles,
+  },
+  {
+    label: 'First-Time Friendly',
+    description: 'Accessible for new grant seekers',
+    href: '/search?firstTimeFriendly=true',
+    icon: Heart,
+  },
+  {
+    label: 'Federal Grants',
+    description: 'Government-funded opportunities',
+    href: '/search?funderTypes=federal_agency',
+    icon: Building,
+  },
+  {
+    label: 'Corporate Giving',
+    description: 'Corporate philanthropy programs',
+    href: '/search?types=corporate_giving',
+    icon: Briefcase,
+  },
+]
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const params = await searchParams
@@ -111,15 +152,32 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           {opportunities.length > 0 ? (
             <SearchResultsWithFit opportunities={opportunities} />
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16 text-center">
+            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-12 text-center">
               <FileSearch className="mb-4 h-12 w-12 text-muted-foreground/40" />
               <h3 className="mb-1 text-lg font-semibold text-foreground">No opportunities found</h3>
-              <p className="mb-4 max-w-sm text-sm text-muted-foreground">
-                Try adjusting your filters or search terms to find more results.
+              <p className="mb-6 max-w-sm text-sm text-muted-foreground">
+                Try adjusting your filters or explore one of these curated collections:
               </p>
+
+              <div className="grid w-full max-w-2xl grid-cols-2 gap-3 px-4 md:grid-cols-3">
+                {CURATED_COLLECTIONS.map((col) => (
+                  <Link
+                    key={col.label}
+                    href={col.href}
+                    className="flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-card p-4 text-center transition-all hover:border-primary/30 hover:shadow-md"
+                  >
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+                      <col.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-medium text-foreground">{col.label}</span>
+                    <span className="text-xs leading-tight text-muted-foreground">{col.description}</span>
+                  </Link>
+                ))}
+              </div>
+
               <Link
                 href="/search"
-                className="text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                className="mt-6 text-sm font-medium text-primary transition-colors hover:text-primary/80"
               >
                 Clear all filters
               </Link>

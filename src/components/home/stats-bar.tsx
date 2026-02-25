@@ -1,17 +1,18 @@
-import { FileText, Building2, Globe, TrendingUp } from 'lucide-react'
+import { FileText, Building2, CalendarClock, TrendingUp } from 'lucide-react'
 
 interface StatsBarProps {
   opportunityCount: number
   funderCount: number
-  focusAreaCount: number
+  totalFunding: string
+  deadlinesThisMonth: number
 }
 
-export function StatsBar({ opportunityCount, funderCount, focusAreaCount }: StatsBarProps) {
+export function StatsBar({ opportunityCount, funderCount, totalFunding, deadlinesThisMonth }: StatsBarProps) {
   const stats = [
     { icon: FileText, value: opportunityCount, label: 'Opportunities' },
     { icon: Building2, value: funderCount, label: 'Funders' },
-    { icon: Globe, value: focusAreaCount, label: 'Focus Areas' },
-    { icon: TrendingUp, value: '$500M+', label: 'Total Funding' },
+    { icon: CalendarClock, value: deadlinesThisMonth, label: 'Deadlines This Month' },
+    { icon: TrendingUp, value: totalFunding, label: 'Available Funding' },
   ]
 
   return (

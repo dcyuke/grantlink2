@@ -416,3 +416,106 @@ export async function getOpportunityStats() {
     focusAreaCount: fas.count ?? 0,
   }
 }
+
+// ---------------------------------------------------------------------------
+// Homepage aggregated data (one fetch, many sections)
+// ---------------------------------------------------------------------------
+
+export interface HomepageData {
+  featured: OpportunityListItem[]
+  closingSoon: OpportunityListItem[]
+  recentlyAdded: OpportunityListItem[]
+  opportunityCount: number
+  funderCount: number
+  totalFundingDisplay: string
+  deadlinesThisMonth: number
+  topFunders: { name: string; slug: string }[]
+  lastUpdated: string | null
+}
+
+function formatFundingTotal(cents: number): string {
+  const dollars = cents / 100
+  if (dollars >= 1_000_000_000) return `$${(dollars / 1_000_000_000).toFixed(1)}B+`
+  if (dollars >= 1_000_000) return `$${Math.round(dollars / 1_000_000)}M+`
+  if (dollars >= 1_000) return `$${Math.round(dollars / 1_000)}K+`
+  if (dollars > 0) return `$${Math.round(dollars).toLocaleString()}`
+  return '$0'
+}
+
+export async function getHomepageData(): Promise<HomepageData> {
+  const supabase = await createClient()
+
+  // Fetch opportunity items + funder data in parallel
+  const [allItems, fundersResult, topFundersResult, lastUpdatedResult] = await Promise.all([
+    fetchAllOpportunityListItems(),
+    supabase.from('funders').select('id', { count: 'exact', head: true }).eq('is_verified', true),
+    supabase
+      .from('funders')
+      .select('name, slug')
+      .eq('is_verified', true)
+      .order('total_giving', { ascending: false, nullsFirst: false })
+      .limit(12),
+    supabase
+      .from('opportunities')
+      .select('updated_at')
+      .eq('is_verified', true)
+      .order('updated_at', { ascending: false })
+      .limit(1),
+  ])
+
+  const now = new Date()
+
+  // Featured (rotated daily by cron)
+  const featured = allItems.filter((opp) => opp.is_featured).slice(0, 6)
+
+  // Closing soon — deadline within next 14 days, sorted soonest first
+  const fourteenDays = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000)
+  const closingSoon = allItems
+    .filter((opp) => {
+      if (!opp.deadline_date) return false
+      const d = new Date(opp.deadline_date)
+      return d >= now && d <= fourteenDays && (opp.status === 'open' || opp.status === 'closing_soon')
+    })
+    .sort((a, b) => new Date(a.deadline_date!).getTime() - new Date(b.deadline_date!).getTime())
+    .slice(0, 6)
+
+  // Recently added — last 7 days, newest first
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+  const recentlyAdded = allItems
+    .filter((opp) => new Date(opp.created_at) >= sevenDaysAgo)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 6)
+
+  // Deadlines this month
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+  const deadlinesThisMonth = allItems.filter((opp) => {
+    if (!opp.deadline_date) return false
+    const d = new Date(opp.deadline_date)
+    return d >= now && d <= endOfMonth && (opp.status === 'open' || opp.status === 'closing_soon')
+  }).length
+
+  // Total funding available (sum of max amounts, in cents)
+  let totalCents = 0
+  for (const opp of allItems) {
+    const amt = opp.amount_max ?? opp.amount_exact ?? 0
+    if (amt > 0) totalCents += amt
+  }
+
+  // Last updated (most recent updated_at across all opportunities)
+  const lastUpdated = (lastUpdatedResult.data?.[0]?.updated_at as string) ?? null
+
+  return {
+    featured,
+    closingSoon,
+    recentlyAdded,
+    opportunityCount: allItems.length,
+    funderCount: fundersResult.count ?? 0,
+    totalFundingDisplay: formatFundingTotal(totalCents),
+    deadlinesThisMonth,
+    topFunders: (topFundersResult.data ?? []).map((f) => ({
+      name: f.name as string,
+      slug: f.slug as string,
+    })),
+    lastUpdated,
+  }
+}

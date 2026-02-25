@@ -1,29 +1,35 @@
 import { HeroSection } from '@/components/home/hero-section'
 import { StatsBar } from '@/components/home/stats-bar'
 import { FeaturedGrid } from '@/components/home/featured-grid'
+import { ClosingSoonSection } from '@/components/home/closing-soon'
+import { RecentlyAddedSection } from '@/components/home/recently-added'
 import { CategoryCards } from '@/components/home/category-cards'
+import { FunderLogoBar } from '@/components/home/funder-logo-bar'
 import { HowItWorks } from '@/components/home/how-it-works'
+import { LastUpdated } from '@/components/home/last-updated'
 import { EmailSignup } from '@/components/home/email-signup'
-import { getFeaturedOpportunities, getOpportunityStats } from '@/lib/data'
+import { getHomepageData } from '@/lib/data'
 import { FOCUS_AREAS } from '@/lib/constants'
 
 export default async function HomePage() {
-  const [featured, stats] = await Promise.all([
-    getFeaturedOpportunities(),
-    getOpportunityStats(),
-  ])
+  const data = await getHomepageData()
 
   return (
     <>
-      <HeroSection />
+      <HeroSection deadlinesThisMonth={data.deadlinesThisMonth} />
       <StatsBar
-        opportunityCount={stats.opportunityCount}
-        funderCount={stats.funderCount}
-        focusAreaCount={stats.focusAreaCount}
+        opportunityCount={data.opportunityCount}
+        funderCount={data.funderCount}
+        totalFunding={data.totalFundingDisplay}
+        deadlinesThisMonth={data.deadlinesThisMonth}
       />
-      <FeaturedGrid opportunities={featured} />
+      <FeaturedGrid opportunities={data.featured} />
+      <ClosingSoonSection opportunities={data.closingSoon} />
+      <RecentlyAddedSection opportunities={data.recentlyAdded} />
       <CategoryCards categories={FOCUS_AREAS} />
+      <FunderLogoBar funders={data.topFunders} />
       <HowItWorks />
+      <LastUpdated lastUpdated={data.lastUpdated} />
       <EmailSignup />
     </>
   )
