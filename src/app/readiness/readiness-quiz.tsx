@@ -133,6 +133,28 @@ const QUESTIONS: Question[] = [
       { label: 'We haven\'t focused on storytelling yet', score: 0, tip: 'Start collecting stories now. Ask your program participants for testimonials and take photos of your work.' },
     ],
   },
+  {
+    id: 'public-presence',
+    category: 'Strategic Positioning',
+    question: 'How intentional is your public presence (website, social media, annual report, 990)?',
+    options: [
+      { label: 'Our website, social, 990, and annual report consistently reflect our mission and impact', score: 3, tip: '' },
+      { label: 'We have most pieces but they\'re not cohesive or regularly updated', score: 2, tip: 'Many funders — especially mega-donors — research orgs through public channels. Ensure your website, 990, and social media all tell the same story.' },
+      { label: 'We have a basic website and some social presence', score: 1, tip: 'Your public presence IS your pitch to funders with no formal application. Invest in a clear, updated website and professional annual report.' },
+      { label: 'Our public presence is minimal or outdated', score: 0, tip: 'With the rise of mega-donors who have no formal RFP process, your public materials are your primary application. Prioritize updating them.' },
+    ],
+  },
+  {
+    id: 'collaboration',
+    category: 'Collaborative Readiness',
+    question: 'Has your organization participated in coalitions, collaborative projects, or pooled funding?',
+    options: [
+      { label: 'Yes, we actively participate in coalitions and have received collaborative/pooled funding', score: 3, tip: '' },
+      { label: 'We partner with other orgs but haven\'t pursued collaborative funding', score: 2, tip: 'Collaborative funds (like Borealis, The Audacious Project) are growing fast. Document your partnerships to position for pooled funding.' },
+      { label: 'We\'ve done informal collaborations', score: 1, tip: 'Formalize your partnerships. Funders increasingly favor organizations that demonstrate systems-level thinking and cross-sector collaboration.' },
+      { label: 'We mostly work independently', score: 0, tip: 'Start building relationships with aligned organizations. Collaborative funds and intermediary grantmakers prioritize coalition-based work.' },
+    ],
+  },
 ]
 
 const MAX_SCORE = QUESTIONS.length * 3
@@ -353,7 +375,7 @@ function Results({ percentage, tips, onRestart }: ResultsProps) {
         </Button>
         <Button asChild variant="outline" className="flex-1">
           <Link href="/partners">
-            Find Corporate Partners
+            Find Funders & Partners
           </Link>
         </Button>
         <Button variant="ghost" onClick={onRestart} className="flex-1">

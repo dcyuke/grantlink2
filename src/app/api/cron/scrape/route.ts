@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { runScraper, closeExpiredOpportunities, markClosingSoon } from '@/lib/scraper'
 import { fetchGrantsGov } from '@/lib/scraper/grants-gov'
 import { rotateFeaturedOpportunities } from '@/lib/scraper/rotate-featured'
+import { validateOpportunityLinks } from '@/lib/scraper/validate-links'
 
 /**
  * Cron endpoint: runs daily to scrape funder websites for new opportunities,
@@ -49,6 +50,10 @@ async function handleScrape(request: Request) {
     console.log('[Cron] Rotating featured opportunities...')
     const featuredResults = await rotateFeaturedOpportunities()
 
+    // 6. Validate application links — remove dead/stale opportunities
+    console.log('[Cron] Validating opportunity links...')
+    const linkResults = await validateOpportunityLinks()
+
     const duration = ((Date.now() - startTime) / 1000).toFixed(1)
 
     const response = {
@@ -64,6 +69,12 @@ async function handleScrape(request: Request) {
         new: grantsGovResults.newOpportunities,
         updated: grantsGovResults.updatedOpportunities,
         errors: grantsGovResults.errors,
+      },
+      link_validation: {
+        checked: linkResults.checked,
+        alive: linkResults.alive,
+        dead_removed: linkResults.dead,
+        errors: linkResults.errors.length,
       },
       featured_rotated: featuredResults,
       scraper_errors: scrapeResults.errors,

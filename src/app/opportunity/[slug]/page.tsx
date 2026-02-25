@@ -362,6 +362,14 @@ export default async function OpportunityPage({ params }: PageProps) {
               </Button>
             )}
 
+            {/* Verification disclaimer */}
+            <div className="rounded-lg border border-amber-200/60 bg-amber-50/50 px-3 py-2.5 text-center">
+              <p className="text-[11px] leading-relaxed text-amber-800/80">
+                Always verify details directly with the funder before applying.
+                Opportunities and deadlines may change without notice.
+              </p>
+            </div>
+
             {/* Add to Calendar */}
             {opp.deadline_date && (
               <div className="flex justify-center">

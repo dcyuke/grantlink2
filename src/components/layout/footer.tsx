@@ -35,7 +35,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/partners" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Corporate Partners
+                  Funders & Partners
                 </Link>
               </li>
               <li>
