@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Search, ArrowLeft } from 'lucide-react'
@@ -15,7 +15,7 @@ const TIPS = [
 ]
 
 export default function NotFound() {
-  const tip = useMemo(() => TIPS[Math.floor(Math.random() * TIPS.length)], [])
+  const tipRef = useRef(TIPS[Math.floor(Math.random() * TIPS.length)])
 
   return (
     <div className="container mx-auto flex flex-col items-center justify-center px-4 py-24 text-center">
@@ -32,7 +32,7 @@ export default function NotFound() {
       </p>
 
       <p className="mb-8 max-w-sm text-xs italic text-muted-foreground/60">
-        {tip}
+        {tipRef.current}
       </p>
 
       <div className="flex gap-3">

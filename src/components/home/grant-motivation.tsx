@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useRef } from 'react'
 
 const QUOTES = [
   { text: 'Small grants lead to big impact.', context: 'Every dollar counts.' },
@@ -13,11 +13,14 @@ const QUOTES = [
   { text: 'Persistence in grant seeking pays compounding returns.', context: 'Stay the course.' },
 ]
 
+function getDailyQuote() {
+  const dayIndex = Math.floor(Date.now() / 86400000) % QUOTES.length
+  return QUOTES[dayIndex]
+}
+
 export function GrantMotivation() {
-  const quote = useMemo(() => {
-    const dayIndex = Math.floor(Date.now() / 86400000) % QUOTES.length
-    return QUOTES[dayIndex]
-  }, [])
+  const quoteRef = useRef(getDailyQuote())
+  const quote = quoteRef.current
 
   return (
     <div className="border-t border-border/40 py-8 text-center">

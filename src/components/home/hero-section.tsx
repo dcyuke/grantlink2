@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, CalendarClock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -37,7 +37,8 @@ interface HeroSectionProps {
 
 export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
   const [query, setQuery] = useState('')
-  const greeting = useMemo(() => getGreeting(), [])
+  const greetingRef = useRef(getGreeting())
+  const greeting = greetingRef.current
   const [secretMessage, setSecretMessage] = useState<string | null>(null)
   const router = useRouter()
 
