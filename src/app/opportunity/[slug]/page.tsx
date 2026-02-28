@@ -8,6 +8,7 @@ import { FitAssessment } from '@/components/opportunity/fit-assessment'
 import { GrantAlertCTA } from '@/components/opportunity/grant-alert-cta'
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
 import { AddToCalendar } from '@/components/opportunity/add-to-calendar'
+import { ShareButton } from '@/components/opportunity/share-button'
 import { getOpportunityBySlug, searchOpportunities } from '@/lib/data'
 import { formatAmountRange, isFirstTimeFriendly } from '@/lib/utils'
 import {
@@ -381,6 +382,12 @@ export default async function OpportunityPage({ params }: PageProps) {
                 />
               </div>
             )}
+
+            {/* Share */}
+            <ShareButton
+              title={opp.title}
+              url={`https://grantlink.org/opportunity/${slug}`}
+            />
 
             {/* Fit Assessment */}
             <FitAssessment

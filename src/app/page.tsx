@@ -8,6 +8,8 @@ import { FunderLogoBar } from '@/components/home/funder-logo-bar'
 import { HowItWorks } from '@/components/home/how-it-works'
 import { LastUpdated } from '@/components/home/last-updated'
 import { EmailSignup } from '@/components/home/email-signup'
+import { GrantMotivation } from '@/components/home/grant-motivation'
+import { AnimateOnScroll } from '@/components/ui/animate-on-scroll'
 import { getHomepageData } from '@/lib/data'
 import { FOCUS_AREAS } from '@/lib/constants'
 
@@ -17,20 +19,41 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection deadlinesThisMonth={data.deadlinesThisMonth} />
-      <StatsBar
-        opportunityCount={data.opportunityCount}
-        funderCount={data.funderCount}
-        totalFunding={data.totalFundingDisplay}
-        deadlinesThisMonth={data.deadlinesThisMonth}
-      />
-      <FeaturedGrid opportunities={data.featured} />
-      <ClosingSoonSection opportunities={data.closingSoon} />
-      <RecentlyAddedSection opportunities={data.recentlyAdded} />
-      <CategoryCards categories={FOCUS_AREAS} />
-      <FunderLogoBar funders={data.topFunders} />
-      <HowItWorks />
-      <LastUpdated lastUpdated={data.lastUpdated} />
-      <EmailSignup />
+      <AnimateOnScroll>
+        <StatsBar
+          opportunityCount={data.opportunityCount}
+          funderCount={data.funderCount}
+          totalFunding={data.totalFundingDisplay}
+          deadlinesThisMonth={data.deadlinesThisMonth}
+        />
+      </AnimateOnScroll>
+      <AnimateOnScroll delay={50}>
+        <FeaturedGrid opportunities={data.featured} />
+      </AnimateOnScroll>
+      <AnimateOnScroll delay={50}>
+        <ClosingSoonSection opportunities={data.closingSoon} />
+      </AnimateOnScroll>
+      <AnimateOnScroll delay={50}>
+        <RecentlyAddedSection opportunities={data.recentlyAdded} />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <CategoryCards categories={FOCUS_AREAS} />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <FunderLogoBar funders={data.topFunders} />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <HowItWorks />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <LastUpdated lastUpdated={data.lastUpdated} />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <GrantMotivation />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <EmailSignup />
+      </AnimateOnScroll>
     </>
   )
 }

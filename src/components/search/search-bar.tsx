@@ -37,6 +37,7 @@ export function SearchBar({ initialQuery }: { initialQuery?: string }) {
         <div className="flex flex-1 items-center gap-3 px-3">
           <Search className="h-4.5 w-4.5 shrink-0 text-muted-foreground" />
           <input
+            id="search-input"
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

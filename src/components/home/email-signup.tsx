@@ -66,12 +66,28 @@ export function EmailSignup() {
   }
 
   if (status === 'success') {
+    const confettiColors = ['bg-emerald-500', 'bg-amber-500', 'bg-indigo-500', 'bg-pink-500', 'bg-emerald-400', 'bg-amber-400']
     return (
       <section className="bg-gradient-to-br from-primary/5 via-background to-emerald-50/30">
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto max-w-xl text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-              <CheckCircle2 className="h-7 w-7 text-primary" />
+            <div className="relative mx-auto mb-4 flex h-14 w-14 items-center justify-center">
+              <div className="flex h-14 w-14 animate-[success-pop_0.5s_ease-out] items-center justify-center rounded-2xl bg-primary/10">
+                <CheckCircle2 className="h-7 w-7 text-primary" />
+              </div>
+              {confettiColors.map((color, i) => (
+                <span
+                  key={i}
+                  className={`absolute h-2 w-2 rounded-full ${color}`}
+                  style={{
+                    animationName: `confetti-fly-${i + 1}`,
+                    animationDuration: '0.6s',
+                    animationTimingFunction: 'ease-out',
+                    animationFillMode: 'forwards',
+                    animationDelay: `${i * 50}ms`,
+                  }}
+                />
+              ))}
             </div>
             <h2 className="mb-2 text-2xl font-bold text-foreground">You&apos;re signed up!</h2>
             <p className="text-muted-foreground">

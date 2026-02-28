@@ -1,16 +1,36 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, X } from 'lucide-react'
 import { FeedbackDialog } from '@/components/feedback-dialog'
+import { cn } from '@/lib/utils'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const ticking = useRef(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!ticking.current) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20)
+          ticking.current = false
+        })
+        ticking.current = true
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className={cn(
+      "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur transition-all duration-300 supports-[backdrop-filter]:bg-background/80",
+      scrolled ? "h-14 shadow-sm border-border/60" : "h-16 border-border/40"
+    )}>
+      <div className="container mx-auto flex h-full items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
@@ -25,9 +45,10 @@ export function Header() {
         <nav className="hidden items-center gap-6 md:flex">
           <Link
             href="/search"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Browse Grants
+            <kbd className="hidden rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground/60 lg:inline">/</kbd>
           </Link>
           <Link
             href="/partners"

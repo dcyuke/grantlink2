@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, CalendarClock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -15,18 +15,50 @@ const QUICK_FILTERS = [
   { label: 'Accelerators', param: 'types=accelerator' },
 ]
 
+const SEARCH_EGGS: Record<string, string> = {
+  'free money': "If only! But these grants are pretty close.",
+  'help': "That's what we're here for!",
+  'nonprofit life': "We see you. Coffee helps. Grants help more.",
+  'drew': "Oh hey, that's the person who built this!",
+  'yukelson': "The creator sends their regards!",
+  'the answer': "42. But also, try searching for 'education'.",
+}
+
+function getGreeting(): string {
+  const hour = new Date().getHours()
+  if (hour < 12) return 'Good morning! Start your grant search today.'
+  if (hour < 17) return 'Good afternoon! Discover your next funding opportunity.'
+  return 'Good evening! Tomorrow\u2019s deadline starts today.'
+}
+
 interface HeroSectionProps {
   deadlinesThisMonth?: number
 }
 
 export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
   const [query, setQuery] = useState('')
+  const [greeting, setGreeting] = useState<string | null>(null)
+  const [secretMessage, setSecretMessage] = useState<string | null>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    setGreeting(getGreeting())
+  }, [])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+    const q = query.trim()
+    const egg = SEARCH_EGGS[q.toLowerCase()]
+    if (egg) {
+      setSecretMessage(egg)
+      setTimeout(() => {
+        setSecretMessage(null)
+        router.push(`/search?q=${encodeURIComponent(q)}`)
+      }, 2000)
+      return
+    }
+    if (q) {
+      router.push(`/search?q=${encodeURIComponent(q)}`)
     } else {
       router.push('/search')
     }
@@ -48,8 +80,12 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
             </span>
           </h1>
           <p className="mb-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Search available grants, fellowships, prizes, and funding opportunities
-            from foundations, corporations, and government agencies.
+            {greeting || 'Search available grants, fellowships, prizes, and funding opportunities from foundations, corporations, and government agencies.'}
+            {greeting && (
+              <span className="text-foreground/70">
+                {' '}Search grants, fellowships, prizes, and more.
+              </span>
+            )}
           </p>
 
           {/* Deadline counter badge */}
@@ -66,6 +102,7 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
               <div className="flex flex-1 items-center gap-3 px-3">
                 <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
                 <input
+                  id="search-input"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -77,6 +114,12 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
                 Search
               </Button>
             </div>
+            {/* Easter egg message */}
+            {secretMessage && (
+              <p className="mt-3 animate-[success-pop_0.3s_ease-out] text-sm font-medium text-primary">
+                {secretMessage}
+              </p>
+            )}
           </form>
 
           {/* Quick filter pills */}

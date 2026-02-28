@@ -3,6 +3,8 @@ import Script from "next/script"
 import { Inter } from "next/font/google"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+import { KonamiProvider } from "@/components/easter-eggs/konami-provider"
+import { KeyboardShortcuts } from "@/components/layout/keyboard-shortcuts"
 import "./globals.css"
 
 const GA_MEASUREMENT_ID = "G-5QW521ZPX4"
@@ -77,11 +79,14 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <KonamiProvider>
+          <KeyboardShortcuts />
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </KonamiProvider>
       </body>
     </html>
   )
