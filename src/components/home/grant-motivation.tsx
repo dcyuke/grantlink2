@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useState } from 'react'
 
 const QUOTES = [
   { text: 'Small grants lead to big impact.', context: 'Every dollar counts.' },
@@ -19,8 +19,7 @@ function getDailyQuote() {
 }
 
 export function GrantMotivation() {
-  const quoteRef = useRef(getDailyQuote())
-  const quote = quoteRef.current
+  const [quote] = useState(() => getDailyQuote())
 
   return (
     <div className="border-t border-border/40 py-8 text-center">
