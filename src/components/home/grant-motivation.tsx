@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 
 const QUOTES = [
   { text: 'Small grants lead to big impact.', context: 'Every dollar counts.' },
@@ -14,14 +14,10 @@ const QUOTES = [
 ]
 
 export function GrantMotivation() {
-  const [quote, setQuote] = useState<typeof QUOTES[0] | null>(null)
-
-  useEffect(() => {
+  const quote = useMemo(() => {
     const dayIndex = Math.floor(Date.now() / 86400000) % QUOTES.length
-    setQuote(QUOTES[dayIndex])
+    return QUOTES[dayIndex]
   }, [])
-
-  if (!quote) return null
 
   return (
     <div className="border-t border-border/40 py-8 text-center">

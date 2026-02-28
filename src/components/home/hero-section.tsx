@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, CalendarClock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -37,13 +37,9 @@ interface HeroSectionProps {
 
 export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
   const [query, setQuery] = useState('')
-  const [greeting, setGreeting] = useState<string | null>(null)
+  const greeting = useMemo(() => getGreeting(), [])
   const [secretMessage, setSecretMessage] = useState<string | null>(null)
   const router = useRouter()
-
-  useEffect(() => {
-    setGreeting(getGreeting())
-  }, [])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -80,12 +76,10 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
             </span>
           </h1>
           <p className="mb-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
-            {greeting || 'Search available grants, fellowships, prizes, and funding opportunities from foundations, corporations, and government agencies.'}
-            {greeting && (
-              <span className="text-foreground/70">
-                {' '}Search grants, fellowships, prizes, and more.
-              </span>
-            )}
+            {greeting}
+            <span className="text-foreground/70">
+              {' '}Search grants, fellowships, prizes, and more.
+            </span>
           </p>
 
           {/* Deadline counter badge */}

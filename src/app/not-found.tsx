@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Search, ArrowLeft } from 'lucide-react'
@@ -15,11 +15,7 @@ const TIPS = [
 ]
 
 export default function NotFound() {
-  const [tip, setTip] = useState<string | null>(null)
-
-  useEffect(() => {
-    setTip(TIPS[Math.floor(Math.random() * TIPS.length)])
-  }, [])
+  const tip = useMemo(() => TIPS[Math.floor(Math.random() * TIPS.length)], [])
 
   return (
     <div className="container mx-auto flex flex-col items-center justify-center px-4 py-24 text-center">
@@ -35,11 +31,9 @@ export default function NotFound() {
         The page you&apos;re looking for is as elusive as unrestricted funding.
       </p>
 
-      {tip && (
-        <p className="mb-8 max-w-sm text-xs italic text-muted-foreground/60">
-          {tip}
-        </p>
-      )}
+      <p className="mb-8 max-w-sm text-xs italic text-muted-foreground/60">
+        {tip}
+      </p>
 
       <div className="flex gap-3">
         <Button asChild variant="outline">
