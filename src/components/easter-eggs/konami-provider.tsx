@@ -8,9 +8,17 @@ const KONAMI = [
   'KeyB', 'KeyA',
 ]
 
-const RAIN_ITEMS = ['$', '\u2728', '$', '\u2728', '$', '\u2728', '$', '$', '\u2728', '$',
-  '$', '\u2728', '$', '\u2728', '$', '$', '\u2728', '$', '\u2728', '$',
-  '$', '\u2728', '$', '$', '\u2728']
+const RAIN_ITEMS = [
+  { char: '$', dur: 2.3 }, { char: '✨', dur: 3.1 }, { char: '$', dur: 2.7 },
+  { char: '✨', dur: 2.0 }, { char: '$', dur: 3.4 }, { char: '✨', dur: 2.5 },
+  { char: '$', dur: 2.9 }, { char: '$', dur: 3.2 }, { char: '✨', dur: 2.1 },
+  { char: '$', dur: 2.6 }, { char: '$', dur: 3.0 }, { char: '✨', dur: 2.4 },
+  { char: '$', dur: 2.8 }, { char: '✨', dur: 3.3 }, { char: '$', dur: 2.2 },
+  { char: '$', dur: 3.1 }, { char: '✨', dur: 2.5 }, { char: '$', dur: 2.9 },
+  { char: '✨', dur: 2.0 }, { char: '$', dur: 3.4 },
+  { char: '$', dur: 2.3 }, { char: '✨', dur: 2.7 }, { char: '$', dur: 3.0 },
+  { char: '$', dur: 2.6 }, { char: '✨', dur: 2.8 },
+]
 
 export function KonamiProvider({ children }: { children: React.ReactNode }) {
   const [triggered, setTriggered] = useState(false)
@@ -55,13 +63,13 @@ function GrantRain() {
           style={{
             left: `${4 + (i * 3.8) % 92}%`,
             animationName: 'grant-rain',
-            animationDuration: `${2 + Math.random() * 1.5}s`,
+            animationDuration: `${item.dur}s`,
             animationTimingFunction: 'linear',
             animationFillMode: 'forwards',
             animationDelay: `${i * 80}ms`,
           }}
         >
-          {item}
+          {item.char}
         </span>
       ))}
     </div>

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { Search, Bookmark, Bell, ClipboardList } from 'lucide-react'
 import type { Metadata } from 'next'
 

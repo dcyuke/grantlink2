@@ -57,7 +57,6 @@ async function handleReminders(request: Request) {
     }
 
     // Get user emails
-    const userIds = [...new Set(savedWithDeadlines.map((s) => s.user_id))]
     const { data: { users } } = await supabase.auth.admin.listUsers()
     const userEmailMap = new Map(users?.map((u) => [u.id, u.email]) ?? [])
 
