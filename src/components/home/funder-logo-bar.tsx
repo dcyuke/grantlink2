@@ -9,13 +9,11 @@ export function FunderLogoBar({ funders }: FunderLogoBarProps) {
   if (funders.length < 3) return null
 
   return (
-    <section className="border-y border-border/40 bg-muted/10 py-10">
+    <section className="border-y border-border/20 py-14">
       <div className="container mx-auto px-4">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-            <Building2 className="h-5 w-5 text-primary" />
-          </div>
-          <p className="text-sm font-medium text-muted-foreground">
+          <Building2 className="mx-auto mb-3 h-5 w-5 text-primary/50" />
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
             Featuring opportunities from leading funders
           </p>
         </div>

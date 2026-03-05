@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { Search, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { FeedbackDialog } from '@/components/feedback-dialog'
 import { cn } from '@/lib/utils'
 
@@ -28,43 +28,39 @@ export function Header() {
   return (
     <header className={cn(
       "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur transition-all duration-300 supports-[backdrop-filter]:bg-background/80",
-      scrolled ? "h-14 shadow-sm border-border/60" : "h-16 border-border/40"
+      scrolled ? "h-14 border-border/40" : "h-16 border-transparent"
     )}>
       <div className="container mx-auto flex h-full items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <Search className="h-4 w-4 text-primary-foreground" />
-          </div>
-          <span className="text-xl font-bold tracking-tight text-foreground">
+        <Link href="/" className="flex items-center">
+          <span className="font-serif text-2xl font-bold tracking-tight text-foreground">
             Grant<span className="text-primary">Link</span>
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           <Link
             href="/search"
-            className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
             Browse Grants
-            <kbd className="hidden rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground/60 lg:inline">/</kbd>
           </Link>
           <Link
             href="/partners"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
             Funders & Partners
           </Link>
           <Link
             href="/readiness"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
             Readiness Check
           </Link>
           <Link
             href="/about"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
             About
           </Link>

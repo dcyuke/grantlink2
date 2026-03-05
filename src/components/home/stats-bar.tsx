@@ -55,20 +55,16 @@ export function StatsBar({ opportunityCount, funderCount, totalFunding, deadline
   ]
 
   return (
-    <section className="border-y border-border/40 bg-muted/20">
-      <div className="container mx-auto px-4 py-6">
+    <section className="border-y border-border/30">
+      <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
           {stats.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-3" ref={stat.ref}>
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <stat.icon className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-lg font-bold text-foreground tabular-nums">
-                  {stat.value}
-                </p>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
-              </div>
+            <div key={stat.label} className="text-center" ref={stat.ref}>
+              <stat.icon className="mx-auto mb-2 h-5 w-5 text-primary/70" />
+              <p className="font-serif text-2xl font-bold text-foreground tabular-nums">
+                {stat.value}
+              </p>
+              <p className="text-xs tracking-wide text-muted-foreground/70">{stat.label}</p>
             </div>
           ))}
         </div>

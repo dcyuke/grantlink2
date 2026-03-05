@@ -68,7 +68,7 @@ export function EmailSignup() {
   if (status === 'success') {
     const confettiColors = ['bg-emerald-500', 'bg-amber-500', 'bg-indigo-500', 'bg-pink-500', 'bg-emerald-400', 'bg-amber-400']
     return (
-      <section className="bg-gradient-to-br from-primary/5 via-background to-emerald-50/30">
+      <section className="bg-muted/30">
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto max-w-xl text-center">
             <div className="relative mx-auto mb-4 flex h-14 w-14 items-center justify-center">
@@ -89,7 +89,7 @@ export function EmailSignup() {
                 />
               ))}
             </div>
-            <h2 className="mb-2 text-2xl font-bold text-foreground">You&apos;re signed up!</h2>
+            <h2 className="mb-2 font-serif text-2xl font-bold text-foreground">You&apos;re signed up!</h2>
             <p className="text-muted-foreground">
               We&apos;ll send grant alerts to <span className="font-medium text-foreground">{email}</span>
               {alertPref === 'similar_only' ? (
@@ -107,19 +107,19 @@ export function EmailSignup() {
   }
 
   return (
-    <section className="bg-gradient-to-br from-primary/5 via-background to-emerald-50/30">
-      <div className="container mx-auto px-4 py-16">
+    <section className="bg-muted/30">
+      <div className="container mx-auto px-4 py-24">
         <div className="mx-auto max-w-2xl text-center">
           {/* Icon */}
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-            <Bell className="h-7 w-7 text-primary" />
+          <div className="mx-auto mb-6">
+            <Bell className="mx-auto h-8 w-8 text-primary/60" />
           </div>
 
           {/* Heading */}
-          <h2 className="mb-2 text-2xl font-bold text-foreground md:text-3xl">
+          <h2 className="mb-3 font-serif text-2xl font-bold text-foreground md:text-3xl">
             Get New Grant Alerts
           </h2>
-          <p className="mb-8 text-muted-foreground">
+          <p className="mb-10 text-muted-foreground/80">
             Be the first to know when new grants matching your interests are posted.
           </p>
 

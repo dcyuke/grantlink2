@@ -11,15 +11,13 @@ export function RecentlyAddedSection({ opportunities }: RecentlyAddedProps) {
   if (opportunities.length === 0) return null
 
   return (
-    <section className="bg-muted/10 py-12">
+    <section className="py-16">
       <div className="container mx-auto px-4">
-        <div className="mb-6 flex items-end justify-between">
+        <div className="mb-8 flex items-end justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10">
-              <Sparkles className="h-5 w-5 text-blue-600" />
-            </div>
+            <Sparkles className="h-5 w-5 text-muted-foreground" />
             <div>
-              <h2 className="text-xl font-bold text-foreground md:text-2xl">
+              <h2 className="font-serif text-xl font-bold text-foreground md:text-2xl">
                 Just Added
               </h2>
               <p className="text-sm text-muted-foreground">

@@ -63,19 +63,18 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden">
       {/* Subtle gradient background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-50/50 via-background to-background" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-muted/60 via-background to-background" />
 
-      <div className="container mx-auto px-4 pb-16 pt-20 md:pb-24 md:pt-28">
+      <div className="container mx-auto px-4 pb-24 pt-28 md:pb-32 md:pt-36">
         <div className="mx-auto max-w-3xl text-center">
           {/* Headline */}
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className="mb-6 font-serif text-5xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Find Funding for{' '}
-            <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent">
+            <span className="text-primary">
               What Matters
             </span>
           </h1>
-          <p className="mb-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mb-8 text-lg leading-relaxed text-muted-foreground/80 md:text-xl">
             {greeting}
             <span className="text-foreground/70">
               {' '}Search grants, fellowships, prizes, and more.
@@ -84,15 +83,15 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
 
           {/* Deadline counter badge */}
           {deadlinesThisMonth != null && deadlinesThisMonth > 0 && (
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
               <CalendarClock className="h-4 w-4" />
               {deadlinesThisMonth} deadline{deadlinesThisMonth === 1 ? '' : 's'} closing this month
             </div>
           )}
 
           {/* Search bar */}
-          <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-2xl">
-            <div className="flex items-center gap-2 rounded-xl border border-border bg-card p-1.5 shadow-lg shadow-black/5 transition-all focus-within:border-primary/40 focus-within:shadow-primary/10">
+          <form onSubmit={handleSearch} className="mx-auto mb-8 max-w-2xl">
+            <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-card p-1.5 shadow-md shadow-black/[0.03] transition-all focus-within:border-primary/40 focus-within:shadow-primary/5">
               <div className="flex flex-1 items-center gap-3 px-3">
                 <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
                 <input
@@ -118,12 +117,12 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
 
           {/* Quick filter pills */}
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="text-sm text-muted-foreground">Quick search:</span>
+            <span className="text-sm text-muted-foreground/70">Quick search:</span>
             {QUICK_FILTERS.map((filter) => (
               <Link
                 key={filter.label}
                 href={`/search?${filter.param}`}
-                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
+                className="rounded-full border border-border/50 bg-transparent px-4 py-1.5 text-sm text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
               >
                 {filter.label}
               </Link>

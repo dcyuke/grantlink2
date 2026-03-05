@@ -25,7 +25,7 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
 
   return (
     <Link href={`/opportunity/${opportunity.slug}`} className="group block">
-      <div className="rounded-xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5">
+      <div className="rounded-lg border border-border/40 bg-card p-6 transition-all duration-300 hover:border-primary/20 hover:shadow-sm">
         {/* Top row: type badge + fit badge + bookmark + deadline */}
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -61,7 +61,7 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
         </div>
 
         {/* Title */}
-        <h3 className="mb-1 text-lg font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
+        <h3 className="mb-2 font-serif text-lg font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
           {opportunity.title}
         </h3>
 
@@ -100,7 +100,7 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
             {opportunity.focus_area_names?.slice(0, 3).map((area) => (
               <span
                 key={area}
-                className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                className="rounded bg-muted/60 px-2 py-0.5 text-xs text-muted-foreground/80"
               >
                 {area}
               </span>

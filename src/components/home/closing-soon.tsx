@@ -11,14 +11,12 @@ export function ClosingSoonSection({ opportunities }: ClosingSoonProps) {
   if (opportunities.length === 0) return null
 
   return (
-    <section className="container mx-auto px-4 py-12">
-      <div className="mb-6 flex items-end justify-between">
+    <section className="container mx-auto px-4 py-16">
+      <div className="mb-8 flex items-end justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500/10">
-            <Clock className="h-5 w-5 text-amber-600" />
-          </div>
+          <Clock className="h-5 w-5 text-muted-foreground" />
           <div>
-            <h2 className="text-xl font-bold text-foreground md:text-2xl">
+            <h2 className="font-serif text-xl font-bold text-foreground md:text-2xl">
               Closing Soon
             </h2>
             <p className="text-sm text-muted-foreground">

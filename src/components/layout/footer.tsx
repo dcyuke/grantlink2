@@ -1,20 +1,16 @@
 import Link from 'next/link'
-import { Search } from 'lucide-react'
 import { FooterSignup } from './footer-signup'
 import { FeedbackDialog } from '@/components/feedback-dialog'
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 bg-muted/30">
-      <div className="container mx-auto px-4 py-12">
+    <footer className="border-t border-border/30 bg-muted/40">
+      <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary">
-                <Search className="h-3.5 w-3.5 text-primary-foreground" />
-              </div>
-              <span className="text-lg font-bold tracking-tight">
+            <Link href="/" className="flex items-center">
+              <span className="font-serif text-xl font-bold tracking-tight">
                 Grant<span className="text-primary">Link</span>
               </span>
             </Link>
@@ -26,7 +22,7 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-foreground">Explore</h3>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explore</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/search" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -52,7 +48,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-foreground">Company</h3>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Company</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-sm text-muted-foreground transition-colors hover:text-foreground">

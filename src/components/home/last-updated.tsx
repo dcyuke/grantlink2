@@ -21,8 +21,8 @@ export function LastUpdated({ lastUpdated }: LastUpdatedProps) {
   }
 
   return (
-    <div className="border-t border-border/40 py-4 text-center">
-      <p className="text-xs text-muted-foreground">
+    <div className="border-t border-border/20 py-6 text-center">
+      <p className="text-xs tracking-wide text-muted-foreground/60">
         Database last updated {timeAgo} · Updated daily at 6:00 AM EST
       </p>
     </div>

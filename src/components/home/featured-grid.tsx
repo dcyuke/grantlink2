@@ -11,10 +11,10 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
   if (opportunities.length === 0) return null
 
   return (
-    <section className="container mx-auto px-4 py-16">
-      <div className="mb-8 flex items-end justify-between">
+    <section className="container mx-auto px-4 py-20">
+      <div className="mb-10 flex items-end justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground md:text-3xl">
+          <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">
             Featured Opportunities
           </h2>
           <p className="mt-1 text-muted-foreground">
@@ -23,7 +23,7 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
         </div>
         <Link
           href="/search"
-          className="hidden items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 md:flex"
+          className="hidden items-center gap-1.5 text-sm font-medium tracking-wide text-primary transition-colors hover:text-primary/80 md:flex"
         >
           View all
           <ArrowRight className="h-4 w-4" />

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Script from "next/script"
-import { Inter } from "next/font/google"
+import { Inter, Playfair_Display } from "next/font/google"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { KonamiProvider } from "@/components/easter-eggs/konami-provider"
@@ -11,6 +11,11 @@ const GA_MEASUREMENT_ID = "G-5QW521ZPX4"
 
 const inter = Inter({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+})
+
+const playfair = Playfair_Display({
+  variable: "--font-serif",
   subsets: ["latin"],
 })
 
@@ -78,7 +83,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <KonamiProvider>
           <KeyboardShortcuts />
           <div className="flex min-h-screen flex-col">
