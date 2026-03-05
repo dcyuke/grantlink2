@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import {
   ArrowLeft,
   FileText,
@@ -40,7 +39,6 @@ import {
 type View = 'overview' | 'entry'
 
 export function ImpactDashboard() {
-  const router = useRouter()
   const [config, setConfig] = useState<ImpactConfig | null>(null)
   const [data, setData] = useState<ImpactData | null>(null)
   const [view, setView] = useState<View>('overview')
