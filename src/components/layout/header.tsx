@@ -59,6 +59,12 @@ export function Header() {
             Readiness Check
           </Link>
           <Link
+            href="/impact"
+            className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
+          >
+            Impact
+          </Link>
+          <Link
             href="/about"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
@@ -100,6 +106,13 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Readiness Check
+            </Link>
+            <Link
+              href="/impact"
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Impact
             </Link>
             <Link
               href="/about"

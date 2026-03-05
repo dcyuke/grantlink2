@@ -9,6 +9,7 @@ import { HowItWorks } from '@/components/home/how-it-works'
 import { LastUpdated } from '@/components/home/last-updated'
 import { EmailSignup } from '@/components/home/email-signup'
 import { GrantMotivation } from '@/components/home/grant-motivation'
+import { ImpactCTA } from '@/components/home/impact-cta'
 import { AnimateOnScroll } from '@/components/ui/animate-on-scroll'
 import { getHomepageData } from '@/lib/data'
 import { FOCUS_AREAS } from '@/lib/constants'
@@ -47,6 +48,9 @@ export default async function HomePage() {
       </AnimateOnScroll>
       <AnimateOnScroll>
         <LastUpdated lastUpdated={data.lastUpdated} />
+      </AnimateOnScroll>
+      <AnimateOnScroll>
+        <ImpactCTA />
       </AnimateOnScroll>
       <AnimateOnScroll>
         <GrantMotivation />
