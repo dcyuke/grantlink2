@@ -3,14 +3,14 @@
 import { useState } from 'react'
 
 const QUOTES = [
-  { text: 'Small grants lead to big impact.', context: 'Every dollar counts.' },
+  { text: 'Small teams, big impact. The right tools make the difference.', context: 'That\'s why we built GrantLink.' },
   { text: 'Behind every funded program is someone who decided to try.', context: 'That someone is you.' },
-  { text: 'Grant writing tip: the first draft is just the beginning.', context: 'Keep refining.' },
-  { text: 'Funders want to say yes. Help them find a reason.', context: 'Tell your story.' },
+  { text: 'Funders want to say yes. Help them find a reason.', context: 'Tell your story with data.' },
   { text: 'The best proposals solve real problems with clear plans.', context: 'Show the path forward.' },
-  { text: 'Your mission deserves the resources to grow.', context: 'Keep searching.' },
+  { text: 'Your mission deserves the resources to grow.', context: 'Keep searching. Keep measuring. Keep going.' },
   { text: 'Every great nonprofit started with a first grant.', context: 'Start somewhere.' },
-  { text: 'Persistence in grant seeking pays compounding returns.', context: 'Stay the course.' },
+  { text: 'Impact is not a buzzword. It\'s what you do every day.', context: 'Now you can prove it.' },
+  { text: 'You don\'t need a big team to run a professional operation.', context: 'You just need the right back office.' },
 ]
 
 function getDailyQuote() {

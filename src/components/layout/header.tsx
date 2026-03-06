@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X, Building2 } from 'lucide-react'
 import { FeedbackDialog } from '@/components/feedback-dialog'
+import { AuthButton } from '@/components/auth/auth-button'
 import { cn } from '@/lib/utils'
 import { getOrgProfile } from '@/lib/org-profile-storage'
 
@@ -51,7 +52,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 md:flex">
           <Link
             href="/search"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
@@ -62,13 +63,13 @@ export function Header() {
             href="/partners"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
-            Funders & Partners
+            Funders
           </Link>
           <Link
             href="/readiness"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
-            Readiness Check
+            Readiness
           </Link>
           <Link
             href="/impact"
@@ -83,22 +84,21 @@ export function Header() {
             <Building2 className="h-3.5 w-3.5" />
             {orgName || 'My Org'}
           </Link>
-          <Link
-            href="/about"
-            className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
-          >
-            About
-          </Link>
-          <FeedbackDialog />
+          <div className="ml-2 flex items-center gap-3 border-l border-border/40 pl-4">
+            <AuthButton />
+          </div>
         </nav>
 
-        {/* Mobile menu button */}
-        <button
-          className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile: auth + menu */}
+        <div className="flex items-center gap-2 md:hidden">
+          <AuthButton />
+          <button
+            className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile nav */}
@@ -131,7 +131,7 @@ export function Header() {
               className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Impact
+              Impact & M&E
             </Link>
             <Link
               href="/organization"
@@ -140,6 +140,13 @@ export function Header() {
             >
               <Building2 className="h-4 w-4" />
               {orgName || 'My Organization'}
+            </Link>
+            <Link
+              href="/dashboard"
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Dashboard
             </Link>
             <Link
               href="/about"

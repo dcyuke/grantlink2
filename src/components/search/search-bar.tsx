@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { Search, X } from 'lucide-react'
 
@@ -10,6 +10,11 @@ export function SearchBar({ initialQuery }: { initialQuery?: string }) {
   const searchParams = useSearchParams()
   const paramQuery = useMemo(() => searchParams.get('q') || '', [searchParams])
   const [query, setQuery] = useState(initialQuery || paramQuery)
+
+  // Track that user has visited search (for onboarding checklist)
+  useEffect(() => {
+    try { localStorage.setItem('gl_has_searched', 'true') } catch {}
+  }, [])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()

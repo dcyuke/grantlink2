@@ -1,23 +1,29 @@
-import { Search, Filter, ExternalLink } from 'lucide-react'
+import { Building2, Search, BarChart3, FileText } from 'lucide-react'
 
 const STEPS = [
   {
+    icon: Building2,
+    title: 'Set Up Your Profile',
+    description:
+      'Tell us about your nonprofit — mission, focus areas, budget — and every tool becomes personalized to your work.',
+  },
+  {
     icon: Search,
-    title: 'Search',
+    title: 'Find & Track Funding',
     description:
-      'Enter keywords, focus areas, or browse by category to discover relevant funding opportunities.',
+      'Search thousands of grants, fellowships, and prizes. Save, compare, and track applications from research to award.',
   },
   {
-    icon: Filter,
-    title: 'Filter & Compare',
+    icon: BarChart3,
+    title: 'Measure Your Impact',
     description:
-      'Narrow results by amount, deadline, eligibility, population served, and more to find the best fit.',
+      'Choose from 20 issue-area frameworks. Enter data, track trends over time, and see your progress at a glance.',
   },
   {
-    icon: ExternalLink,
-    title: 'Apply Directly',
+    icon: FileText,
+    title: 'Report to Stakeholders',
     description:
-      'Click through to the funder\'s website and apply directly. No middlemen, no fees.',
+      'Generate polished donor updates, board presentations, and grant reports — ready to share or print.',
   },
 ]
 
@@ -25,13 +31,13 @@ export function HowItWorks() {
   return (
     <section className="container mx-auto px-4 py-24">
       <div className="mb-12 text-center">
-        <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">How It Works</h2>
+        <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">How GrantLink Works</h2>
         <p className="mt-1 text-muted-foreground">
-          Three simple steps to find your next funding opportunity
+          From setup to reporting — a connected workflow for your whole team
         </p>
       </div>
 
-      <div className="mx-auto grid max-w-4xl grid-cols-1 gap-12 md:grid-cols-3">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-12 md:grid-cols-4">
         {STEPS.map((step, i) => (
           <div key={step.title} className="relative text-center">
             {/* Connector line (desktop only) */}

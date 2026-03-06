@@ -183,7 +183,10 @@ export function ReadinessQuiz() {
     if (currentStep < QUESTIONS.length - 1) {
       setTimeout(() => setCurrentStep((s) => s + 1), 300)
     } else {
-      setTimeout(() => setShowResults(true), 300)
+      setTimeout(() => {
+        setShowResults(true)
+        try { localStorage.setItem('gl_readiness_completed', 'true') } catch {}
+      }, 300)
     }
   }
 

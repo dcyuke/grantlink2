@@ -8,21 +8,20 @@ export function Footer() {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-1">
             <Link href="/" className="flex items-center">
               <span className="font-serif text-xl font-bold tracking-tight">
                 Grant<span className="text-primary">Link</span>
               </span>
             </Link>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Search available grants, fellowships, prizes, and funding opportunities
-              from foundations, corporations, and government agencies.
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              The nonprofit back office — find funding, measure impact, and prove your worth, all in one place.
             </p>
           </div>
 
-          {/* Links */}
+          {/* Find Funding */}
           <div>
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explore</h3>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Find Funding</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/search" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -35,18 +34,46 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/readiness" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  Readiness Assessment
+                <Link href="/search?firstTimeFriendly=true" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  First-Time Friendly
                 </Link>
               </li>
               <li>
-                <Link href="/search?firstTimeFriendly=true" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                  First-Time Friendly
+                <Link href="/readiness" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Readiness Assessment
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Your Tools */}
+          <div>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Your Tools</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/organization" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Organization Profile
+                </Link>
+              </li>
+              <li>
+                <Link href="/impact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Impact Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/impact/evaluation" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  M&E Plan Builder
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboard" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  My Dashboard
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
           <div>
             <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Company</h3>
             <ul className="space-y-2">
