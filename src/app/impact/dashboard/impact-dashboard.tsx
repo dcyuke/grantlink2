@@ -56,9 +56,6 @@ export function ImpactDashboard() {
   const saveRef = useRef<() => void>(() => {})
   const dirtyRef = useRef(false)
 
-  // Keep refs in sync (must be in useEffect, not render body for React 19)
-  useEffect(() => { dirtyRef.current = dirty }, [dirty])
-
   // Load config & data
   const refresh = useCallback(() => {
     setConfig(getImpactConfig())
@@ -146,8 +143,9 @@ export function ImpactDashboard() {
     setTimeout(() => setSaved(false), 2000)
   }
 
-  // Keep ref in sync for auto-save timeout (useEffect for React 19 purity)
-  useEffect(() => { saveRef.current = handleSaveEntry })
+  // Keep refs in sync for auto-save / beforeunload callbacks
+  saveRef.current = handleSaveEntry
+  dirtyRef.current = dirty
 
   const handleDeletePeriod = (id: string) => {
     const period = periods.find((p) => p.id === id)
