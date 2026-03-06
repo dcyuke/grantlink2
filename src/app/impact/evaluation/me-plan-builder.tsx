@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -67,7 +67,12 @@ export function MEPlanBuilder() {
   const [step, setStep] = useState(0)
   const [viewMode, setViewMode] = useState<'build' | 'view'>('build')
 
+  // Track whether user is actively building (to ignore save-triggered events)
+  const buildingRef = useRef(false)
+
   const loadPlan = useCallback(() => {
+    // Don't switch to view mode while user is actively building
+    if (buildingRef.current) return
     const existing = getMEPlan()
     if (existing) {
       setPlan(existing)
@@ -75,6 +80,7 @@ export function MEPlanBuilder() {
     } else {
       setPlan(createEmptyPlan())
       setViewMode('build')
+      buildingRef.current = true
     }
   }, [])
 
@@ -96,6 +102,7 @@ export function MEPlanBuilder() {
 
   const handleFinish = () => {
     if (plan) {
+      buildingRef.current = false
       saveMEPlan(plan)
       setViewMode('view')
     }
@@ -103,7 +110,7 @@ export function MEPlanBuilder() {
 
   // ── View mode: display completed plan ──────────────────────
   if (viewMode === 'view') {
-    return <PlanView plan={plan} onEdit={() => { setStep(0); setViewMode('build') }} />
+    return <PlanView plan={plan} onEdit={() => { buildingRef.current = true; setStep(0); setViewMode('build') }} />
   }
 
   // ── Build mode: step-by-step wizard ────────────────────────
