@@ -173,6 +173,57 @@ export function importAllImpactData(json: string): boolean {
   }
 }
 
+// ── CSV Export ────────────────────────────────────────────────────
+
+/** Build a CSV string from metric data. Columns: Metric, Category, Unit, then one column per period. */
+export function exportImpactCSV(
+  metrics: { id: string; label: string; category: string; unit: string }[],
+  periods: PeriodData[],
+): string {
+  const escape = (s: string) => {
+    if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+      return `"${s.replace(/"/g, '""')}"`
+    }
+    return s
+  }
+
+  // Sort periods oldest-first for spreadsheet readability
+  const sorted = [...periods].sort((a, b) => a.id.localeCompare(b.id))
+
+  // Header row
+  const header = ['Metric', 'Category', 'Unit', ...sorted.map((p) => p.label)]
+  const rows = [header.map(escape).join(',')]
+
+  // Data rows
+  for (const m of metrics) {
+    const cells = [m.label, m.category, m.unit]
+    for (const p of sorted) {
+      const entry = p.entries.find((e) => e.metricId === m.id)
+      cells.push(String(entry?.value ?? 0))
+    }
+    rows.push(cells.map(escape).join(','))
+  }
+
+  // Notes section
+  rows.push('')
+  rows.push('Notes')
+  const noteHeader = ['Metric', ...sorted.map((p) => p.label)]
+  rows.push(noteHeader.map(escape).join(','))
+  for (const m of metrics) {
+    const cells = [m.label]
+    for (const p of sorted) {
+      const entry = p.entries.find((e) => e.metricId === m.id)
+      cells.push(entry?.note ?? '')
+    }
+    // Only include row if there are any notes
+    if (cells.some((c, i) => i > 0 && c !== '')) {
+      rows.push(cells.map(escape).join(','))
+    }
+  }
+
+  return rows.join('\n')
+}
+
 // ── Reset everything ───────────────────────────────────────────────
 
 export function resetAllImpactData(): void {

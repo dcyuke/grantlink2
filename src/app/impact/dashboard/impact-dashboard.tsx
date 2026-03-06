@@ -12,6 +12,10 @@ import {
   BarChart3,
   Download,
   Upload,
+  FileSpreadsheet,
+  Printer,
+  ChevronDown,
+  Database,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PeriodSelector } from '@/components/impact/period-selector'
@@ -26,6 +30,7 @@ import {
   saveOrgName,
   exportAllImpactData,
   importAllImpactData,
+  exportImpactCSV,
   IMPACT_CONFIG_EVENT,
   IMPACT_DATA_EVENT,
   type ImpactConfig,
@@ -51,10 +56,12 @@ export function ImpactDashboard() {
   const [saved, setSaved] = useState(false)
   const [dirty, setDirty] = useState(false)
   const [orgNameInput, setOrgNameInput] = useState('')
+  const [showExportMenu, setShowExportMenu] = useState(false)
 
   // Refs for auto-save and beforeunload
   const saveRef = useRef<() => void>(() => {})
   const dirtyRef = useRef(false)
+  const exportMenuRef = useRef<HTMLDivElement>(null)
 
   // Load config & data
   const refresh = useCallback(() => {
@@ -73,6 +80,18 @@ export function ImpactDashboard() {
       window.removeEventListener(IMPACT_DATA_EVENT, refresh)
     }
   }, [refresh])
+
+  // Close export menu when clicking outside (must be before early returns for hook ordering)
+  useEffect(() => {
+    if (!showExportMenu) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
+        setShowExportMenu(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showExportMenu])
 
   // Redirect if no config
   if (config === null) {
@@ -174,15 +193,34 @@ export function ImpactDashboard() {
     }
   }
 
-  const handleExport = () => {
-    const json = exportAllImpactData()
-    const blob = new Blob([json], { type: 'application/json' })
+  const downloadFile = (content: string, filename: string, mimeType: string) => {
+    const blob = new Blob([content], { type: mimeType })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `grantlink-impact-backup-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = filename
     a.click()
     URL.revokeObjectURL(url)
+  }
+
+  const handleExportCSV = () => {
+    const csv = exportImpactCSV(metrics, periods)
+    const datestamp = new Date().toISOString().slice(0, 10)
+    downloadFile(csv, `impact-data-${datestamp}.csv`, 'text/csv')
+    setShowExportMenu(false)
+  }
+
+  const handleExportJSON = () => {
+    const json = exportAllImpactData()
+    const datestamp = new Date().toISOString().slice(0, 10)
+    downloadFile(json, `grantlink-impact-backup-${datestamp}.json`, 'application/json')
+    setShowExportMenu(false)
+  }
+
+  const handleExportPDF = () => {
+    setShowExportMenu(false)
+    // Brief delay so menu closes before print dialog
+    setTimeout(() => window.print(), 100)
   }
 
   const handleImport = () => {
@@ -259,7 +297,7 @@ export function ImpactDashboard() {
         <div>
           <Link
             href="/impact"
-            className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+            className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground print:hidden"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Impact
@@ -271,7 +309,7 @@ export function ImpactDashboard() {
             {config.issueAreaName} · {metrics.length} metrics tracked
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 print:hidden">
           <Button asChild variant="outline" size="sm" className="gap-1.5">
             <Link href="/impact/report">
               <FileText className="h-3.5 w-3.5" />
@@ -284,10 +322,54 @@ export function ImpactDashboard() {
               Settings
             </Link>
           </Button>
-          <Button variant="outline" size="sm" className="gap-1.5" onClick={handleExport}>
-            <Download className="h-3.5 w-3.5" />
-            Export
-          </Button>
+          {/* Export dropdown */}
+          <div className="relative" ref={exportMenuRef}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+              onClick={() => setShowExportMenu((v) => !v)}
+            >
+              <Download className="h-3.5 w-3.5" />
+              Export
+              <ChevronDown className="h-3 w-3" />
+            </Button>
+            {showExportMenu && (
+              <div className="absolute right-0 z-50 mt-1 w-56 rounded-lg border border-border/60 bg-card py-1 shadow-lg print:hidden">
+                <button
+                  onClick={handleExportCSV}
+                  className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-foreground hover:bg-muted/50"
+                >
+                  <FileSpreadsheet className="h-4 w-4 text-emerald-600" />
+                  <div>
+                    <p className="font-medium">CSV for Excel / Sheets</p>
+                    <p className="text-xs text-muted-foreground">Open in Excel or Google Sheets</p>
+                  </div>
+                </button>
+                <button
+                  onClick={handleExportPDF}
+                  className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-foreground hover:bg-muted/50"
+                >
+                  <Printer className="h-4 w-4 text-blue-600" />
+                  <div>
+                    <p className="font-medium">Print / Save as PDF</p>
+                    <p className="text-xs text-muted-foreground">Print or save to PDF via browser</p>
+                  </div>
+                </button>
+                <div className="my-1 border-t border-border/30" />
+                <button
+                  onClick={handleExportJSON}
+                  className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-foreground hover:bg-muted/50"
+                >
+                  <Database className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">JSON Backup</p>
+                    <p className="text-xs text-muted-foreground">Full data backup for import later</p>
+                  </div>
+                </button>
+              </div>
+            )}
+          </div>
           <Button variant="outline" size="sm" className="gap-1.5" onClick={handleImport}>
             <Upload className="h-3.5 w-3.5" />
             Import
@@ -296,7 +378,7 @@ export function ImpactDashboard() {
       </div>
 
       {/* Org name */}
-      <div className="mb-8">
+      <div className="mb-8 print:hidden">
         <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">
           Organization Name (for reports)
         </label>
@@ -451,6 +533,28 @@ export function ImpactDashboard() {
             </p>
           </div>
         )}
+
+      {/* Print styles for PDF export */}
+      <style jsx global>{`
+        @media print {
+          .print\\:hidden,
+          nav,
+          header,
+          footer {
+            display: none !important;
+          }
+          body {
+            background: white !important;
+          }
+          * {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+          @page {
+            margin: 0.5in;
+          }
+        }
+      `}</style>
     </div>
   )
 }
