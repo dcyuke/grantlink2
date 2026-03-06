@@ -2,14 +2,26 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Building2 } from 'lucide-react'
 import { FeedbackDialog } from '@/components/feedback-dialog'
 import { cn } from '@/lib/utils'
+import { getOrgProfile } from '@/lib/org-profile-storage'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [orgName, setOrgName] = useState<string | null>(null)
   const ticking = useRef(false)
+
+  useEffect(() => {
+    const load = () => {
+      const p = getOrgProfile()
+      setOrgName(p?.name?.trim() || null)
+    }
+    load()
+    window.addEventListener('orgProfileUpdated', load)
+    return () => window.removeEventListener('orgProfileUpdated', load)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -65,6 +77,13 @@ export function Header() {
             Impact
           </Link>
           <Link
+            href="/organization"
+            className="flex items-center gap-1.5 text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
+          >
+            <Building2 className="h-3.5 w-3.5" />
+            {orgName || 'My Org'}
+          </Link>
+          <Link
             href="/about"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
@@ -113,6 +132,14 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Impact
+            </Link>
+            <Link
+              href="/organization"
+              className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Building2 className="h-4 w-4" />
+              {orgName || 'My Organization'}
             </Link>
             <Link
               href="/about"

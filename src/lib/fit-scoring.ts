@@ -4,11 +4,30 @@
  */
 
 export interface OrgProfile {
+  // Core identity
+  name?: string
+  mission?: string
+  focusAreas?: string[]           // slugs from FOCUS_AREAS
+  yearFounded?: number
+  website?: string
+  contactEmail?: string
+
+  // Classification (used by fit scoring)
   orgType: string
   geography: string
   populations: string[]
   budget: string
-  missionAlignment: string
+  missionAlignment: string        // legacy field — kept for fit scoring compat
+
+  // Size & scale
+  teamSize?: string               // "1-5", "6-15", "16-50", "51-200", "200+"
+
+  // Future monetization
+  tier?: 'free' | 'starter' | 'professional'
+
+  // Timestamps
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface FitResult {

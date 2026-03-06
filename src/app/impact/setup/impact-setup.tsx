@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -39,6 +39,7 @@ import {
   type MetricDefinition,
 } from '@/lib/impact-metrics'
 import { saveImpactConfig, getImpactConfig, type ImpactConfig } from '@/lib/impact-storage'
+import { getOrgProfile } from '@/lib/org-profile-storage'
 
 // Map slug → lucide icon
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -71,6 +72,18 @@ export function ImpactSetup() {
   const [selectedMetrics, setSelectedMetrics] = useState<Set<string>>(new Set())
   const [existingConfig] = useState(() => getImpactConfig())
   const [confirmed, setConfirmed] = useState(false)
+
+  // Pre-select issue area from org profile if available
+  useEffect(() => {
+    if (selectedSlug) return // user already chose one
+    const profile = getOrgProfile()
+    if (!profile?.focusAreas?.length) return
+    // Find the first org focus area that matches a metric framework
+    const match = profile.focusAreas.find((slug) =>
+      METRIC_FRAMEWORKS.some((fw) => fw.slug === slug),
+    )
+    if (match) setSelectedSlug(match)
+  }, [selectedSlug])
 
   const framework = METRIC_FRAMEWORKS.find((f) => f.slug === selectedSlug)
 

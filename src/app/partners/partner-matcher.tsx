@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { FOCUS_AREAS } from '@/lib/constants'
@@ -18,10 +18,19 @@ import {
   Filter,
   X,
 } from 'lucide-react'
+import { getOrgProfile } from '@/lib/org-profile-storage'
 
 export function PartnerMatcher() {
   const [selectedAreas, setSelectedAreas] = useState<string[]>([])
   const [selectedTypes, setSelectedTypes] = useState<string[]>([])
+
+  // Pre-select focus areas from org profile on first load
+  useEffect(() => {
+    const profile = getOrgProfile()
+    if (profile?.focusAreas?.length) {
+      setSelectedAreas(profile.focusAreas)
+    }
+  }, [])
 
   const toggleArea = (slug: string) => {
     setSelectedAreas((prev) =>

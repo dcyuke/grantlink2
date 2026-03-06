@@ -44,6 +44,7 @@ import {
   type MetricDefinition,
   type MetricCategory,
 } from '@/lib/impact-metrics'
+import { getOrgProfile } from '@/lib/org-profile-storage'
 
 type View = 'overview' | 'entry'
 
@@ -63,12 +64,22 @@ export function ImpactDashboard() {
   const dirtyRef = useRef(false)
   const exportMenuRef = useRef<HTMLDivElement>(null)
 
-  // Load config & data
+  // Load config & data — auto-fill org name from org profile if not yet set
   const refresh = useCallback(() => {
     setConfig(getImpactConfig())
     const d = getImpactData()
     setData(d)
-    setOrgNameInput(d?.orgName ?? '')
+    const savedName = d?.orgName ?? ''
+    if (savedName) {
+      setOrgNameInput(savedName)
+    } else {
+      // Pull from org profile as a default
+      const profile = getOrgProfile()
+      const profileName = profile?.name?.trim() ?? ''
+      setOrgNameInput(profileName)
+      // Auto-save so reports pick it up immediately
+      if (profileName) saveOrgName(profileName)
+    }
   }, [])
 
   useEffect(() => {
