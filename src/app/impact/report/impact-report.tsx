@@ -9,6 +9,7 @@ import {
   Users,
   Presentation,
   BarChart3,
+  Sparkles,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,6 +28,14 @@ import {
   type MetricDefinition,
   type MetricCategory,
 } from '@/lib/impact-metrics'
+import {
+  generateExecutiveSummary,
+  generateLookingAhead,
+  generateDonorGreeting,
+  generateImpactStory,
+  generateThankYou,
+  generateDiscussionPoints,
+} from '@/lib/narrative-generator'
 
 type Template = 'impact-report' | 'donor-update' | 'board-presentation'
 
@@ -57,22 +66,53 @@ function NarrativeTextarea({
   sectionKey,
   placeholder,
   narratives,
+  generatedText,
 }: {
   sectionKey: string
   placeholder: string
   narratives: Record<string, string>
+  generatedText?: string
 }) {
-  const [value, setValue] = useState(narratives[sectionKey] ?? '')
+  const existing = narratives[sectionKey] ?? ''
+  const [value, setValue] = useState(existing)
+  const [didAutoGenerate, setDidAutoGenerate] = useState(false)
+
+  // Auto-generate on first render if the field is empty and generated text is available
+  useEffect(() => {
+    if (!didAutoGenerate && value === '' && generatedText && generatedText.length > 0) {
+      setValue(generatedText)
+      saveNarrative(sectionKey, generatedText)
+      setDidAutoGenerate(true)
+    }
+  }, [didAutoGenerate, value, generatedText, sectionKey])
+
+  const handleGenerate = () => {
+    if (!generatedText) return
+    setValue(generatedText)
+    saveNarrative(sectionKey, generatedText)
+  }
 
   return (
-    <textarea
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      onBlur={() => saveNarrative(sectionKey, value)}
-      placeholder={placeholder}
-      className="w-full resize-none rounded-md border-0 bg-transparent p-0 text-sm leading-relaxed text-foreground placeholder:italic placeholder:text-muted-foreground/60 focus:outline-none focus:ring-0 print:placeholder:text-transparent"
-      rows={4}
-    />
+    <div>
+      <textarea
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={() => saveNarrative(sectionKey, value)}
+        placeholder={placeholder}
+        className="w-full resize-none rounded-md border-0 bg-transparent p-0 text-sm leading-relaxed text-foreground placeholder:italic placeholder:text-muted-foreground/60 focus:outline-none focus:ring-0 print:placeholder:text-transparent"
+        rows={Math.max(4, (value || '').split('\n').length + 1)}
+      />
+      {generatedText && generatedText.length > 0 && (
+        <button
+          type="button"
+          onClick={handleGenerate}
+          className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10 print:hidden"
+        >
+          <Sparkles className="h-3 w-3" />
+          {value ? 'Regenerate Draft' : 'Generate Draft'}
+        </button>
+      )}
+    </div>
   )
 }
 
@@ -277,6 +317,7 @@ export function ImpactReport() {
                 sectionKey="impact-report:executive-summary"
                 placeholder="Add a brief narrative about your organization's work during this period — your mission, key achievements, and the communities you served."
                 narratives={narratives}
+                generatedText={generateExecutiveSummary(orgName, config.issueAreaName, metrics, periodsWithData)}
               />
             </div>
 
@@ -356,6 +397,7 @@ export function ImpactReport() {
                 sectionKey="impact-report:looking-ahead"
                 placeholder="Add your goals and targets for the next period. What do you aim to achieve?"
                 narratives={narratives}
+                generatedText={generateLookingAhead(orgName, metrics, periodsWithData)}
               />
             </div>
           </div>
@@ -372,6 +414,7 @@ export function ImpactReport() {
                 sectionKey="donor-update:greeting"
                 placeholder="Open with a warm greeting and brief update about your mission and recent milestones."
                 narratives={narratives}
+                generatedText={generateDonorGreeting(orgName, config.issueAreaName, metrics, periodsWithData)}
               />
             </div>
 
@@ -433,6 +476,7 @@ export function ImpactReport() {
                 sectionKey="donor-update:impact-story"
                 placeholder="Share a specific story that illustrates the difference your organization is making. Use real examples (with permission) to bring the data to life."
                 narratives={narratives}
+                generatedText={generateImpactStory(metrics, periodsWithData)}
               />
             </div>
 
@@ -445,6 +489,7 @@ export function ImpactReport() {
                 sectionKey="donor-update:thank-you"
                 placeholder="Close with gratitude and a call-to-action — continued support, sharing the update, or connecting."
                 narratives={narratives}
+                generatedText={generateThankYou(orgName)}
               />
             </div>
           </div>
@@ -573,6 +618,7 @@ export function ImpactReport() {
                 sectionKey="board-presentation:discussion"
                 placeholder={"• Key achievement or milestone to celebrate\n• Challenge or area needing board input\n• Strategic question or decision point\n• Resource needs or upcoming opportunities"}
                 narratives={narratives}
+                generatedText={generateDiscussionPoints(metrics, periodsWithData)}
               />
             </div>
           </div>
