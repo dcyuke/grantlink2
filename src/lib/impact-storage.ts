@@ -39,6 +39,7 @@ export interface PeriodData {
 export interface ImpactData {
   orgName?: string
   periods: PeriodData[]
+  narratives?: Record<string, string>
 }
 
 // ── Constants ──────────────────────────────────────────────────────
@@ -138,6 +139,38 @@ export function saveOrgName(name: string): void {
   const data = getImpactData() ?? { periods: [] }
   data.orgName = name
   saveImpactData(data)
+}
+
+// ── Narrative helpers ──────────────────────────────────────────────
+
+export function saveNarrative(key: string, value: string): void {
+  const data = getImpactData() ?? { periods: [] }
+  if (!data.narratives) data.narratives = {}
+  data.narratives[key] = value
+  saveImpactData(data)
+}
+
+// ── Export / Import ───────────────────────────────────────────────
+
+export function exportAllImpactData(): string {
+  const config = getImpactConfig()
+  const data = getImpactData()
+  return JSON.stringify(
+    { version: 1, config, data, exportedAt: new Date().toISOString() },
+    null,
+    2,
+  )
+}
+
+export function importAllImpactData(json: string): boolean {
+  try {
+    const parsed = JSON.parse(json)
+    if (parsed.config) saveImpactConfig(parsed.config)
+    if (parsed.data) saveImpactData(parsed.data)
+    return true
+  } catch {
+    return false
+  }
 }
 
 // ── Reset everything ───────────────────────────────────────────────

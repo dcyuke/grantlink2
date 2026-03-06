@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import {
   getImpactConfig,
   getImpactData,
+  saveNarrative,
   IMPACT_CONFIG_EVENT,
   IMPACT_DATA_EVENT,
   type ImpactConfig,
@@ -49,6 +50,33 @@ const TEMPLATES: { id: Template; label: string; icon: React.ComponentType<{ clas
     desc: 'High-level overview with key stats and trends for board meetings.',
   },
 ]
+
+// ── Editable narrative textarea ──────────────────────────────────
+
+function NarrativeTextarea({
+  sectionKey,
+  placeholder,
+  narratives,
+}: {
+  sectionKey: string
+  placeholder: string
+  narratives: Record<string, string>
+}) {
+  const [value, setValue] = useState(narratives[sectionKey] ?? '')
+
+  return (
+    <textarea
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => saveNarrative(sectionKey, value)}
+      placeholder={placeholder}
+      className="w-full resize-none rounded-md border-0 bg-transparent p-0 text-sm leading-relaxed text-foreground placeholder:italic placeholder:text-muted-foreground/60 focus:outline-none focus:ring-0 print:placeholder:text-transparent"
+      rows={4}
+    />
+  )
+}
+
+// ── Main component ───────────────────────────────────────────────
 
 export function ImpactReport() {
   const [config, setConfig] = useState<ImpactConfig | null>(null)
@@ -91,6 +119,7 @@ export function ImpactReport() {
   const metrics = getMetricDefinitions(config.issueAreaSlug, config.selectedMetricIds)
   const periods = data?.periods ?? []
   const orgName = data?.orgName || 'Your Organization'
+  const narratives = data?.narratives ?? {}
 
   const periodsWithData = periods.filter((p) =>
     p.entries.some((e) => e.value > 0),
@@ -194,6 +223,11 @@ export function ImpactReport() {
     return period.entries.find((e) => e.metricId === metricId)?.value ?? 0
   }
 
+  const getNote = (period: PeriodData | undefined, metricId: string): string | undefined => {
+    if (!period) return undefined
+    return period.entries.find((e) => e.metricId === metricId)?.note
+  }
+
   return (
     <div>
       {/* Toolbar — hidden in print */}
@@ -214,11 +248,9 @@ export function ImpactReport() {
       </div>
 
       {/* Printable report */}
-      <div
-        className="container mx-auto max-w-3xl px-4 py-10 print:max-w-none print:px-8"
-      >
+      <div className="report-content container mx-auto max-w-3xl px-4 py-10 print:max-w-none print:px-8">
         {/* Report header */}
-        <div className="mb-10 border-b border-border/30 pb-8 text-center">
+        <div className="mb-10 border-b border-border/30 pb-8 text-center" style={{ breakInside: 'avoid' }}>
           <h1 className="mb-2 font-serif text-3xl font-bold text-foreground md:text-4xl">
             {template === 'impact-report' && 'Impact Report'}
             {template === 'donor-update' && 'Donor Update'}
@@ -236,16 +268,16 @@ export function ImpactReport() {
         {/* ── Impact Report template ────────────────────────────── */}
         {template === 'impact-report' && (
           <div className="space-y-10">
-            {/* Summary narrative prompt */}
-            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0">
-              <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            {/* Executive Summary */}
+            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0" style={{ breakInside: 'avoid' }}>
+              <h2 className="mb-3 font-serif text-xl font-semibold text-foreground">
                 Executive Summary
               </h2>
-              <p className="text-sm italic text-muted-foreground">
-                [Add a brief narrative about your organization&apos;s work during
-                this period — your mission, key achievements, and the communities
-                you served.]
-              </p>
+              <NarrativeTextarea
+                sectionKey="impact-report:executive-summary"
+                placeholder="Add a brief narrative about your organization's work during this period — your mission, key achievements, and the communities you served."
+                narratives={narratives}
+              />
             </div>
 
             {/* Metrics by category */}
@@ -253,11 +285,11 @@ export function ImpactReport() {
               const catMetrics = grouped[cat]
               if (catMetrics.length === 0) return null
               return (
-                <div key={cat}>
+                <div key={cat} style={{ breakInside: 'avoid' }}>
                   <h2 className="mb-4 font-serif text-xl font-semibold text-foreground">
                     {CATEGORY_LABELS[cat]}
                   </h2>
-                  <div className="overflow-hidden rounded-lg border border-border/40">
+                  <div className="overflow-x-auto rounded-lg border border-border/40">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-border/30 bg-muted/30">
@@ -275,31 +307,39 @@ export function ImpactReport() {
                         </tr>
                       </thead>
                       <tbody>
-                        {catMetrics.map((m, i) => (
-                          <tr
-                            key={m.id}
-                            className={
-                              i < catMetrics.length - 1
-                                ? 'border-b border-border/20'
-                                : ''
-                            }
-                          >
-                            <td className="px-4 py-3 text-foreground">
-                              {m.label}
-                              <span className="ml-1 text-xs text-muted-foreground">
-                                ({m.unit})
-                              </span>
-                            </td>
-                            {periodsWithData.map((p) => (
-                              <td
-                                key={p.id}
-                                className="px-4 py-3 text-right tabular-nums text-foreground"
-                              >
-                                {getVal(p, m.id).toLocaleString()}
+                        {catMetrics.map((m, i) => {
+                          const latestNote = getNote(periodsWithData[0], m.id)
+                          return (
+                            <tr
+                              key={m.id}
+                              className={
+                                i < catMetrics.length - 1
+                                  ? 'border-b border-border/20'
+                                  : ''
+                              }
+                            >
+                              <td className="px-4 py-3 text-foreground">
+                                {m.label}
+                                <span className="ml-1 text-xs text-muted-foreground">
+                                  ({m.unit})
+                                </span>
+                                {latestNote && (
+                                  <p className="mt-0.5 text-xs italic text-muted-foreground/70">
+                                    {latestNote}
+                                  </p>
+                                )}
                               </td>
-                            ))}
-                          </tr>
-                        ))}
+                              {periodsWithData.map((p) => (
+                                <td
+                                  key={p.id}
+                                  className="px-4 py-3 text-right tabular-nums text-foreground"
+                                >
+                                  {getVal(p, m.id).toLocaleString()}
+                                </td>
+                              ))}
+                            </tr>
+                          )
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -307,15 +347,16 @@ export function ImpactReport() {
               )
             })}
 
-            {/* Looking ahead prompt */}
-            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0">
-              <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            {/* Looking ahead */}
+            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0" style={{ breakInside: 'avoid' }}>
+              <h2 className="mb-3 font-serif text-xl font-semibold text-foreground">
                 Looking Ahead
               </h2>
-              <p className="text-sm italic text-muted-foreground">
-                [Add your goals and targets for the next period. What do you aim
-                to achieve?]
-              </p>
+              <NarrativeTextarea
+                sectionKey="impact-report:looking-ahead"
+                placeholder="Add your goals and targets for the next period. What do you aim to achieve?"
+                narratives={narratives}
+              />
             </div>
           </div>
         )}
@@ -323,18 +364,19 @@ export function ImpactReport() {
         {/* ── Donor Update template ─────────────────────────────── */}
         {template === 'donor-update' && latestPeriod && (
           <div className="space-y-10">
-            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0">
-              <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0" style={{ breakInside: 'avoid' }}>
+              <h2 className="mb-3 font-serif text-xl font-semibold text-foreground">
                 Dear Supporters,
               </h2>
-              <p className="text-sm italic text-muted-foreground">
-                [Open with a warm greeting and brief update about your mission
-                and recent milestones.]
-              </p>
+              <NarrativeTextarea
+                sectionKey="donor-update:greeting"
+                placeholder="Open with a warm greeting and brief update about your mission and recent milestones."
+                narratives={narratives}
+              />
             </div>
 
             {/* Key highlights — top 6 metrics */}
-            <div>
+            <div style={{ breakInside: 'avoid' }}>
               <h2 className="mb-4 font-serif text-xl font-semibold text-foreground">
                 Key Highlights — {latestPeriod.label}
               </h2>
@@ -382,27 +424,28 @@ export function ImpactReport() {
               </div>
             </div>
 
-            {/* Impact story prompt */}
-            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0">
-              <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            {/* Impact story */}
+            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0" style={{ breakInside: 'avoid' }}>
+              <h2 className="mb-3 font-serif text-xl font-semibold text-foreground">
                 Impact Story
               </h2>
-              <p className="text-sm italic text-muted-foreground">
-                [Share a specific story that illustrates the difference your
-                organization is making. Use real examples (with permission) to
-                bring the data to life.]
-              </p>
+              <NarrativeTextarea
+                sectionKey="donor-update:impact-story"
+                placeholder="Share a specific story that illustrates the difference your organization is making. Use real examples (with permission) to bring the data to life."
+                narratives={narratives}
+              />
             </div>
 
             {/* Thank you */}
-            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0">
-              <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0" style={{ breakInside: 'avoid' }}>
+              <h2 className="mb-3 font-serif text-xl font-semibold text-foreground">
                 Thank You
               </h2>
-              <p className="text-sm italic text-muted-foreground">
-                [Close with gratitude and a call-to-action — continued support,
-                sharing the update, or connecting.]
-              </p>
+              <NarrativeTextarea
+                sectionKey="donor-update:thank-you"
+                placeholder="Close with gratitude and a call-to-action — continued support, sharing the update, or connecting."
+                narratives={narratives}
+              />
             </div>
           </div>
         )}
@@ -411,7 +454,7 @@ export function ImpactReport() {
         {template === 'board-presentation' && latestPeriod && (
           <div className="space-y-10">
             {/* Dashboard view — stat cards */}
-            <div>
+            <div style={{ breakInside: 'avoid' }}>
               <h2 className="mb-4 font-serif text-xl font-semibold text-foreground">
                 Performance Overview — {latestPeriod.label}
               </h2>
@@ -443,11 +486,11 @@ export function ImpactReport() {
 
             {/* Trend table */}
             {periodsWithData.length > 1 && (
-              <div>
+              <div style={{ breakInside: 'avoid' }}>
                 <h2 className="mb-4 font-serif text-xl font-semibold text-foreground">
                   Trends Over Time
                 </h2>
-                <div className="overflow-hidden rounded-lg border border-border/40">
+                <div className="overflow-x-auto rounded-lg border border-border/40">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-border/30 bg-muted/30">
@@ -522,16 +565,15 @@ export function ImpactReport() {
             )}
 
             {/* Discussion prompts */}
-            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0">
-              <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            <div className="rounded-lg border border-border/40 bg-muted/20 p-6 print:border-0 print:bg-transparent print:p-0" style={{ breakInside: 'avoid' }}>
+              <h2 className="mb-3 font-serif text-xl font-semibold text-foreground">
                 Discussion Points
               </h2>
-              <ul className="space-y-2 text-sm italic text-muted-foreground">
-                <li>• [Key achievement or milestone to celebrate]</li>
-                <li>• [Challenge or area needing board input]</li>
-                <li>• [Strategic question or decision point]</li>
-                <li>• [Resource needs or upcoming opportunities]</li>
-              </ul>
+              <NarrativeTextarea
+                sectionKey="board-presentation:discussion"
+                placeholder={"• Key achievement or milestone to celebrate\n• Challenge or area needing board input\n• Strategic question or decision point\n• Resource needs or upcoming opportunities"}
+                narratives={narratives}
+              />
             </div>
           </div>
         )}
@@ -555,21 +597,35 @@ export function ImpactReport() {
           .print\\:hidden {
             display: none !important;
           }
-          [class*="print:"] {
-            visibility: visible;
+          .report-content,
+          .report-content * {
+            visibility: visible !important;
           }
-          .container {
-            visibility: visible;
+          .report-content {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
           }
-          .container * {
-            visibility: visible;
+          .report-content textarea {
+            border: none !important;
+            resize: none !important;
+            overflow: visible !important;
+            height: auto !important;
+          }
+          .report-content textarea:empty,
+          .report-content textarea:placeholder-shown {
+            display: none !important;
+          }
+          table {
+            break-inside: avoid;
           }
           @page {
-            margin: 1in;
+            margin: 0.75in;
+          }
+          * {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
           }
         }
       `}</style>

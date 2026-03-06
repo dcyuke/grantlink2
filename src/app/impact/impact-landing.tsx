@@ -8,21 +8,30 @@ import {
   FileText,
   ArrowRight,
   CheckCircle2,
+  ClipboardList,
   Lightbulb,
   TrendingUp,
   Users,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getImpactConfig, IMPACT_CONFIG_EVENT } from '@/lib/impact-storage'
+import { getMEPlan, ME_PLAN_EVENT } from '@/lib/me-plan-storage'
 
 export function ImpactLanding() {
   const [hasConfig, setHasConfig] = useState(false)
+  const [hasMEPlan, setHasMEPlan] = useState(false)
 
   useEffect(() => {
-    const check = () => setHasConfig(!!getImpactConfig())
-    check()
-    window.addEventListener(IMPACT_CONFIG_EVENT, check)
-    return () => window.removeEventListener(IMPACT_CONFIG_EVENT, check)
+    const checkConfig = () => setHasConfig(!!getImpactConfig())
+    const checkPlan = () => setHasMEPlan(!!getMEPlan())
+    checkConfig()
+    checkPlan()
+    window.addEventListener(IMPACT_CONFIG_EVENT, checkConfig)
+    window.addEventListener(ME_PLAN_EVENT, checkPlan)
+    return () => {
+      window.removeEventListener(IMPACT_CONFIG_EVENT, checkConfig)
+      window.removeEventListener(ME_PLAN_EVENT, checkPlan)
+    }
   }, [])
 
   return (
@@ -66,6 +75,24 @@ export function ImpactLanding() {
             </Button>
           )}
         </div>
+      </div>
+
+      {/* M&E Plan Builder CTA */}
+      <div className="mx-auto mb-16 max-w-2xl rounded-xl border border-primary/20 bg-primary/5 p-6 text-center">
+        <ClipboardList className="mx-auto mb-3 h-8 w-8 text-primary" />
+        <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+          Evaluation Plan Builder
+        </h2>
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          Not sure where to start? Our guided questionnaire walks you through
+          building a simple monitoring &amp; evaluation plan — no jargon required.
+        </p>
+        <Button asChild variant="outline" className="gap-2">
+          <Link href="/impact/evaluation">
+            {hasMEPlan ? 'View Your M&E Plan' : 'Build Your Plan'}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
       </div>
 
       {/* How it works */}

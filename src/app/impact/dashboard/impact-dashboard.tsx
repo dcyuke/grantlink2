@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -10,6 +10,8 @@ import {
   CheckCircle2,
   Trash2,
   BarChart3,
+  Download,
+  Upload,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PeriodSelector } from '@/components/impact/period-selector'
@@ -22,6 +24,8 @@ import {
   savePeriod,
   deletePeriod,
   saveOrgName,
+  exportAllImpactData,
+  importAllImpactData,
   IMPACT_CONFIG_EVENT,
   IMPACT_DATA_EVENT,
   type ImpactConfig,
@@ -45,7 +49,15 @@ export function ImpactDashboard() {
   const [activePeriodId, setActivePeriodId] = useState<string | null>(null)
   const [draftEntries, setDraftEntries] = useState<Record<string, { value: number; note: string }>>({})
   const [saved, setSaved] = useState(false)
+  const [dirty, setDirty] = useState(false)
   const [orgNameInput, setOrgNameInput] = useState('')
+
+  // Refs for auto-save and beforeunload
+  const saveRef = useRef<() => void>(() => {})
+  const dirtyRef = useRef(false)
+
+  // Keep refs in sync (must be in useEffect, not render body for React 19)
+  useEffect(() => { dirtyRef.current = dirty }, [dirty])
 
   // Load config & data
   const refresh = useCallback(() => {
@@ -67,7 +79,6 @@ export function ImpactDashboard() {
 
   // Redirect if no config
   if (config === null) {
-    // Still loading on first render, show nothing briefly
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <BarChart3 className="mx-auto mb-4 h-10 w-10 text-muted-foreground/40" />
@@ -115,6 +126,7 @@ export function ImpactDashboard() {
     setActivePeriodId(periodId)
     setView('entry')
     setSaved(false)
+    setDirty(false)
   }
 
   const handleSaveEntry = () => {
@@ -130,10 +142,16 @@ export function ImpactDashboard() {
 
     savePeriod({ ...period, entries })
     setSaved(true)
+    setDirty(false)
     setTimeout(() => setSaved(false), 2000)
   }
 
+  // Keep ref in sync for auto-save timeout (useEffect for React 19 purity)
+  useEffect(() => { saveRef.current = handleSaveEntry })
+
   const handleDeletePeriod = (id: string) => {
+    const period = periods.find((p) => p.id === id)
+    if (!window.confirm(`Delete "${period?.label ?? 'this period'}" and all its data? This cannot be undone.`)) return
     deletePeriod(id)
     if (activePeriodId === id) {
       setView('overview')
@@ -158,105 +176,71 @@ export function ImpactDashboard() {
     }
   }
 
-  // ── Entry view ───────────────────────────────────────────────
-  if (view === 'entry' && activePeriodId) {
-    const period = periods.find((p) => p.id === activePeriodId)
-    if (!period) {
-      setView('overview')
-      return null
+  const handleExport = () => {
+    const json = exportAllImpactData()
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `grantlink-impact-backup-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const handleImport = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.json'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (!file) return
+      const reader = new FileReader()
+      reader.onload = (re) => {
+        const text = re.target?.result as string
+        if (importAllImpactData(text)) {
+          refresh()
+        } else {
+          alert('Invalid backup file. Please try again with a valid GrantLink backup.')
+        }
+      }
+      reader.readAsText(file)
     }
+    input.click()
+  }
 
+  // ── Entry view ───────────────────────────────────────────────
+  const activePeriod = (view === 'entry' && activePeriodId)
+    ? periods.find((p) => p.id === activePeriodId)
+    : undefined
+
+  if (view === 'entry' && activePeriod) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-2xl">
-          {/* Header */}
-          <div className="mb-8">
-            <button
-              onClick={() => setView('overview')}
-              className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" />
-              Back to Dashboard
-            </button>
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="font-serif text-2xl font-bold text-foreground">
-                  {period.label}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Enter your data for this period
-                </p>
-              </div>
-              <Button onClick={handleSaveEntry} className="gap-2">
-                {saved ? (
-                  <>
-                    <CheckCircle2 className="h-4 w-4" />
-                    Saved
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" />
-                    Save
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
-
-          {/* Metric inputs by category */}
-          <div className="space-y-8">
-            {(['output', 'outcome', 'impact'] as MetricCategory[]).map((cat) => {
-              const catMetrics = grouped[cat]
-              if (catMetrics.length === 0) return null
-              return (
-                <div key={cat}>
-                  <h2 className="mb-3 font-serif text-lg font-semibold text-foreground">
-                    {CATEGORY_LABELS[cat]}
-                  </h2>
-                  <div className="space-y-3">
-                    {catMetrics.map((m) => (
-                      <MetricInputCard
-                        key={m.id}
-                        metric={m}
-                        value={draftEntries[m.id]?.value ?? 0}
-                        note={draftEntries[m.id]?.note ?? ''}
-                        onChange={(value, note) =>
-                          setDraftEntries((prev) => ({
-                            ...prev,
-                            [m.id]: { value, note },
-                          }))
-                        }
-                      />
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Bottom save */}
-          <div className="mt-8 flex justify-end border-t border-border/30 pt-6">
-            <Button onClick={handleSaveEntry} size="lg" className="gap-2">
-              {saved ? (
-                <>
-                  <CheckCircle2 className="h-4 w-4" />
-                  Saved
-                </>
-              ) : (
-                <>
-                  <Save className="h-4 w-4" />
-                  Save Data
-                </>
-              )}
-            </Button>
-          </div>
-        </div>
-      </div>
+      <EntryView
+        period={activePeriod}
+        metrics={metrics}
+        grouped={grouped}
+        draftEntries={draftEntries}
+        saved={saved}
+        dirty={dirty}
+        onBack={() => {
+          if (dirtyRef.current) saveRef.current()
+          setView('overview')
+        }}
+        onSave={handleSaveEntry}
+        onChange={(metricId, value, note) => {
+          setDraftEntries((prev) => ({
+            ...prev,
+            [metricId]: { value, note },
+          }))
+          setDirty(true)
+        }}
+        saveRef={saveRef}
+        dirtyRef={dirtyRef}
+      />
     )
   }
 
   // ── Overview ─────────────────────────────────────────────────
-  // Compute totals for the most recent period
   const latestPeriod = periods[0] ?? null
   const previousPeriod = periods[1] ?? null
 
@@ -268,7 +252,6 @@ export function ImpactDashboard() {
     return period.entries.find((e) => e.metricId === metricId)?.value ?? 0
   }
 
-  // Build chart data for each metric: value per period (reversed for chronological)
   const chartPeriods = [...periods].reverse()
 
   return (
@@ -290,7 +273,7 @@ export function ImpactDashboard() {
             {config.issueAreaName} · {metrics.length} metrics tracked
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button asChild variant="outline" size="sm" className="gap-1.5">
             <Link href="/impact/report">
               <FileText className="h-3.5 w-3.5" />
@@ -302,6 +285,14 @@ export function ImpactDashboard() {
               <Settings className="h-3.5 w-3.5" />
               Settings
             </Link>
+          </Button>
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={handleExport}>
+            <Download className="h-3.5 w-3.5" />
+            Export
+          </Button>
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={handleImport}>
+            <Upload className="h-3.5 w-3.5" />
+            Import
           </Button>
         </div>
       </div>
@@ -429,7 +420,6 @@ export function ImpactDashboard() {
                       value:
                         p.entries.find((e) => e.metricId === m.id)?.value ?? 0,
                     }))
-                    // Only show chart if there's any data
                     const hasData = chartData.some((d) => d.value > 0)
                     if (!hasData) return null
                     return (
@@ -463,6 +453,143 @@ export function ImpactDashboard() {
             </p>
           </div>
         )}
+    </div>
+  )
+}
+
+// ── Entry View (extracted to avoid hook ordering issues) ──────────
+
+function EntryView({
+  period,
+  metrics,
+  grouped,
+  draftEntries,
+  saved,
+  dirty,
+  onBack,
+  onSave,
+  onChange,
+  saveRef,
+  dirtyRef,
+}: {
+  period: PeriodData
+  metrics: MetricDefinition[]
+  grouped: Record<MetricCategory, MetricDefinition[]>
+  draftEntries: Record<string, { value: number; note: string }>
+  saved: boolean
+  dirty: boolean
+  onBack: () => void
+  onSave: () => void
+  onChange: (metricId: string, value: number, note: string) => void
+  saveRef: React.RefObject<(() => void) | null>
+  dirtyRef: React.RefObject<boolean | null>
+}) {
+  // Auto-save with 3s debounce
+  useEffect(() => {
+    if (!dirty) return
+    const timer = setTimeout(() => {
+      saveRef.current?.()
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [dirty, draftEntries, saveRef])
+
+  // Beforeunload warning
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (dirtyRef.current) {
+        e.preventDefault()
+      }
+    }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [dirtyRef])
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto max-w-2xl">
+        {/* Header */}
+        <div className="mb-8">
+          <button
+            onClick={onBack}
+            className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to Dashboard
+          </button>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="font-serif text-2xl font-bold text-foreground">
+                {period.label}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {dirty ? (
+                  <span className="text-amber-600">Auto-saving in a moment…</span>
+                ) : saved ? (
+                  <span className="text-emerald-600">All changes saved</span>
+                ) : (
+                  'Enter your data for this period'
+                )}
+              </p>
+            </div>
+            <Button onClick={onSave} className="gap-2">
+              {saved ? (
+                <>
+                  <CheckCircle2 className="h-4 w-4" />
+                  Saved
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  Save
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+
+        {/* Metric inputs by category */}
+        <div className="space-y-8">
+          {(['output', 'outcome', 'impact'] as MetricCategory[]).map((cat) => {
+            const catMetrics = grouped[cat]
+            if (catMetrics.length === 0) return null
+            return (
+              <div key={cat}>
+                <h2 className="mb-3 font-serif text-lg font-semibold text-foreground">
+                  {CATEGORY_LABELS[cat]}
+                </h2>
+                <div className="space-y-3">
+                  {catMetrics.map((m) => (
+                    <MetricInputCard
+                      key={m.id}
+                      metric={m}
+                      value={draftEntries[m.id]?.value ?? 0}
+                      note={draftEntries[m.id]?.note ?? ''}
+                      onChange={(value, note) => onChange(m.id, value, note)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Bottom save */}
+        <div className="mt-8 flex justify-end border-t border-border/30 pt-6">
+          <Button onClick={onSave} size="lg" className="gap-2">
+            {saved ? (
+              <>
+                <CheckCircle2 className="h-4 w-4" />
+                Saved
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                Save Data
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

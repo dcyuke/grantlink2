@@ -6,7 +6,9 @@ import Link from 'next/link'
 import {
   ArrowLeft,
   ArrowRight,
+  BarChart3,
   CheckCircle2,
+  Settings,
   GraduationCap,
   Heart,
   Leaf,
@@ -36,7 +38,7 @@ import {
   type MetricCategory,
   type MetricDefinition,
 } from '@/lib/impact-metrics'
-import { saveImpactConfig, type ImpactConfig } from '@/lib/impact-storage'
+import { saveImpactConfig, getImpactConfig, type ImpactConfig } from '@/lib/impact-storage'
 
 // Map slug → lucide icon
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -67,8 +69,40 @@ export function ImpactSetup() {
   const [step, setStep] = useState<1 | 2>(1)
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
   const [selectedMetrics, setSelectedMetrics] = useState<Set<string>>(new Set())
+  const [existingConfig] = useState(() => getImpactConfig())
+  const [confirmed, setConfirmed] = useState(false)
 
   const framework = METRIC_FRAMEWORKS.find((f) => f.slug === selectedSlug)
+
+  // ── Re-setup guard ──────────────────────────────────────────
+  if (existingConfig && !confirmed && step === 1) {
+    return (
+      <div className="mx-auto max-w-lg py-16 text-center">
+        <BarChart3 className="mx-auto mb-4 h-10 w-10 text-primary/60" />
+        <h2 className="mb-2 font-serif text-2xl font-semibold text-foreground">
+          You Already Have Tracking Set Up
+        </h2>
+        <p className="mb-1 text-sm text-muted-foreground">
+          Issue area: <span className="font-medium text-foreground">{existingConfig.issueAreaName}</span>
+        </p>
+        <p className="mb-8 text-sm text-muted-foreground">
+          Starting over will change your metrics but won&apos;t delete existing data.
+        </p>
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Button onClick={() => setConfirmed(true)} variant="outline" className="gap-2">
+            <Settings className="h-4 w-4" />
+            Change Setup
+          </Button>
+          <Button asChild className="gap-2">
+            <Link href="/impact/dashboard">
+              Go to Dashboard
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   // ── Step 1: Choose issue area ────────────────────────────────
   if (step === 1) {
