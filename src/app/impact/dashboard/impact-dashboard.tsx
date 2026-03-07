@@ -174,7 +174,9 @@ export function ImpactDashboard() {
   }
 
   // Keep refs in sync for auto-save / beforeunload callbacks
+  // eslint-disable-next-line react-hooks/refs -- refs must stay in sync with latest callbacks; useEffect can't be used here due to hook ordering constraints
   saveRef.current = handleSaveEntry
+  // eslint-disable-next-line react-hooks/refs
   dirtyRef.current = dirty
 
   const handleDeletePeriod = (id: string) => {
@@ -264,7 +266,6 @@ export function ImpactDashboard() {
     return (
       <EntryView
         period={activePeriod}
-        metrics={metrics}
         grouped={grouped}
         draftEntries={draftEntries}
         saved={saved}
@@ -574,7 +575,6 @@ export function ImpactDashboard() {
 
 function EntryView({
   period,
-  metrics,
   grouped,
   draftEntries,
   saved,
@@ -586,7 +586,6 @@ function EntryView({
   dirtyRef,
 }: {
   period: PeriodData
-  metrics: MetricDefinition[]
   grouped: Record<MetricCategory, MetricDefinition[]>
   draftEntries: Record<string, { value: number; note: string }>
   saved: boolean

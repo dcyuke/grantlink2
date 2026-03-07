@@ -28,6 +28,7 @@ export function PartnerMatcher() {
   useEffect(() => {
     const profile = getOrgProfile()
     if (profile?.focusAreas?.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- pre-fill from localStorage org profile on mount
       setSelectedAreas(profile.focusAreas)
     }
   }, [])

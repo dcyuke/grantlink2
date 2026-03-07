@@ -85,6 +85,7 @@ export function MEPlanBuilder() {
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- initialize from localStorage on mount + subscribe
     loadPlan()
     window.addEventListener(ME_PLAN_EVENT, loadPlan)
     return () => window.removeEventListener(ME_PLAN_EVENT, loadPlan)

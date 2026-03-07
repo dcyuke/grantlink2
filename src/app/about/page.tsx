@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Search, Heart, Mail, User, BarChart3, Building2, ArrowRight } from 'lucide-react'
+import { Search, Heart, Mail, User, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 

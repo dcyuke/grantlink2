@@ -75,6 +75,7 @@ export function DashboardChecklist() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration: must initialize client-only localStorage state after mount
     setMounted(true)
     const completed = new Set<string>()
     for (const item of CHECKLIST_ITEMS) {

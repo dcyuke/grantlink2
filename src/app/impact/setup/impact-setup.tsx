@@ -82,6 +82,7 @@ export function ImpactSetup() {
     const match = profile.focusAreas.find((slug) =>
       METRIC_FRAMEWORKS.some((fw) => fw.slug === slug),
     )
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- pre-fill from localStorage org profile on mount
     if (match) setSelectedSlug(match)
   }, [selectedSlug])
 

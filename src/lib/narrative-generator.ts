@@ -65,16 +65,6 @@ function byCategory(summaries: MetricSummary[], cat: MetricCategory): MetricSumm
   return summaries.filter((s) => s.metric.category === cat)
 }
 
-function listMetrics(items: MetricSummary[], limit: number): string {
-  return items
-    .slice(0, limit)
-    .map((s) => {
-      const changeStr = s.change !== null ? ` (${s.change > 0 ? '+' : ''}${s.change}% vs prior period)` : ''
-      return `${formatNum(s.current)} ${s.metric.unit} — ${s.metric.label}${changeStr}`
-    })
-    .join('\n')
-}
-
 function notesFromPeriod(period: PeriodData): string[] {
   return period.entries
     .filter((e) => e.note && e.note.trim().length > 0)

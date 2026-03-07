@@ -10,7 +10,6 @@ import {
   DollarSign,
   Globe,
   Mail,
-  Calendar,
   CheckCircle2,
   ArrowRight,
   Search,
@@ -187,6 +186,7 @@ export function OrgProfileHub() {
   useEffect(() => {
     const existing = getOrgProfile()
     if (existing) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration: load from localStorage on mount
       setProfile({ ...emptyProfile(), ...existing })
     }
     setLoaded(true)
@@ -235,7 +235,7 @@ export function OrgProfileHub() {
 
   const completionPct = (() => {
     let filled = 0
-    let total = 7
+    const total = 7
     if (profile.name?.trim()) filled++
     if (profile.mission?.trim()) filled++
     if ((profile.focusAreas?.length ?? 0) > 0) filled++

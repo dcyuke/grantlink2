@@ -80,6 +80,7 @@ function NarrativeTextarea({
   // Auto-generate on first render if the field is empty and generated text is available
   useEffect(() => {
     if (!didAutoGenerate && value === '' && generatedText && generatedText.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time auto-generation on mount
       setValue(generatedText)
       saveNarrative(sectionKey, generatedText)
       setDidAutoGenerate(true)
@@ -130,6 +131,7 @@ export function ImpactReport() {
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- initialize from localStorage on mount + subscribe
     refresh()
     window.addEventListener(IMPACT_CONFIG_EVENT, refresh)
     window.addEventListener(IMPACT_DATA_EVENT, refresh)

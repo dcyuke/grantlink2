@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation'
 import {
   Search,
   Bookmark,
-  Bell,
   ClipboardList,
   Building2,
   BarChart3,
