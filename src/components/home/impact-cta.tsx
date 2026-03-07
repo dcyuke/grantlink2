@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowRight, ClipboardList } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -19,17 +18,6 @@ export function ImpactCTA() {
             <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
               Funders want to see outcomes, not just outputs. GrantLink gives you the tools to track what matters and tell your story with data.
             </p>
-          </div>
-
-          {/* Full-width landscape image */}
-          <div className="mb-16 overflow-hidden rounded-3xl">
-            <Image
-              src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1200&q=80"
-              alt="Nonprofit impact and community engagement"
-              width={1200}
-              height={500}
-              className="h-auto w-full object-cover"
-            />
           </div>
 
           {/* Features — clean grid with top borders */}

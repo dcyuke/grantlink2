@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { CheckCircle2, ArrowRight, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FOCUS_AREAS } from '@/lib/constants'
@@ -106,19 +105,7 @@ export function EmailSignup() {
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-        <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2">
-          {/* Image side */}
-          <div className="hidden overflow-hidden rounded-3xl md:block">
-            <Image
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
-              alt="Team working together at a nonprofit"
-              width={800}
-              height={600}
-              className="h-auto w-full object-cover"
-            />
-          </div>
-
-          {/* Form side */}
+        <div className="mx-auto max-w-xl">
           <div>
             <p className="mb-3 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
               Stay Updated

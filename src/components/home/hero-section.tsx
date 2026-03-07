@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import Image from 'next/image'
 
 const QUICK_FILTERS = [
   { label: 'Grants', param: 'types=grant' },
@@ -160,18 +159,6 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
               </Link>
             ))}
           </div>
-        </div>
-
-        {/* Hero Image — full-width landscape with rounded corners */}
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl">
-          <Image
-            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1200&q=80"
-            alt="Nonprofit team collaborating together"
-            width={1200}
-            height={600}
-            className="h-auto w-full object-cover"
-            priority
-          />
         </div>
 
         {/* Tool cards — minimal grid with thin top borders like reference */}

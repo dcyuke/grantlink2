@@ -1,5 +1,4 @@
 import { Building2, Search, BarChart3, FileText } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -51,35 +50,20 @@ export function HowItWorks() {
         </div>
 
         {/* Steps — numbered list with descriptions */}
-        <div className="grid gap-0 md:grid-cols-2">
-          <div className="flex flex-col">
-            {STEPS.map((step) => (
-              <div key={step.num} className="flex gap-5 border-t border-border py-6">
-                <span className="text-sm font-medium tabular-nums text-muted-foreground/50">{step.num}</span>
-                <div>
-                  <h3 className="mb-1 font-medium text-foreground">{step.title}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>
-                </div>
+        <div className="mx-auto max-w-3xl">
+          {STEPS.map((step) => (
+            <div key={step.num} className="flex gap-5 border-t border-border py-6">
+              <span className="text-sm font-medium tabular-nums text-muted-foreground/50">{step.num}</span>
+              <div>
+                <h3 className="mb-1 font-medium text-foreground">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>
               </div>
-            ))}
-            <div className="pt-4">
-              <Button asChild className="rounded-full px-6" variant="default">
-                <Link href="/organization">Get Started</Link>
-              </Button>
             </div>
-          </div>
-
-          {/* Right side — image */}
-          <div className="hidden items-center justify-center md:flex">
-            <div className="overflow-hidden rounded-3xl">
-              <Image
-                src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80"
-                alt="Team collaboration and planning"
-                width={800}
-                height={600}
-                className="h-auto w-full object-cover"
-              />
-            </div>
+          ))}
+          <div className="pt-4">
+            <Button asChild className="rounded-full px-6" variant="default">
+              <Link href="/organization">Get Started</Link>
+            </Button>
           </div>
         </div>
       </div>

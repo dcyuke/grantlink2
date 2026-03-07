@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Search, Heart, Mail, User, Building2 } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
@@ -27,19 +26,6 @@ export default function AboutPage() {
             impact measurement, partner matching, and organizational tools so your team can
             focus on the mission — not the admin.
           </p>
-        </div>
-      </div>
-
-      {/* Full-width image */}
-      <div className="container mx-auto px-4 pb-20">
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl">
-          <Image
-            src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1200&q=80"
-            alt="Diverse team working together"
-            width={1200}
-            height={500}
-            className="h-auto w-full object-cover"
-          />
         </div>
       </div>
 

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   BarChart3,
   Target,
@@ -75,19 +74,6 @@ export function ImpactLanding() {
               </Button>
             )}
           </div>
-        </div>
-      </div>
-
-      {/* Full-width image */}
-      <div className="container mx-auto px-4 pb-20">
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl">
-          <Image
-            src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=1200&q=80"
-            alt="Data visualization and impact tracking"
-            width={1200}
-            height={500}
-            className="h-auto w-full object-cover"
-          />
         </div>
       </div>
 
