@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   BarChart3,
   Target,
@@ -34,161 +35,184 @@ export function ImpactLanding() {
   }, [])
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
       {/* Hero */}
-      <div className="mx-auto max-w-3xl pb-16 pt-8 text-center md:pt-12">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
-          <BarChart3 className="h-4 w-4" />
-          Impact Measurement
-        </div>
-        <h1 className="mb-4 font-serif text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
-          Measure What Matters
-        </h1>
-        <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          Track your nonprofit&apos;s outputs, outcomes, and impact with frameworks
-          designed for your issue area. Generate polished reports for donors,
-          board members, and stakeholders.
-        </p>
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          {hasConfig ? (
-            <>
-              <Button asChild size="lg" className="gap-2">
-                <Link href="/impact/dashboard">
-                  Go to Dashboard
+      <div className="container mx-auto px-4 pb-16 pt-16 md:pt-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="mb-4 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
+            Impact Measurement
+          </p>
+          <h1 className="mb-6 font-serif text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Measure What Matters
+          </h1>
+          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            Track your nonprofit&apos;s outputs, outcomes, and impact with frameworks
+            designed for your issue area. Generate polished reports for donors,
+            board members, and stakeholders.
+          </p>
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            {hasConfig ? (
+              <>
+                <Button asChild size="lg" className="gap-2 rounded-full px-6">
+                  <Link href="/impact/dashboard">
+                    Go to Dashboard
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="gap-2 rounded-full px-6">
+                  <Link href="/impact/report">
+                    View Reports
+                    <FileText className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <Button asChild size="lg" className="gap-2 rounded-full px-6">
+                <Link href="/impact/setup">
+                  Get Started
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="gap-2">
-                <Link href="/impact/report">
-                  View Reports
-                  <FileText className="h-4 w-4" />
-                </Link>
-              </Button>
-            </>
-          ) : (
-            <Button asChild size="lg" className="gap-2">
-              <Link href="/impact/setup">
-                Get Started
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          )}
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Full-width image */}
+      <div className="container mx-auto px-4 pb-20">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl">
+          <Image
+            src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=1200&q=80"
+            alt="Data visualization and impact tracking"
+            width={1200}
+            height={500}
+            className="h-auto w-full object-cover"
+          />
         </div>
       </div>
 
       {/* M&E Plan Builder CTA */}
-      <div className="mx-auto mb-16 max-w-2xl rounded-xl border border-primary/20 bg-primary/5 p-6 text-center">
-        <ClipboardList className="mx-auto mb-3 h-8 w-8 text-primary" />
-        <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
-          Evaluation Plan Builder
-        </h2>
-        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-          Not sure where to start? Our guided questionnaire walks you through
-          building a simple monitoring &amp; evaluation plan — no jargon required.
-        </p>
-        <Button asChild variant="outline" className="gap-2">
-          <Link href="/impact/evaluation">
-            {hasMEPlan ? 'View Your M&E Plan' : 'Build Your Plan'}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Button>
+      <div className="container mx-auto px-4 pb-16">
+        <div className="mx-auto max-w-2xl rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
+          <ClipboardList className="mx-auto mb-3 h-8 w-8 text-primary" />
+          <h2 className="mb-2 font-serif text-xl font-semibold text-foreground">
+            Evaluation Plan Builder
+          </h2>
+          <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+            Not sure where to start? Our guided questionnaire walks you through
+            building a simple monitoring &amp; evaluation plan — no jargon required.
+          </p>
+          <Button asChild variant="outline" className="gap-2 rounded-full">
+            <Link href="/impact/evaluation">
+              {hasMEPlan ? 'View Your M&E Plan' : 'Build Your Plan'}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* How it works */}
-      <div className="mx-auto max-w-4xl pb-20">
-        <h2 className="mb-12 text-center font-serif text-2xl font-semibold text-foreground">
-          How It Works
-        </h2>
-        <div className="grid gap-8 md:grid-cols-3">
-          {[
-            {
-              icon: Target,
-              title: 'Choose Your Metrics',
-              desc: 'Select your issue area and pick from curated metrics — outputs, outcomes, and impact indicators tailored to your work.',
-            },
-            {
-              icon: TrendingUp,
-              title: 'Track Your Progress',
-              desc: 'Enter data monthly, quarterly, or annually. See trends over time with clear visual dashboards.',
-            },
-            {
-              icon: FileText,
-              title: 'Generate Reports',
-              desc: 'Export polished impact reports, donor updates, or board presentations with a single click.',
-            },
-          ].map((step, i) => (
-            <div key={i} className="text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 text-primary">
-                <step.icon className="h-5 w-5" />
+      <div className="container mx-auto px-4 pb-20">
+        <div className="mx-auto max-w-4xl">
+          <p className="mb-3 text-center text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
+            How-to
+          </p>
+          <h2 className="mb-12 text-center font-serif text-2xl font-semibold text-foreground md:text-3xl">
+            How It Works
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                icon: Target,
+                title: 'Choose Your Metrics',
+                desc: 'Select your issue area and pick from curated metrics — outputs, outcomes, and impact indicators tailored to your work.',
+              },
+              {
+                icon: TrendingUp,
+                title: 'Track Your Progress',
+                desc: 'Enter data monthly, quarterly, or annually. See trends over time with clear visual dashboards.',
+              },
+              {
+                icon: FileText,
+                title: 'Generate Reports',
+                desc: 'Export polished impact reports, donor updates, or board presentations with a single click.',
+              },
+            ].map((step, i) => (
+              <div key={i} className="border-t border-border pt-5">
+                <step.icon className="mb-3 h-5 w-5 text-foreground/60" />
+                <h3 className="mb-2 font-medium text-foreground">
+                  {step.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {step.desc}
+                </p>
               </div>
-              <h3 className="mb-2 font-serif text-lg font-semibold text-foreground">
-                {step.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {step.desc}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Benefits */}
-      <div className="mx-auto max-w-3xl border-t border-border/30 py-16">
-        <h2 className="mb-10 text-center font-serif text-2xl font-semibold text-foreground">
-          Built for Small &amp; Mid-Size Nonprofits
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {[
-            {
-              icon: Lightbulb,
-              title: 'Expert-Informed Frameworks',
-              desc: 'Metrics curated for 20 issue areas — the questions funders actually want answered.',
-            },
-            {
-              icon: Users,
-              title: 'Stakeholder-Ready Reports',
-              desc: 'Professional templates for donor updates, board presentations, and grant applications.',
-            },
-            {
-              icon: BarChart3,
-              title: 'Visual Dashboards',
-              desc: 'See your progress at a glance with clear charts and trend indicators.',
-            },
-          ].map((benefit, i) => (
-            <div
-              key={i}
-              className="flex gap-4 rounded-lg border border-border/40 p-5"
-            >
-              <benefit.icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-              <div>
-                <h3 className="mb-1 font-medium text-foreground">
-                  {benefit.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {benefit.desc}
-                </p>
+      <div className="container mx-auto px-4 pb-20">
+        <div className="mx-auto max-w-3xl border-t border-border/30 pt-16">
+          <h2 className="mb-10 text-center font-serif text-2xl font-semibold text-foreground">
+            Built for Small &amp; Mid-Size Nonprofits
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {[
+              {
+                icon: Lightbulb,
+                title: 'Expert-Informed Frameworks',
+                desc: 'Metrics curated for 20 issue areas — the questions funders actually want answered.',
+              },
+              {
+                icon: Users,
+                title: 'Stakeholder-Ready Reports',
+                desc: 'Professional templates for donor updates, board presentations, and grant applications.',
+              },
+              {
+                icon: BarChart3,
+                title: 'Visual Dashboards',
+                desc: 'See your progress at a glance with clear charts and trend indicators.',
+              },
+            ].map((benefit, i) => (
+              <div
+                key={i}
+                className="flex gap-4 rounded-2xl border border-border/40 p-6"
+              >
+                <benefit.icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <div>
+                  <h3 className="mb-1 font-medium text-foreground">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {benefit.desc}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* CTA */}
       {!hasConfig && (
-        <div className="mx-auto max-w-2xl border-t border-border/30 py-16 text-center">
-          <h2 className="mb-3 font-serif text-2xl font-semibold text-foreground">
-            Ready to Measure Your Impact?
-          </h2>
-          <p className="mb-6 text-muted-foreground">
-            It takes less than 2 minutes to set up. Choose your issue area, select
-            your metrics, and start tracking.
-          </p>
-          <Button asChild size="lg" className="gap-2">
-            <Link href="/impact/setup">
-              Start Now — It&apos;s Free
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="container mx-auto px-4 pb-20">
+          <div className="mx-auto max-w-2xl border-t border-border/30 pt-16 text-center">
+            <h2 className="mb-3 font-serif text-2xl font-semibold text-foreground">
+              Ready to Measure Your Impact?
+            </h2>
+            <p className="mb-6 text-muted-foreground">
+              It takes less than 2 minutes to set up. Choose your issue area, select
+              your metrics, and start tracking.
+            </p>
+            <Button asChild size="lg" className="gap-2 rounded-full px-6">
+              <Link href="/impact/setup">
+                Start Now — It&apos;s Free
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       )}
     </div>

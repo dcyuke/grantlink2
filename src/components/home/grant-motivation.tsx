@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 const QUOTES = [
   { text: 'Small teams, big impact. The right tools make the difference.', context: 'That\'s why we built GrantLink.' },
@@ -22,11 +23,30 @@ export function GrantMotivation() {
   const [quote] = useState(() => getDailyQuote())
 
   return (
-    <div className="border-t border-border/20 py-12 text-center">
-      <p className="font-serif text-base italic text-muted-foreground/60">
-        &ldquo;{quote.text}&rdquo;
-      </p>
-      <p className="mt-2 text-xs tracking-wide text-muted-foreground/40">{quote.context}</p>
-    </div>
+    <section className="py-24">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2">
+          {/* Image */}
+          <div className="overflow-hidden rounded-3xl">
+            <Image
+              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80"
+              alt="Community connection and purpose"
+              width={800}
+              height={800}
+              className="aspect-square h-auto w-full object-cover"
+            />
+          </div>
+
+          {/* Large serif quote */}
+          <div>
+            <p className="font-serif text-3xl font-normal leading-snug tracking-tight text-muted-foreground/40 md:text-4xl">
+              &ldquo;{quote.text}&rdquo;
+            </p>
+            <p className="mt-6 text-sm font-medium text-foreground">{quote.context}</p>
+            <p className="text-xs tracking-wide text-muted-foreground/50">Daily motivation from GrantLink</p>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }

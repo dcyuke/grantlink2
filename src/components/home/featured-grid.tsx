@@ -11,13 +11,16 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
   if (opportunities.length === 0) return null
 
   return (
-    <section className="container mx-auto px-4 py-20">
-      <div className="mb-10 flex items-end justify-between">
+    <section className="container mx-auto px-4 py-24">
+      <div className="mb-12 flex items-end justify-between">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">
+          <p className="mb-2 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
+            Featured
+          </p>
+          <h2 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
             Featured Opportunities
           </h2>
-          <p className="mt-1 text-muted-foreground">
+          <p className="mt-2 text-muted-foreground">
             Timely funding opportunities updated daily
           </p>
         </div>
@@ -36,7 +39,7 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
         ))}
       </div>
 
-      <div className="mt-6 text-center md:hidden">
+      <div className="mt-8 text-center md:hidden">
         <Link
           href="/search"
           className="inline-flex items-center gap-1 text-sm font-medium text-primary"

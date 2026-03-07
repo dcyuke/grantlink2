@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Script from "next/script"
-import { Inter, Playfair_Display } from "next/font/google"
+import { DM_Sans, Crimson_Text } from "next/font/google"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { KonamiProvider } from "@/components/easter-eggs/konami-provider"
@@ -9,14 +9,15 @@ import "./globals.css"
 
 const GA_MEASUREMENT_ID = "G-5QW521ZPX4"
 
-const inter = Inter({
+const dmSans = DM_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 })
 
-const playfair = Playfair_Display({
+const crimsonText = Crimson_Text({
   variable: "--font-serif",
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
 })
 
 const SITE_URL = "https://grantlink.org"
@@ -83,7 +84,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
+      <body className={`${dmSans.variable} ${crimsonText.variable} font-sans antialiased`}>
         <KonamiProvider>
           <KeyboardShortcuts />
           <div className="flex min-h-screen flex-col">

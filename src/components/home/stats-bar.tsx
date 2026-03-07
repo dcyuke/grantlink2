@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { FileText, Building2, CalendarClock, TrendingUp } from 'lucide-react'
 
 interface StatsBarProps {
   opportunityCount: number
@@ -48,23 +47,22 @@ export function StatsBar({ opportunityCount, funderCount, totalFunding, deadline
   const deadlineCounter = useAnimatedCounter(deadlinesThisMonth)
 
   const stats = [
-    { icon: FileText, value: oppCounter.count.toLocaleString(), label: 'Opportunities', ref: oppCounter.ref },
-    { icon: Building2, value: funderCounter.count.toLocaleString(), label: 'Funders', ref: funderCounter.ref },
-    { icon: CalendarClock, value: deadlineCounter.count.toLocaleString(), label: 'Deadlines This Month', ref: deadlineCounter.ref },
-    { icon: TrendingUp, value: totalFunding, label: 'Available Funding', ref: null },
+    { value: oppCounter.count.toLocaleString(), label: 'Opportunities', ref: oppCounter.ref },
+    { value: funderCounter.count.toLocaleString(), label: 'Funders', ref: funderCounter.ref },
+    { value: deadlineCounter.count.toLocaleString(), label: 'Deadlines This Month', ref: deadlineCounter.ref },
+    { value: totalFunding, label: 'Available Funding', ref: null },
   ]
 
   return (
-    <section className="border-y border-border/30">
-      <div className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
+    <section className="border-y border-border/50">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center" ref={stat.ref}>
-              <stat.icon className="mx-auto mb-2 h-5 w-5 text-primary/70" />
-              <p className="font-serif text-2xl font-bold text-foreground tabular-nums">
+              <p className="font-serif text-3xl font-bold text-foreground tabular-nums md:text-4xl">
                 {stat.value}
               </p>
-              <p className="text-xs tracking-wide text-muted-foreground/70">{stat.label}</p>
+              <p className="mt-1 text-xs font-medium tracking-wide uppercase text-muted-foreground/60">{stat.label}</p>
             </div>
           ))}
         </div>

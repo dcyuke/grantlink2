@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const QUICK_FILTERS = [
   { label: 'Grants', param: 'types=grant' },
@@ -38,35 +39,30 @@ const TOOL_CARDS = [
     title: 'Find Funding',
     desc: 'Search grants, fellowships, and corporate giving',
     href: '/search',
-    color: 'text-primary bg-primary/10',
   },
   {
     icon: BarChart3,
     title: 'Measure Impact',
     desc: 'Track metrics and generate funder reports',
     href: '/impact',
-    color: 'text-blue-600 bg-blue-100',
   },
   {
     icon: ClipboardCheck,
     title: 'Grant Readiness Assessment',
     desc: 'Assess your grant-readiness with a quick quiz',
     href: '/readiness',
-    color: 'text-amber-600 bg-amber-100',
   },
   {
     icon: Handshake,
     title: 'Match Partners',
     desc: 'Find corporate funders aligned with your mission',
     href: '/partners',
-    color: 'text-violet-600 bg-violet-100',
   },
   {
     icon: Building2,
     title: 'Org Profile',
     desc: 'One profile that powers all your tools',
     href: '/organization',
-    color: 'text-emerald-600 bg-emerald-100',
   },
 ]
 
@@ -100,54 +96,50 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-muted/60 via-background to-background" />
-
-      <div className="container mx-auto px-4 pb-16 pt-24 md:pb-24 md:pt-32">
+      <div className="container mx-auto px-4 pb-12 pt-20 md:pb-20 md:pt-28">
+        {/* Large serif display heading */}
         <div className="mx-auto max-w-4xl text-center">
-          {/* Audience badge */}
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold tracking-wide text-primary">
+          <p className="mb-6 text-sm font-medium tracking-widest uppercase text-muted-foreground/70">
             Built for small &amp; mid-size nonprofits
-          </div>
+          </p>
 
-          {/* Headline */}
-          <h1 className="mb-4 font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mb-6 font-serif text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]">
             Your Nonprofit&apos;s{' '}
             <span className="text-primary">
-              Back Office
+              Back Office.
             </span>
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground/80 md:text-xl">
+
+          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
             Find funding. Measure impact. Tell your story — everything you need in one place, no enterprise budget required.
           </p>
 
           {/* Deadline counter badge */}
           {deadlinesThisMonth != null && deadlinesThisMonth > 0 && (
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
               <CalendarClock className="h-4 w-4" />
               {deadlinesThisMonth} deadline{deadlinesThisMonth === 1 ? '' : 's'} closing this month
             </div>
           )}
 
-          {/* Search bar */}
+          {/* Search bar — pill shape */}
           <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-2xl">
-            <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-card p-1.5 shadow-md shadow-black/[0.03] transition-all focus-within:border-primary/40 focus-within:shadow-primary/5">
-              <div className="flex flex-1 items-center gap-3 px-3">
-                <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
+            <div className="flex items-center gap-2 rounded-full border border-border bg-card p-1.5 shadow-sm transition-all focus-within:border-primary/40 focus-within:shadow-md">
+              <div className="flex flex-1 items-center gap-3 pl-4">
+                <Search className="h-5 w-5 shrink-0 text-muted-foreground/60" />
                 <input
                   id="search-input"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search grants, fellowships, focus areas..."
-                  className="w-full bg-transparent py-2.5 text-base outline-none placeholder:text-muted-foreground/60"
+                  className="w-full bg-transparent py-2.5 text-base outline-none placeholder:text-muted-foreground/50"
                 />
               </div>
-              <Button type="submit" size="lg" className="shrink-0 rounded-lg px-6">
+              <Button type="submit" size="lg" className="shrink-0 rounded-full px-6">
                 Search
               </Button>
             </div>
-            {/* Easter egg message */}
             {secretMessage && (
               <p className="mt-3 animate-[success-pop_0.3s_ease-out] text-sm font-medium text-primary">
                 {secretMessage}
@@ -157,32 +149,44 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
 
           {/* Quick filter pills */}
           <div className="mb-16 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-sm text-muted-foreground/70">Quick search:</span>
+            <span className="text-sm text-muted-foreground/60">Quick search:</span>
             {QUICK_FILTERS.map((filter) => (
               <Link
                 key={filter.label}
                 href={`/search?${filter.param}`}
-                className="rounded-full border border-border/50 bg-transparent px-4 py-1.5 text-sm text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
+                className="rounded-full border border-border/60 bg-transparent px-4 py-1.5 text-sm text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
               >
                 {filter.label}
               </Link>
             ))}
           </div>
+        </div>
 
-          {/* Tool cards — shows the full platform at a glance */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+        {/* Hero Image — full-width landscape with rounded corners */}
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl">
+          <Image
+            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1200&q=80"
+            alt="Nonprofit team collaborating together"
+            width={1200}
+            height={600}
+            className="h-auto w-full object-cover"
+            priority
+          />
+        </div>
+
+        {/* Tool cards — minimal grid with thin top borders like reference */}
+        <div className="mx-auto mt-20 max-w-5xl">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
             {TOOL_CARDS.map((tool) => (
               <Link
                 key={tool.title}
                 href={tool.href}
-                className="group flex flex-col items-center rounded-xl border border-border/50 bg-card p-4 text-center shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
+                className="group flex flex-col border-t border-border pt-5"
               >
-                <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${tool.color}`}>
-                  <tool.icon className="h-5 w-5" />
-                </div>
+                <tool.icon className="mb-3 h-5 w-5 text-foreground/70 transition-colors group-hover:text-primary" />
                 <h3 className="text-sm font-semibold text-foreground">{tool.title}</h3>
-                <p className="mt-1 text-[11px] leading-snug text-muted-foreground">{tool.desc}</p>
-                <ArrowRight className="mt-2 h-3.5 w-3.5 text-muted-foreground/40 transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
+                <p className="mt-1 text-[12px] leading-snug text-muted-foreground">{tool.desc}</p>
+                <ArrowRight className="mt-3 h-3.5 w-3.5 text-muted-foreground/30 transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
               </Link>
             ))}
           </div>

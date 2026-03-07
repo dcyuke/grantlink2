@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Bell, CheckCircle2, ArrowRight, Mail } from 'lucide-react'
+import Image from 'next/image'
+import { CheckCircle2, ArrowRight, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FOCUS_AREAS } from '@/lib/constants'
 import { emailSignupSchema } from '@/types/email-signup'
@@ -26,7 +27,6 @@ export function EmailSignup() {
     e.preventDefault()
     setErrorMessage('')
 
-    // Validate that "similar_only" has focus areas selected
     if (alertPref === 'similar_only' && selectedAreas.length === 0) {
       setErrorMessage('Please select at least one focus area to receive similar grant alerts.')
       setStatus('error')
@@ -55,20 +55,17 @@ export function EmailSignup() {
     saveEmailSignup({ email, focusAreas, alertPreference: alertPref })
     setStatus('success')
 
-    // Send welcome email in the background (don't block UI)
     fetch('/api/send-welcome', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, focusAreas, alertPreference: alertPref }),
-    }).catch(() => {
-      // Email send failure is non-blocking — signup still succeeds
-    })
+    }).catch(() => {})
   }
 
   if (status === 'success') {
     const confettiColors = ['bg-emerald-500', 'bg-amber-500', 'bg-indigo-500', 'bg-pink-500', 'bg-emerald-400', 'bg-amber-400']
     return (
-      <section className="bg-muted/30">
+      <section>
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto max-w-xl text-center">
             <div className="relative mx-auto mb-4 flex h-14 w-14 items-center justify-center">
@@ -107,118 +104,124 @@ export function EmailSignup() {
   }
 
   return (
-    <section className="bg-muted/30">
-      <div className="container mx-auto px-4 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          {/* Icon */}
-          <div className="mx-auto mb-6">
-            <Bell className="mx-auto h-8 w-8 text-primary/60" />
+    <section className="py-24">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2">
+          {/* Image side */}
+          <div className="hidden overflow-hidden rounded-3xl md:block">
+            <Image
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
+              alt="Team working together at a nonprofit"
+              width={800}
+              height={600}
+              className="h-auto w-full object-cover"
+            />
           </div>
 
-          {/* Heading */}
-          <h2 className="mb-3 font-serif text-2xl font-bold text-foreground md:text-3xl">
-            Get New Grant Alerts
-          </h2>
-          <p className="mb-10 text-muted-foreground/80">
-            Be the first to know when new grants matching your interests are posted.
-          </p>
+          {/* Form side */}
+          <div>
+            <p className="mb-3 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
+              Stay Updated
+            </p>
+            <h2 className="mb-3 font-serif text-3xl font-bold text-foreground">
+              Get New Grant Alerts
+            </h2>
+            <p className="mb-8 text-muted-foreground">
+              Be the first to know when new grants matching your interests are posted.
+            </p>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="mx-auto max-w-lg">
-            {/* Email input */}
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                    if (errorMessage) setErrorMessage('')
-                    if (status === 'error') setStatus('idle')
-                  }}
-                  placeholder="Enter your email address"
-                  className="w-full rounded-lg border border-border bg-card py-2.5 pl-10 pr-3 text-sm outline-none transition-colors focus:border-primary/40"
-                />
+            <form onSubmit={handleSubmit}>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value)
+                      if (errorMessage) setErrorMessage('')
+                      if (status === 'error') setStatus('idle')
+                    }}
+                    placeholder="Enter your email address"
+                    className="w-full rounded-full border border-border bg-card py-2.5 pl-10 pr-3 text-sm outline-none transition-colors focus:border-primary/40"
+                  />
+                </div>
+                <Button type="submit" className="shrink-0 rounded-full">
+                  Get Alerts
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                </Button>
               </div>
-              <Button type="submit" className="shrink-0">
-                Get Alerts
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </Button>
-            </div>
 
-            {/* Error message */}
-            {errorMessage && (
-              <p className="mt-2 text-left text-sm text-destructive">{errorMessage}</p>
-            )}
-
-            {/* Alert preference toggles */}
-            <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-foreground">
-                What grants do you want to hear about?
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setAlertPref('similar_only')}
-                  className={cn(
-                    'rounded-lg border px-4 py-2 text-sm transition-all',
-                    alertPref === 'similar_only'
-                      ? 'border-primary bg-primary/10 font-medium text-primary'
-                      : 'border-border text-muted-foreground hover:border-primary/30'
-                  )}
-                >
-                  Similar grants only
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAlertPref('all_grants')}
-                  className={cn(
-                    'rounded-lg border px-4 py-2 text-sm transition-all',
-                    alertPref === 'all_grants'
-                      ? 'border-primary bg-primary/10 font-medium text-primary'
-                      : 'border-border text-muted-foreground hover:border-primary/30'
-                  )}
-                >
-                  All new grants
-                </button>
-              </div>
-            </div>
-
-            {/* Focus area interests */}
-            <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-foreground">
-                Select your interests{' '}
-                <span className="font-normal text-muted-foreground">
-                  {alertPref === 'similar_only' ? '(required)' : '(optional)'}
-                </span>
-              </p>
-              {alertPref === 'similar_only' && selectedAreas.length === 0 && (
-                <p className="mb-3 text-xs text-amber-600">
-                  Select at least one focus area to receive similar grant alerts.
-                </p>
+              {errorMessage && (
+                <p className="mt-2 text-left text-sm text-destructive">{errorMessage}</p>
               )}
-              <div className="flex flex-wrap justify-center gap-2">
-                {FOCUS_AREAS.map((area) => {
-                  const isSelected = selectedAreas.includes(area.slug)
-                  return (
-                    <button
-                      key={area.slug}
-                      type="button"
-                      onClick={() => toggleArea(area.slug)}
-                      className={`rounded-full border px-3 py-1.5 text-xs transition-all ${
-                        isSelected
-                          ? 'border-primary bg-primary/10 font-medium text-primary'
-                          : 'border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground'
-                      }`}
-                    >
-                      {area.name}
-                    </button>
-                  )
-                })}
+
+              <div className="mt-6">
+                <p className="mb-3 text-sm font-medium text-foreground">
+                  What grants do you want to hear about?
+                </p>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setAlertPref('similar_only')}
+                    className={cn(
+                      'rounded-full border px-4 py-2 text-sm transition-all',
+                      alertPref === 'similar_only'
+                        ? 'border-primary bg-primary/10 font-medium text-primary'
+                        : 'border-border text-muted-foreground hover:border-primary/30'
+                    )}
+                  >
+                    Similar grants only
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAlertPref('all_grants')}
+                    className={cn(
+                      'rounded-full border px-4 py-2 text-sm transition-all',
+                      alertPref === 'all_grants'
+                        ? 'border-primary bg-primary/10 font-medium text-primary'
+                        : 'border-border text-muted-foreground hover:border-primary/30'
+                    )}
+                  >
+                    All new grants
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+
+              <div className="mt-6">
+                <p className="mb-3 text-sm font-medium text-foreground">
+                  Select your interests{' '}
+                  <span className="font-normal text-muted-foreground">
+                    {alertPref === 'similar_only' ? '(required)' : '(optional)'}
+                  </span>
+                </p>
+                {alertPref === 'similar_only' && selectedAreas.length === 0 && (
+                  <p className="mb-3 text-xs text-amber-600">
+                    Select at least one focus area to receive similar grant alerts.
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-2">
+                  {FOCUS_AREAS.map((area) => {
+                    const isSelected = selectedAreas.includes(area.slug)
+                    return (
+                      <button
+                        key={area.slug}
+                        type="button"
+                        onClick={() => toggleArea(area.slug)}
+                        className={`rounded-full border px-3 py-1.5 text-xs transition-all ${
+                          isSelected
+                            ? 'border-primary bg-primary/10 font-medium text-primary'
+                            : 'border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground'
+                        }`}
+                      >
+                        {area.name}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>
