@@ -77,7 +77,7 @@ export function AuthButton() {
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
             >
               <LayoutDashboard className="h-4 w-4" />
-              Dashboard
+              My Dashboard
             </Link>
             <button
               type="button"

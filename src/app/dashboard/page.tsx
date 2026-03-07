@@ -89,7 +89,7 @@ export default async function DashboardPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { icon: Building2, title: 'Organization Profile', desc: 'Set up your org identity', href: '/organization', color: 'text-emerald-600' },
-            { icon: ClipboardCheck, title: 'Readiness Check', desc: 'Assess your grant-readiness', href: '/readiness', color: 'text-amber-600' },
+            { icon: ClipboardCheck, title: 'Grant Readiness Assessment', desc: 'Assess your grant-readiness', href: '/readiness', color: 'text-amber-600' },
             { icon: FileText, title: 'Impact Reports', desc: 'Generate funder reports', href: '/impact/report', color: 'text-blue-600' },
             { icon: Handshake, title: 'Partner Matcher', desc: 'Find aligned corporate funders', href: '/partners', color: 'text-violet-600' },
           ].map((tool) => (

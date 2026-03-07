@@ -69,8 +69,8 @@ export function Header() {
             href="/readiness"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
           >
-            Readiness
-          </Link>
+            Grant Readiness
+      </Link>
           <Link
             href="/impact"
             className="text-[13px] font-medium tracking-wide text-muted-foreground/80 transition-colors hover:text-foreground"
@@ -124,7 +124,7 @@ export function Header() {
               className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Readiness Check
+              Grant Readiness Assessment
             </Link>
             <Link
               href="/impact"
@@ -146,7 +146,7 @@ export function Header() {
               className="rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Dashboard
+              My Dashboard
             </Link>
             <Link
               href="/about"

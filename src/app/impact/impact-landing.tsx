@@ -7,7 +7,6 @@ import {
   Target,
   FileText,
   ArrowRight,
-  CheckCircle2,
   ClipboardList,
   Lightbulb,
   TrendingUp,
@@ -140,11 +139,6 @@ export function ImpactLanding() {
         </h2>
         <div className="grid gap-6 sm:grid-cols-2">
           {[
-            {
-              icon: CheckCircle2,
-              title: 'No Account Required',
-              desc: 'Your data stays in your browser. No sign-up, no fees, no data sharing.',
-            },
             {
               icon: Lightbulb,
               title: 'Expert-Informed Frameworks',

@@ -49,7 +49,7 @@ const TOOL_CARDS = [
   },
   {
     icon: ClipboardCheck,
-    title: 'Check Readiness',
+    title: 'Grant Readiness Assessment',
     desc: 'Assess your grant-readiness with a quick quiz',
     href: '/readiness',
     color: 'text-amber-600 bg-amber-100',
@@ -105,6 +105,11 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
 
       <div className="container mx-auto px-4 pb-16 pt-24 md:pb-24 md:pt-32">
         <div className="mx-auto max-w-4xl text-center">
+          {/* Audience badge */}
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold tracking-wide text-primary">
+            Built for small &amp; mid-size nonprofits
+          </div>
+
           {/* Headline */}
           <h1 className="mb-4 font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
             Your Nonprofit&apos;s{' '}
@@ -113,10 +118,7 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
             </span>
           </h1>
           <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground/80 md:text-xl">
-            Find funding. Measure impact. Prove your worth.{' '}
-            <span className="text-foreground/70">
-              Everything small and mid-size nonprofits need — in one place.
-            </span>
+            Find funding. Measure impact. Tell your story — everything you need in one place, no enterprise budget required.
           </p>
 
           {/* Deadline counter badge */}

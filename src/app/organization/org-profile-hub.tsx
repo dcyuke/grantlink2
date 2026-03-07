@@ -118,7 +118,7 @@ function ConnectedTools({ profile }: { profile: OrgProfile }) {
     },
     {
       icon: ClipboardCheck,
-      label: 'Readiness Check',
+      label: 'Grant Readiness Assessment',
       href: '/readiness',
       connected: hasOrgType,
       desc: hasOrgType
@@ -530,7 +530,7 @@ export function OrgProfileHub() {
                     : 'Save your profile to connect your tools'}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Your data stays in your browser. No account required.
+                  Your profile powers every tool in GrantLink.
                 </p>
               </div>
               <Button onClick={handleSave} className="gap-2">

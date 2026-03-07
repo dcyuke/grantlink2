@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 export const metadata: Metadata = {
   title: 'About | GrantLink',
   description:
-    'GrantLink is the nonprofit back office — find funding, measure impact, and prove your worth, all in one place.',
+    'GrantLink is the nonprofit back office — find funding, measure impact, and tell your story, all in one place.',
 }
 
 export default function AboutPage() {

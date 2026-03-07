@@ -15,7 +15,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              The nonprofit back office — find funding, measure impact, and prove your worth, all in one place.
+              The nonprofit back office — find funding, measure impact, and tell your story, all in one place.
             </p>
           </div>
 
