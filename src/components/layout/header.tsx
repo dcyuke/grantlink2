@@ -76,7 +76,7 @@ export function Header() {
               href="/impact"
               className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              Impact
+              Impact Data
             </Link>
             <Link
               href="/organization"
@@ -135,7 +135,7 @@ export function Header() {
               className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Impact & M&E
+              Impact Data
             </Link>
             <Link
               href="/organization"

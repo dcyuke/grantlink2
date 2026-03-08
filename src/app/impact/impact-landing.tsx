@@ -11,6 +11,8 @@ import {
   Lightbulb,
   TrendingUp,
   Users,
+  Upload,
+  Database,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getImpactConfig, IMPACT_CONFIG_EVENT } from '@/lib/impact-storage'
@@ -74,6 +76,36 @@ export function ImpactLanding() {
               </Button>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Data Import & View */}
+      <div className="container mx-auto px-4 pb-12">
+        <div className="mx-auto grid max-w-2xl gap-4 sm:grid-cols-2">
+          <Link
+            href="/impact/import"
+            className="flex gap-4 rounded-2xl border border-border/40 p-6 transition-colors hover:border-primary/30 hover:bg-primary/5"
+          >
+            <Upload className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+            <div>
+              <h3 className="mb-1 font-medium text-foreground">Import Data</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Upload CSV, Excel, or paste data — we&apos;ll organize it automatically.
+              </p>
+            </div>
+          </Link>
+          <Link
+            href="/impact/data"
+            className="flex gap-4 rounded-2xl border border-border/40 p-6 transition-colors hover:border-primary/30 hover:bg-primary/5"
+          >
+            <Database className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+            <div>
+              <h3 className="mb-1 font-medium text-foreground">View Imported Data</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Interactive charts and data tables from your imported datasets.
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
 

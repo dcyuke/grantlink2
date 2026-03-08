@@ -38,7 +38,7 @@ export default function AboutPage() {
                 <h2 className="font-serif text-2xl font-semibold text-foreground">Our Mission</h2>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                To celebrate, serve, and empower small and mid-sized nonprofits to achieve extraordinary impact.
+                To serve and empower small and mid-sized nonprofits to achieve extraordinary impact.
               </p>
             </section>
 
