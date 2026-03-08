@@ -4,11 +4,11 @@ import { PartnerMatcher } from './partner-matcher'
 export const metadata: Metadata = {
   title: 'Funder & Partner Matching | GrantLink',
   description:
-    'Find corporate partners, collaborative funds, and intermediary grantmakers aligned with your nonprofit\'s mission. Match your focus areas with funders actively supporting causes like yours.',
+    'Find corporate partners, collaborative funds, and intermediary grantmakers for small and mid-sized nonprofits. Match your focus areas with funders who support organizations like yours.',
   openGraph: {
     title: 'Funder & Partner Matching | GrantLink',
     description:
-      'Find corporate partners, collaborative funds, and intermediary grantmakers aligned with your mission.',
+      'Find corporate partners and grantmakers for small and mid-sized nonprofits.',
     url: 'https://grantlink.org/partners',
   },
 }
@@ -23,8 +23,8 @@ export default function PartnersPage() {
         </h1>
         <p className="text-lg leading-relaxed text-muted-foreground">
           Discover corporate partners, collaborative funds, and intermediary grantmakers
-          aligned with your mission. Filter by focus area and partnership type to find the
-          best fit.
+          who work with small and mid-sized nonprofits. Filter by focus area and partnership
+          type to find the best fit.
         </p>
       </div>
 

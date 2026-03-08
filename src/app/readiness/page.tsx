@@ -4,11 +4,11 @@ import { ReadinessQuiz } from './readiness-quiz'
 export const metadata: Metadata = {
   title: 'Grant Readiness Self-Assessment | GrantLink',
   description:
-    'Find out if your nonprofit is ready to apply for grants. This free self-assessment helps you identify strengths and areas to strengthen before applying.',
+    'Find out if your small or mid-sized nonprofit is ready to apply for grants. This free self-assessment helps lean teams identify strengths and areas to strengthen before applying.',
   openGraph: {
     title: 'Grant Readiness Self-Assessment | GrantLink',
     description:
-      'Find out if your nonprofit is ready to apply for grants.',
+      'Find out if your small or mid-sized nonprofit is ready to apply for grants.',
     url: 'https://grantlink.org/readiness',
   },
 }
@@ -23,8 +23,8 @@ export default function ReadinessPage() {
             Grant Readiness Self-Assessment
           </h1>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Answer a few quick questions to see how prepared your organization is to
-            pursue grant funding — and get tailored tips to strengthen your applications.
+            Answer a few quick questions to see how prepared your small or mid-sized
+            nonprofit is to pursue grant funding — and get tailored tips to strengthen your applications.
           </p>
         </div>
 

@@ -7,19 +7,24 @@ export const metadata: Metadata = {
 }
 
 interface LoginPageProps {
-  searchParams: Promise<{ redirect?: string; error?: string }>
+  searchParams: Promise<{ redirect?: string; error?: string; mode?: string }>
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams
+  const isSignup = params.mode === 'signup'
 
   return (
     <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-2xl font-bold text-foreground">Welcome back</h1>
+          <h1 className="mb-2 text-2xl font-bold text-foreground">
+            {isSignup ? 'Create your free account' : 'Welcome back'}
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Log in to save grants, track applications, and get personalized alerts.
+            {isSignup
+              ? 'Join thousands of small and mid-sized nonprofits using GrantLink.'
+              : 'Log in to save grants, track applications, and get personalized alerts.'}
           </p>
         </div>
 
@@ -29,7 +34,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </div>
         )}
 
-        <AuthForm mode="login" redirectTo={params.redirect} />
+        <AuthForm mode={isSignup ? 'signup' : 'login'} redirectTo={params.redirect} />
       </div>
     </div>
   )

@@ -8,7 +8,7 @@ const STEPS = [
     icon: Building2,
     title: 'Set Up Your Profile',
     description:
-      'Tell us about your nonprofit — mission, focus areas, budget — and every tool becomes personalized to your work.',
+      'Tell us about your nonprofit — mission, focus areas, team size — and every tool adapts to fit your organization.',
   },
   {
     num: '02',
@@ -22,14 +22,14 @@ const STEPS = [
     icon: BarChart3,
     title: 'Measure Your Impact',
     description:
-      'Choose from 20 issue-area frameworks. Enter data, track trends over time, and see your progress at a glance.',
+      'Start collecting outcome data with expert-curated frameworks for 20 issue areas. The data you gather today becomes the evidence that wins grants tomorrow.',
   },
   {
     num: '04',
     icon: FileText,
     title: 'Report to Stakeholders',
     description:
-      'Generate polished donor updates, board presentations, and grant reports — ready to share or print.',
+      'Generate polished donor updates, board presentations, and grant reports — even with a one-person team.',
   },
 ]
 
@@ -45,7 +45,7 @@ export function HowItWorks() {
             How GrantLink Works
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-            From setup to reporting — a connected workflow for your whole team.
+            From setup to reporting — a connected workflow designed for lean nonprofit teams.
           </p>
         </div>
 

@@ -15,7 +15,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground/70">
-              The nonprofit back office — find funding, measure impact, and tell your story, all in one place.
+              Free tools that help small and mid-sized nonprofits find funding, measure impact, and tell their story.
             </p>
           </div>
 
@@ -108,7 +108,7 @@ export function Footer() {
 
         <div className="mt-10 border-t border-border/40 pt-6">
           <p className="text-center text-xs text-muted-foreground/50">
-            &copy; {new Date().getFullYear()} GrantLink. Built to help mission-driven organizations find the funding they deserve.
+            &copy; {new Date().getFullYear()} GrantLink. Built for small and mid-sized nonprofits doing big work.
           </p>
         </div>
       </div>

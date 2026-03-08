@@ -114,7 +114,7 @@ export function EmailSignup() {
               Get New Grant Alerts
             </h2>
             <p className="mb-8 text-muted-foreground">
-              Be the first to know when new grants matching your interests are posted.
+              Be the first to know when new grants for small and mid-sized nonprofits are posted.
             </p>
 
             <form onSubmit={handleSubmit}>

@@ -27,7 +27,7 @@ export function CategoryCards({ categories }: CategoryCardsProps) {
             Browse by Focus Area
           </h2>
           <p className="mx-auto mt-3 max-w-md text-muted-foreground">
-            Find opportunities aligned with your mission
+            Find opportunities sized right for your nonprofit
           </p>
         </div>
 

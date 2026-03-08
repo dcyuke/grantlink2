@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 export const metadata: Metadata = {
   title: 'About | GrantLink',
   description:
-    'GrantLink is the nonprofit back office — find funding, measure impact, and tell your story, all in one place.',
+    'GrantLink helps small and mid-sized nonprofits find funding, measure impact, and tell their story — all in one free platform.',
 }
 
 export default function AboutPage() {
@@ -22,9 +22,9 @@ export default function AboutPage() {
             About GrantLink
           </h1>
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            The nonprofit back office in a browser. GrantLink brings together grant discovery,
-            impact measurement, partner matching, and organizational tools so your team can
-            focus on the mission — not the admin.
+            GrantLink empowers small and mid-sized nonprofits with the tools that large
+            organizations take for granted — grant discovery, impact measurement, partner matching,
+            and reporting — so lean teams can focus on the mission, not the admin.
           </p>
         </div>
       </div>
@@ -38,11 +38,11 @@ export default function AboutPage() {
                 <h2 className="font-serif text-2xl font-semibold text-foreground">Our Mission</h2>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Small and mid-size nonprofits do extraordinary work with limited resources.
+                Small and mid-sized nonprofits do extraordinary work with limited resources.
                 We believe they deserve professional-grade tools without enterprise-grade
                 price tags. GrantLink provides a connected suite of free tools — from funding
-                discovery to impact reporting — so that a two-person team can operate like a
-                well-staffed back office.
+                discovery to impact reporting — so that even a two-person team can operate
+                with the capacity of a much larger organization.
               </p>
             </section>
 
@@ -54,7 +54,7 @@ export default function AboutPage() {
               <div className="grid gap-6 sm:grid-cols-2">
                 {[
                   { title: 'Grant Discovery', desc: 'Search thousands of grants, fellowships, prizes, and corporate giving programs. Filter by amount, deadline, focus area, and eligibility.' },
-                  { title: 'Impact Measurement', desc: 'Track outputs, outcomes, and impact with expert-informed frameworks for 20 issue areas.' },
+                  { title: 'Impact Measurement', desc: 'Collect the outcome data that funders want to see. Expert-curated frameworks for 20 issue areas guide you on exactly what to track.' },
                   { title: 'M&E Plan Builder', desc: 'Build a monitoring and evaluation plan in minutes with our guided questionnaire.' },
                   { title: 'Partner Matcher', desc: 'Find corporate funders aligned with your focus areas and partnership style.' },
                   { title: 'Readiness Assessment', desc: 'A quick self-assessment to identify where your org stands for grant applications.' },
@@ -106,9 +106,9 @@ export default function AboutPage() {
                 how I approach practical tools that support mission-driven work.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                GrantLink is designed to be the back office that small nonprofits
-                never had — a connected set of tools that help you find funding,
-                prove your impact, and stay organized, all in one place.
+                GrantLink is designed to give small and mid-sized nonprofits the
+                operational tools they&apos;ve always needed — a connected platform that
+                helps you find funding, prove your impact, and stay organized.
               </p>
             </div>
           </section>
@@ -133,7 +133,7 @@ export default function AboutPage() {
           <div className="mt-16 rounded-2xl border border-primary/20 bg-primary/5 p-10 text-center">
             <h2 className="mb-2 font-serif text-2xl font-semibold text-foreground">Ready to get started?</h2>
             <p className="mb-6 text-muted-foreground">
-              Set up your organization profile and let every tool work for you.
+              Set up your organization profile and get access to every tool — free for small and mid-sized nonprofits.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button asChild size="lg" className="gap-2 rounded-full px-6">

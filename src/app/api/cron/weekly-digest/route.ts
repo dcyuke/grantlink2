@@ -158,7 +158,7 @@ function buildDigestEmail(
       return `
         <tr>
           <td style="padding: 16px 0; border-bottom: 1px solid #f0f0f0;">
-            <a href="https://grantlink.org/opportunity/${opp.slug}" style="color: #16a34a; font-size: 16px; font-weight: 600; text-decoration: none;">${opp.title}</a>
+            <a href="https://grantlink.org/opportunity/${opp.slug}" style="color: #5C7C5E; font-size: 16px; font-weight: 600; text-decoration: none;">${opp.title}</a>
             ${funder?.name ? `<div style="color: #888; font-size: 13px; margin-top: 4px;">by ${funder.name}</div>` : ''}
             ${opp.summary ? `<div style="color: #555; font-size: 14px; margin-top: 6px; line-height: 1.5;">${(opp.summary as string).slice(0, 160)}${(opp.summary as string).length > 160 ? '...' : ''}</div>` : ''}
             <div style="margin-top: 8px; font-size: 13px; color: #888;">
@@ -172,13 +172,15 @@ function buildDigestEmail(
     .join('')
 
   return `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px; color: #1a1a1a;">
       <div style="text-align: center; margin-bottom: 32px;">
-        <h1 style="color: #16a34a; font-size: 24px; margin: 0;">Grant<span style="color: #15803d;">Link</span></h1>
+        <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -0.5px;">
+          Grant<span style="color: #5C7C5E;">Link</span>
+        </h1>
         <p style="color: #888; font-size: 14px; margin-top: 4px;">Weekly Grant Alert</p>
       </div>
 
-      <h2 style="color: #1a1a1a; font-size: 20px; margin-bottom: 8px;">
+      <h2 style="font-size: 20px; font-weight: 600; margin: 0 0 8px;">
         ${opps.length} New Opportunit${opps.length === 1 ? 'y' : 'ies'} This Week
       </h2>
 
@@ -195,7 +197,7 @@ function buildDigestEmail(
       ${
         opps.length > 10
           ? `<p style="text-align: center; margin-top: 24px;">
-              <a href="https://grantlink.org/search?newThisWeek=true" style="color: #16a34a; font-size: 14px;">
+              <a href="https://grantlink.org/search?newThisWeek=true" style="color: #5C7C5E; font-size: 14px;">
                 View all ${opps.length} new opportunities →
               </a>
             </p>`
@@ -203,16 +205,17 @@ function buildDigestEmail(
       }
 
       <div style="text-align: center; margin-top: 32px;">
-        <a href="https://grantlink.org/search" style="display: inline-block; background-color: #16a34a; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+        <a href="https://grantlink.org/search" style="display: inline-block; background-color: #5C7C5E; color: #ffffff; padding: 12px 32px; border-radius: 9999px; text-decoration: none; font-size: 15px; font-weight: 600;">
           Browse All Grants
         </a>
       </div>
 
       <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0 16px;" />
 
-      <p style="color: #999; font-size: 12px; text-align: center;">
-        You're receiving this because you signed up for grant alerts at <a href="https://grantlink.org" style="color: #999;">grantlink.org</a>.<br />
-        <a href="https://grantlink.org/api/unsubscribe?token=${subscriber.unsubscribe_token}" style="color: #999;">Unsubscribe</a>
+      <p style="color: #aaa; font-size: 12px; text-align: center; line-height: 1.5; margin: 0;">
+        <a href="https://grantlink.org" style="color: #5C7C5E; text-decoration: none;">GrantLink</a>
+        &mdash; Free tools for small and mid-sized nonprofits.<br />
+        <a href="https://grantlink.org/api/unsubscribe?token=${subscriber.unsubscribe_token}" style="color: #aaa;">Unsubscribe</a>
       </p>
     </div>
   `

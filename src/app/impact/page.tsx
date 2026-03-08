@@ -4,7 +4,7 @@ import { ImpactLanding } from './impact-landing'
 export const metadata: Metadata = {
   title: 'Impact Measurement | GrantLink',
   description:
-    'Track your nonprofit\'s outputs, outcomes, and impact. Choose your issue area, select the right metrics, and generate polished reports for donors and stakeholders.',
+    'Free impact measurement tools designed for small and mid-sized nonprofits. Choose your issue area, track the right metrics, and generate polished reports for donors and stakeholders.',
   openGraph: {
     title: 'Impact Measurement | GrantLink',
     description:

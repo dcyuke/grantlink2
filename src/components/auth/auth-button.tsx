@@ -45,9 +45,14 @@ export function AuthButton() {
 
   if (!user) {
     return (
-      <Button asChild size="sm" variant="outline">
-        <Link href="/login">Log in</Link>
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button asChild size="sm" variant="ghost" className="text-muted-foreground">
+          <Link href="/login">Log in</Link>
+        </Button>
+        <Button asChild size="sm">
+          <Link href="/login?mode=signup">Sign up free</Link>
+        </Button>
+      </div>
     )
   }
 

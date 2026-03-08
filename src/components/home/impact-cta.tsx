@@ -13,10 +13,10 @@ export function ImpactCTA() {
               Impact
             </p>
             <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Show Your Impact, Not Just Your Activities
+              Data Wins Grants. Are You Collecting Yours?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-              Funders want to see outcomes, not just outputs. GrantLink gives you the tools to track what matters and tell your story with data.
+              82% of funders say measurable outcomes influence their funding decisions. Small and mid-sized nonprofits that track their impact are 3× more likely to secure repeat funding — yet most lack the tools to do it. GrantLink changes that.
             </p>
           </div>
 
@@ -24,16 +24,16 @@ export function ImpactCTA() {
           <div className="mb-12 grid gap-8 md:grid-cols-3">
             {[
               {
-                title: 'Right Metrics',
-                desc: 'Frameworks for 20 issue areas with outputs, outcomes, and impact indicators.',
+                title: 'Know What to Measure',
+                desc: 'Expert-curated metrics for 20 issue areas tell you exactly what data to collect — no evaluation consultant needed.',
               },
               {
-                title: 'Visual Dashboard',
-                desc: 'Track data over time. See trends and compare reporting periods at a glance.',
+                title: 'See the Trends',
+                desc: 'Track data over time to spot what\u2019s working. Funders want to see growth — now you can show it.',
               },
               {
-                title: 'Polished Reports',
-                desc: 'Export donor updates, board presentations, and grant reports — print-ready.',
+                title: 'Prove It to Funders',
+                desc: 'Turn your data into polished reports that demonstrate outcomes, not just activities.',
               },
             ].map((item, i) => (
               <div key={i} className="border-t border-border pt-5">

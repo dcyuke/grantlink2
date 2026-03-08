@@ -45,6 +45,7 @@ import {
   type MetricCategory,
 } from '@/lib/impact-metrics'
 import { getOrgProfile } from '@/lib/org-profile-storage'
+import { AnalyticsPanel } from '@/components/impact/analytics-panel'
 
 type View = 'overview' | 'entry'
 
@@ -493,6 +494,9 @@ export function ImpactDashboard() {
           </div>
         </div>
       )}
+
+      {/* Analytics & Insights panel */}
+      <AnalyticsPanel metrics={metrics} periods={periods} />
 
       {/* Charts — one per metric across periods */}
       {chartPeriods.length > 0 && (

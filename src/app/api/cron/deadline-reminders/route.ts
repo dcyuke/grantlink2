@@ -97,37 +97,39 @@ async function handleReminders(request: Request) {
           to: [userEmail],
           subject: `Deadline ${urgency}: ${opp.title}`,
           html: `
-            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px; color: #1a1a1a;">
               <div style="text-align: center; margin-bottom: 24px;">
-                <h1 style="color: #16a34a; font-size: 24px; margin: 0;">Grant<span style="color: #15803d;">Link</span></h1>
+                <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -0.5px;">
+                  Grant<span style="color: #5C7C5E;">Link</span>
+                </h1>
               </div>
 
               <div style="background-color: ${daysUntilDeadline === 1 ? '#fef2f2' : '#fffbeb'}; border: 1px solid ${daysUntilDeadline === 1 ? '#fecaca' : '#fde68a'}; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
                 <p style="font-size: 14px; font-weight: 600; color: ${daysUntilDeadline === 1 ? '#dc2626' : '#d97706'}; margin: 0 0 4px 0;">
-                  ⏰ Deadline ${urgency}
+                  Deadline ${urgency}
                 </p>
                 <p style="font-size: 12px; color: #666; margin: 0;">
                   ${opp.deadline_display || opp.deadline_date}
                 </p>
               </div>
 
-              <h2 style="color: #1a1a1a; font-size: 18px; margin-bottom: 8px;">
-                <a href="https://grantlink.org/opportunity/${opp.slug}" style="color: #16a34a; text-decoration: none;">${opp.title}</a>
+              <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 8px;">
+                <a href="https://grantlink.org/opportunity/${opp.slug}" style="color: #5C7C5E; text-decoration: none;">${opp.title}</a>
               </h2>
 
-              ${opp.funders?.name ? `<p style="color: #666; font-size: 14px; margin-bottom: 16px;">by ${opp.funders.name}</p>` : ''}
-              ${opp.amount_display ? `<p style="color: #1a1a1a; font-size: 14px; margin-bottom: 16px;">💰 ${opp.amount_display}</p>` : ''}
+              ${opp.funders?.name ? `<p style="color: #666; font-size: 14px; margin: 0 0 16px;">by ${opp.funders.name}</p>` : ''}
+              ${opp.amount_display ? `<p style="font-size: 14px; margin: 0 0 16px;">${opp.amount_display}</p>` : ''}
 
               <div style="text-align: center; margin-top: 24px;">
-                <a href="https://grantlink.org/opportunity/${opp.slug}" style="display: inline-block; background-color: #16a34a; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+                <a href="https://grantlink.org/opportunity/${opp.slug}" style="display: inline-block; background-color: #5C7C5E; color: #ffffff; padding: 12px 32px; border-radius: 9999px; text-decoration: none; font-size: 15px; font-weight: 600;">
                   View Opportunity
                 </a>
               </div>
 
               <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0 16px;" />
-              <p style="color: #999; font-size: 12px; text-align: center;">
-                You saved this grant on <a href="https://grantlink.org" style="color: #999;">GrantLink</a>.
-                Manage your saved grants in your <a href="https://grantlink.org/dashboard/saved" style="color: #999;">dashboard</a>.
+              <p style="color: #aaa; font-size: 12px; text-align: center; line-height: 1.5; margin: 0;">
+                You saved this grant on <a href="https://grantlink.org" style="color: #5C7C5E; text-decoration: none;">GrantLink</a>.<br />
+                Manage your saved grants in your <a href="https://grantlink.org/dashboard/saved" style="color: #aaa;">dashboard</a>.
               </p>
             </div>
           `,

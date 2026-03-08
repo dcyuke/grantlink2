@@ -8,7 +8,7 @@ import { Search, ArrowLeft } from 'lucide-react'
 const TIPS = [
   'Grant tip: Always read the full RFP before applying.',
   'Grant tip: Follow up after submitting. Silence isn\u2019t rejection.',
-  'Grant tip: Budgets should tell a story, not just list numbers.',
+  'Grant tip: Show your impact with data, not just activities.',
   'Grant tip: Start your LOI with impact, not history.',
   'While you\u2019re here: Have you checked your deadlines this week?',
   'Grant tip: Tailor every application. Funders can tell when you don\u2019t.',

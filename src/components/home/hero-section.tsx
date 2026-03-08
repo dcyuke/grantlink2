@@ -36,31 +36,31 @@ const TOOL_CARDS = [
   {
     icon: Search,
     title: 'Find Funding',
-    desc: 'Search grants, fellowships, and corporate giving',
+    desc: 'Grants, fellowships, and corporate giving for smaller orgs',
     href: '/search',
   },
   {
     icon: BarChart3,
     title: 'Measure Impact',
-    desc: 'Track metrics and generate funder reports',
+    desc: 'Simple metrics and funder-ready reports',
     href: '/impact',
   },
   {
     icon: ClipboardCheck,
     title: 'Grant Readiness Assessment',
-    desc: 'Assess your grant-readiness with a quick quiz',
+    desc: 'See if your org is ready to apply for grants',
     href: '/readiness',
   },
   {
     icon: Handshake,
     title: 'Match Partners',
-    desc: 'Find corporate funders aligned with your mission',
+    desc: 'Corporate funders who support smaller nonprofits',
     href: '/partners',
   },
   {
     icon: Building2,
     title: 'Org Profile',
-    desc: 'One profile that powers all your tools',
+    desc: 'One profile that connects every tool you need',
     href: '/organization',
   },
 ]
@@ -98,19 +98,21 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
       <div className="container mx-auto px-4 pb-12 pt-20 md:pb-20 md:pt-28">
         {/* Large serif display heading */}
         <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-6 text-sm font-medium tracking-widest uppercase text-muted-foreground/70">
-            Built for small &amp; mid-size nonprofits
-          </p>
+          <div className="mb-8 inline-block rounded-md border-[3px] border-primary/70 px-5 py-2 -rotate-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.08)]">
+            <p className="text-sm font-extrabold tracking-[0.2em] uppercase text-primary/80">
+              Built for small &amp; mid-sized nonprofits
+            </p>
+          </div>
 
           <h1 className="mb-6 font-serif text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]">
-            Your Nonprofit&apos;s{' '}
+            Everything Your{' '}
             <span className="text-primary">
-              Back Office.
+              Nonprofit Needs.
             </span>
           </h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Find funding. Measure impact. Tell your story — everything you need in one place, no enterprise budget required.
+            Find funding. Measure impact. Tell your story — professional tools for lean teams, completely free.
           </p>
 
           {/* Deadline counter badge */}

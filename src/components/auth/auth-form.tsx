@@ -181,11 +181,18 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         </Button>
       </form>
 
-      {mode === 'signup' && (
+      {mode === 'signup' ? (
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{' '}
           <Link href="/login" className="font-medium text-primary hover:text-primary/80">
             Log in
+          </Link>
+        </p>
+      ) : (
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          New to GrantLink?{' '}
+          <Link href="/login?mode=signup" className="font-medium text-primary hover:text-primary/80">
+            Create a free account
           </Link>
         </p>
       )}

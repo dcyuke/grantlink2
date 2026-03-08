@@ -45,9 +45,9 @@ export function ImpactLanding() {
             Measure What Matters
           </h1>
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Track your nonprofit&apos;s outputs, outcomes, and impact with frameworks
-            designed for your issue area. Generate polished reports for donors,
-            board members, and stakeholders.
+            Funders don&apos;t fund activities — they fund results. Start collecting
+            the outcome data that wins grants and builds trust, with frameworks
+            designed for small and mid-sized nonprofits.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             {hasConfig ? (
@@ -85,8 +85,8 @@ export function ImpactLanding() {
             Evaluation Plan Builder
           </h2>
           <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-            Not sure where to start? Our guided questionnaire walks you through
-            building a simple monitoring &amp; evaluation plan — no jargon required.
+            Not sure where to start? Our guided questionnaire walks small nonprofit
+            teams through building a simple monitoring &amp; evaluation plan — no jargon required.
           </p>
           <Button asChild variant="outline" className="gap-2 rounded-full">
             <Link href="/impact/evaluation">
@@ -110,18 +110,18 @@ export function ImpactLanding() {
             {[
               {
                 icon: Target,
-                title: 'Choose Your Metrics',
-                desc: 'Select your issue area and pick from curated metrics — outputs, outcomes, and impact indicators tailored to your work.',
+                title: 'Know What Data to Collect',
+                desc: 'Expert-curated frameworks for 20 issue areas tell you exactly which outputs, outcomes, and impact indicators to track — the same metrics funders look for.',
               },
               {
                 icon: TrendingUp,
-                title: 'Track Your Progress',
-                desc: 'Enter data monthly, quarterly, or annually. See trends over time with clear visual dashboards.',
+                title: 'Build Your Evidence Base',
+                desc: 'Enter data monthly, quarterly, or annually. Over time, you build the evidence base that turns grant applications from guesses into proof.',
               },
               {
                 icon: FileText,
-                title: 'Generate Reports',
-                desc: 'Export polished impact reports, donor updates, or board presentations with a single click.',
+                title: 'Show Funders Results',
+                desc: 'Turn your data into polished impact reports, donor updates, and board presentations that demonstrate real outcomes.',
               },
             ].map((step, i) => (
               <div key={i} className="border-t border-border pt-5">
@@ -148,18 +148,18 @@ export function ImpactLanding() {
             {[
               {
                 icon: Lightbulb,
-                title: 'Expert-Informed Frameworks',
-                desc: 'Metrics curated for 20 issue areas — the questions funders actually want answered.',
+                title: 'Collect the Right Data',
+                desc: 'Stop guessing what funders want. Our frameworks guide you to collect exactly the outcome data that strengthens grant applications.',
               },
               {
                 icon: Users,
-                title: 'Stakeholder-Ready Reports',
-                desc: 'Professional templates for donor updates, board presentations, and grant applications.',
+                title: 'Turn Data into Trust',
+                desc: 'Every data point you collect becomes a story of impact. Generate donor updates, board decks, and grant reports that build funder confidence.',
               },
               {
                 icon: BarChart3,
-                title: 'Visual Dashboards',
-                desc: 'See your progress at a glance with clear charts and trend indicators.',
+                title: 'See Growth Over Time',
+                desc: 'Track trends across reporting periods. Consistent data collection shows funders you take measurement seriously — and that drives repeat funding.',
               },
             ].map((benefit, i) => (
               <div
@@ -186,11 +186,12 @@ export function ImpactLanding() {
         <div className="container mx-auto px-4 pb-20">
           <div className="mx-auto max-w-2xl border-t border-border/30 pt-16 text-center">
             <h2 className="mb-3 font-serif text-2xl font-semibold text-foreground">
-              Ready to Measure Your Impact?
+              Start Building Your Evidence Base
             </h2>
             <p className="mb-6 text-muted-foreground">
-              It takes less than 2 minutes to set up. Choose your issue area, select
-              your metrics, and start tracking.
+              The sooner you start collecting data, the stronger your next grant application
+              will be. Set up takes less than 2 minutes — choose your issue area, select your
+              metrics, and start tracking today.
             </p>
             <Button asChild size="lg" className="gap-2 rounded-full px-6">
               <Link href="/impact/setup">
