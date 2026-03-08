@@ -9,6 +9,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
  * Runs daily at 7am UTC via Vercel Cron.
  * Sends reminders 7 days and 1 day before deadline.
  */
+// Vercel Cron sends GET requests with Authorization header automatically
 export async function GET(request: Request) {
   return handleReminders(request)
 }
@@ -21,7 +22,7 @@ async function handleReminders(request: Request) {
   const authHeader = request.headers.get('authorization')
   const cronSecret = process.env.CRON_SECRET
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

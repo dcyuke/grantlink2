@@ -4,6 +4,7 @@ import { OpportunityCard } from '@/components/opportunity/opportunity-card'
 import { GrantAlertCTA } from '@/components/opportunity/grant-alert-cta'
 import { searchOpportunities } from '@/lib/data'
 import { FOCUS_AREAS } from '@/lib/constants'
+import { safeJsonLd } from '@/lib/safe-json-ld'
 import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 
@@ -62,7 +63,7 @@ export default async function GrantsForPage({ params }: PageProps) {
     <div className="container mx-auto px-4 py-6">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
 
       {/* Hero */}

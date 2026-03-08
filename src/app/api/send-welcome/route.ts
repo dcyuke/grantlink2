@@ -1,8 +1,19 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(request: Request) {
   try {
+    // Rate limit: 5 requests per minute per IP
+    const ip = getClientIp(request)
+    const limit = checkRateLimit(ip, { max: 5, windowSeconds: 60 })
+    if (!limit.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
     const apiKey = process.env.RESEND_API_KEY
     if (!apiKey) {
       console.error('RESEND_API_KEY is not set')

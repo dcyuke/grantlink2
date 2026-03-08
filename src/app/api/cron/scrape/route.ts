@@ -11,6 +11,7 @@ import { validateOpportunityLinks } from '@/lib/scraper/validate-links'
  * Secured with CRON_SECRET — Vercel Cron sends this automatically.
  * Can also be triggered manually: POST /api/cron/scrape with Authorization header.
  */
+// Vercel Cron sends GET requests with Authorization header automatically
 export async function GET(request: Request) {
   return handleScrape(request)
 }
@@ -24,7 +25,7 @@ async function handleScrape(request: Request) {
   const authHeader = request.headers.get('authorization')
   const cronSecret = process.env.CRON_SECRET
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

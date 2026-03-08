@@ -8,6 +8,7 @@ import { FitAssessment } from '@/components/opportunity/fit-assessment'
 import { GrantAlertCTA } from '@/components/opportunity/grant-alert-cta'
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
 import { AddToCalendar } from '@/components/opportunity/add-to-calendar'
+import { safeJsonLd } from '@/lib/safe-json-ld'
 import { ShareButton } from '@/components/opportunity/share-button'
 import { getOpportunityBySlug, searchOpportunities } from '@/lib/data'
 import { formatAmountRange, isFirstTimeFriendly } from '@/lib/utils'
@@ -117,7 +118,7 @@ export default async function OpportunityPage({ params }: PageProps) {
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
 
       {/* Breadcrumb */}

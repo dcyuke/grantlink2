@@ -1,9 +1,20 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { emailSignupSchema } from '@/types/email-signup'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(request: Request) {
   try {
+    // Rate limit: 5 requests per minute per IP
+    const ip = getClientIp(request)
+    const limit = checkRateLimit(ip, { max: 5, windowSeconds: 60 })
+    if (!limit.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
     const body = await request.json()
     const result = emailSignupSchema.safeParse(body)
 
@@ -30,7 +41,7 @@ export async function POST(request: Request) {
         },
         { onConflict: 'email' }
       )
-      .select('id, unsubscribe_token')
+      .select('id')
       .single()
 
     if (error) {
@@ -44,7 +55,6 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       id: data.id,
-      unsubscribeToken: data.unsubscribe_token,
     })
   } catch (err) {
     console.error('Subscribe API error:', err)

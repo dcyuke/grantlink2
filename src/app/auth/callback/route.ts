@@ -12,7 +12,13 @@ export async function GET(request: Request) {
     | 'invite'
     | 'magiclink'
     | null
-  const redirect = searchParams.get('redirect') || searchParams.get('next') || '/dashboard'
+  const rawRedirect = searchParams.get('redirect') || searchParams.get('next') || '/dashboard'
+
+  // Validate redirect to prevent open redirect attacks
+  const redirect =
+    rawRedirect.startsWith('/') && !rawRedirect.startsWith('//') && !rawRedirect.includes('://')
+      ? rawRedirect
+      : '/dashboard'
 
   const supabase = await createClient()
 

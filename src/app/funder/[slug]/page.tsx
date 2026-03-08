@@ -5,6 +5,7 @@ import { OpportunityCard } from '@/components/opportunity/opportunity-card'
 import { getFunderBySlug } from '@/lib/data'
 import { formatCurrency } from '@/lib/utils'
 import { FUNDER_TYPE_LABELS } from '@/lib/constants'
+import { safeJsonLd } from '@/lib/safe-json-ld'
 import {
   ArrowLeft,
   Building2,
@@ -71,7 +72,7 @@ export default async function FunderPage({ params }: PageProps) {
     <div className="container mx-auto px-4 py-6">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
 
       {/* Breadcrumb */}
