@@ -195,7 +195,7 @@ export function ImpactLanding() {
             </p>
             <Button asChild size="lg" className="gap-2 rounded-full px-6">
               <Link href="/impact/setup">
-                Start Now — It&apos;s Free
+                Get Started
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

@@ -72,7 +72,7 @@ export async function POST(request: Request) {
 
           <p style="color: #aaa; font-size: 12px; text-align: center; line-height: 1.5; margin: 0;">
             <a href="https://grantlink.org" style="color: #5C7C5E; text-decoration: none;">GrantLink</a>
-            &mdash; Free tools for small and mid-sized nonprofits.<br />
+            &mdash; Tools for small and mid-sized nonprofits.<br />
             Questions? <a href="mailto:grantlinkfeedback@gmail.com" style="color: #aaa;">Contact us</a>
           </p>
         </div>

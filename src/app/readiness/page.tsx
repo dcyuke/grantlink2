@@ -4,7 +4,7 @@ import { ReadinessQuiz } from './readiness-quiz'
 export const metadata: Metadata = {
   title: 'Grant Readiness Self-Assessment | GrantLink',
   description:
-    'Find out if your small or mid-sized nonprofit is ready to apply for grants. This free self-assessment helps lean teams identify strengths and areas to strengthen before applying.',
+    'Find out if your small or mid-sized nonprofit is ready to apply for grants. This self-assessment helps lean teams identify strengths and areas to strengthen before applying.',
   openGraph: {
     title: 'Grant Readiness Self-Assessment | GrantLink',
     description:

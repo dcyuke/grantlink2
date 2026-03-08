@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 export const metadata: Metadata = {
   title: 'About | GrantLink',
   description:
-    'GrantLink helps small and mid-sized nonprofits find funding, measure impact, and tell their story — all in one free platform.',
+    'GrantLink helps small and mid-sized nonprofits find funding, measure impact, and tell their story — all in one platform.',
 }
 
 export default function AboutPage() {
@@ -40,7 +40,7 @@ export default function AboutPage() {
               <p className="text-muted-foreground leading-relaxed">
                 Small and mid-sized nonprofits do extraordinary work with limited resources.
                 We believe they deserve professional-grade tools without enterprise-grade
-                price tags. GrantLink provides a connected suite of free tools — from funding
+                price tags. GrantLink provides a connected suite of tools — from funding
                 discovery to impact reporting — so that even a two-person team can operate
                 with the capacity of a much larger organization.
               </p>
@@ -133,7 +133,7 @@ export default function AboutPage() {
           <div className="mt-16 rounded-2xl border border-primary/20 bg-primary/5 p-10 text-center">
             <h2 className="mb-2 font-serif text-2xl font-semibold text-foreground">Ready to get started?</h2>
             <p className="mb-6 text-muted-foreground">
-              Set up your organization profile and get access to every tool — free for small and mid-sized nonprofits.
+              Set up your organization profile and get access to every tool — built for small and mid-sized nonprofits.
             </p>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button asChild size="lg" className="gap-2 rounded-full px-6">

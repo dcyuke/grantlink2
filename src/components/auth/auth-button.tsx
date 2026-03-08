@@ -50,7 +50,7 @@ export function AuthButton() {
           <Link href="/login">Log in</Link>
         </Button>
         <Button asChild size="sm">
-          <Link href="/login?mode=signup">Sign up free</Link>
+          <Link href="/login?mode=signup">Sign up</Link>
         </Button>
       </div>
     )

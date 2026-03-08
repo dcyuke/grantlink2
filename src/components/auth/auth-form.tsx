@@ -192,7 +192,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <p className="mt-4 text-center text-sm text-muted-foreground">
           New to GrantLink?{' '}
           <Link href="/login?mode=signup" className="font-medium text-primary hover:text-primary/80">
-            Create a free account
+            Create an account
           </Link>
         </p>
       )}

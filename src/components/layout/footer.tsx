@@ -15,7 +15,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground/70">
-              Free tools that help small and mid-sized nonprofits find funding, measure impact, and tell their story.
+              Tools that help small and mid-sized nonprofits find funding, measure impact, and tell their story.
             </p>
           </div>
 

@@ -112,7 +112,7 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
           </h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Find funding. Measure impact. Tell your story — professional tools for lean teams, completely free.
+            Find funding. Measure impact. Tell your story — professional tools built for lean nonprofit teams.
           </p>
 
           {/* Deadline counter badge */}

@@ -19,7 +19,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-2xl font-bold text-foreground">
-            {isSignup ? 'Create your free account' : 'Welcome back'}
+            {isSignup ? 'Create your account' : 'Welcome back'}
           </h1>
           <p className="text-sm text-muted-foreground">
             {isSignup
