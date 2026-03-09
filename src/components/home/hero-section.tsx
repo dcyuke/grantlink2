@@ -100,19 +100,19 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-8 inline-block rounded-md border-[3px] border-primary/70 px-5 py-2 -rotate-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.08)]">
             <p className="text-sm font-extrabold tracking-[0.2em] uppercase text-primary/80">
-              Built for small &amp; mid-sized nonprofits
+              For the teams behind the mission
             </p>
           </div>
 
           <h1 className="mb-6 font-serif text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]">
-            Everything Your{' '}
+            Your Mission.{' '}
             <span className="text-primary">
-              Nonprofit Needs.
+              One Platform.
             </span>
           </h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Find funding. Measure impact. Tell your story — professional tools built for lean nonprofit teams.
+            Grants, impact data, readiness tools, and more — one connected platform built so your team can focus on what matters most.
           </p>
 
           {/* Deadline counter badge */}

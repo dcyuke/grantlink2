@@ -4,7 +4,7 @@ import { FeedbackDialog } from '@/components/feedback-dialog'
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40">
+    <footer className="border-t border-border/40 bg-secondary/30">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           {/* Brand */}
@@ -15,7 +15,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground/70">
-              Tools that help small and mid-sized nonprofits find funding, measure impact, and tell their story.
+              Connected tools that help small nonprofits find funding, prove impact, and focus on what matters most.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export function Footer() {
 
           {/* Your Tools */}
           <div>
-            <h3 className="mb-4 text-xs font-medium tracking-widest uppercase text-muted-foreground/50">Your Tools</h3>
+            <h3 className="mb-4 text-xs font-medium tracking-widest uppercase text-muted-foreground/50">Your Toolkit</h3>
             <ul className="space-y-2.5">
               <li>
                 <Link href="/organization" className="text-sm text-muted-foreground/80 transition-colors hover:text-foreground">
