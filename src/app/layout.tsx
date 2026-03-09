@@ -27,7 +27,7 @@ const SITE_DESCRIPTION =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "GrantLink - Find Funding for What Matters",
+    default: "GrantLink - Grants, Impact Data, Readiness Tools, and More",
     template: "%s | GrantLink",
   },
   description: SITE_DESCRIPTION,
@@ -50,12 +50,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "GrantLink",
-    title: "GrantLink - Find Funding for What Matters",
+    title: "GrantLink - Grants, Impact Data, Readiness Tools, and More",
     description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "GrantLink - Find Funding for What Matters",
+    title: "GrantLink - Grants, Impact Data, Readiness Tools, and More",
     description: SITE_DESCRIPTION,
   },
   alternates: {

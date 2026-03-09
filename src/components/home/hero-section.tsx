@@ -100,7 +100,7 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-8 inline-block rounded-md border-[3px] border-primary/70 px-5 py-2 -rotate-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.08)]">
             <p className="text-sm font-extrabold tracking-[0.2em] uppercase text-primary/80">
-              For the teams behind the mission
+              Built for small and mid-sized nonprofits
             </p>
           </div>
 
