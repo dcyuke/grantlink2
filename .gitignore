@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# secrets files
+ENV_SECRETS_FOR_NEW_COMPUTER.txt
+
 # vercel
 .vercel
 

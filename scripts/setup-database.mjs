@@ -3,9 +3,15 @@ import fs from 'fs'
 
 const { Client } = pg
 
+if (!process.env.DATABASE_URL) {
+  console.error('Missing DATABASE_URL environment variable.')
+  console.error('Set it in .env.local or pass it directly: DATABASE_URL=postgresql://... node scripts/setup-database.mjs')
+  process.exit(1)
+}
+
 // Supabase direct connection (uses the pooler)
 const client = new Client({
-  connectionString: 'postgresql://postgres.ropbumeuuddufswrjfva:GrantLink2026!@aws-0-us-east-1.pooler.supabase.com:6543/postgres',
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 })
 
