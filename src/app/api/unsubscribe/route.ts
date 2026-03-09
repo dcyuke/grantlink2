@@ -1,13 +1,30 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function GET(request: Request) {
   try {
+    // Rate limit: 10 requests per minute per IP
+    const ip = getClientIp(request)
+    const limit = checkRateLimit(ip, { max: 10, windowSeconds: 60 })
+    if (!limit.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
     const { searchParams } = new URL(request.url)
     const token = searchParams.get('token')
 
     if (!token) {
       return NextResponse.json({ error: 'Missing token' }, { status: 400 })
+    }
+
+    // Validate token format (must be a valid UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    if (!uuidRegex.test(token)) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 400 })
     }
 
     const supabase = createAdminClient()
