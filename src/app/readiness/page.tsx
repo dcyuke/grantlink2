@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { PageTint } from '@/components/layout/page-tint'
 import { ReadinessQuiz } from './readiness-quiz'
 
 export const metadata: Metadata = {
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export default function ReadinessPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="relative container mx-auto px-4 py-8">
+      <PageTint color="oklch(0.55 0.05 260 / 0.25)" />
       <div className="mx-auto max-w-2xl">
         {/* Hero */}
         <div className="mb-8 text-center">

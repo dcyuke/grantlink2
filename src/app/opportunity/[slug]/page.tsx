@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { PageTint } from '@/components/layout/page-tint'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -114,7 +115,8 @@ export default async function OpportunityPage({ params }: PageProps) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="relative container mx-auto px-4 py-6">
+      <PageTint color="oklch(0.75 0.12 160 / 0.20)" />
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"

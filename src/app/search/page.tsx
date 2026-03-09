@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { PageTint } from '@/components/layout/page-tint'
 import { SearchBar } from '@/components/search/search-bar'
 import { FilterPanel } from '@/components/search/filter-panel'
 import { FilterMobile } from '@/components/search/filter-mobile'
@@ -106,7 +107,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const totalPages = Math.ceil(totalCount / pageSize)
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="relative container mx-auto px-4 py-6">
+      <PageTint color="oklch(0.75 0.12 160 / 0.20)" />
       {/* Search bar */}
       <Suspense fallback={null}>
         <SearchBar initialQuery={q} />

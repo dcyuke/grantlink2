@@ -1,3 +1,4 @@
+import { PageTint } from '@/components/layout/page-tint'
 import { HeroSection } from '@/components/home/hero-section'
 import { StatsBar } from '@/components/home/stats-bar'
 import { FeaturedGrid } from '@/components/home/featured-grid'
@@ -18,7 +19,8 @@ export default async function HomePage() {
   const data = await getHomepageData()
 
   return (
-    <>
+    <div className="relative">
+      <PageTint color="oklch(0.75 0.15 145 / 0.25)" />
       <HeroSection deadlinesThisMonth={data.deadlinesThisMonth} />
       <AnimateOnScroll>
         <StatsBar
@@ -58,6 +60,6 @@ export default async function HomePage() {
       <AnimateOnScroll>
         <EmailSignup />
       </AnimateOnScroll>
-    </>
+    </div>
   )
 }
