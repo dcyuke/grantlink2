@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { getOrgProfile } from '@/lib/org-profile-storage'
 import { getImpactConfig } from '@/lib/impact-storage'
+import { getLatestResult } from '@/lib/readiness-storage'
 
 interface ChecklistItem {
   id: string
@@ -71,6 +72,7 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
 
 export function DashboardChecklist() {
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set())
+  const [readinessScore, setReadinessScore] = useState<{ percentage: number; level: string } | null>(null)
   const [collapsed, setCollapsed] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -86,6 +88,25 @@ export function DashboardChecklist() {
       }
     }
     setCompletedIds(completed)
+
+    // Load latest readiness score for inline display
+    try {
+      const latest = getLatestResult()
+      if (latest) {
+        const levelLabels: Record<string, string> = {
+          'grant-ready': 'Grant Ready',
+          'getting-there': 'Getting There',
+          'building-foundations': 'Building Foundations',
+          'early-stage': 'Early Stage',
+        }
+        setReadinessScore({
+          percentage: latest.percentage,
+          level: levelLabels[latest.level] ?? latest.level,
+        })
+      }
+    } catch {
+      // ignore
+    }
   }, [])
 
   if (!mounted) return null
@@ -184,6 +205,11 @@ export function DashboardChecklist() {
                       {item.description}
                     </p>
                   </div>
+                  {done && item.id === 'readiness' && readinessScore && (
+                    <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                      {readinessScore.percentage}%
+                    </span>
+                  )}
                   <item.icon className={`mt-0.5 h-4 w-4 shrink-0 ${done ? 'text-muted-foreground/40' : 'text-primary/60'}`} />
                 </Link>
               )

@@ -12,8 +12,17 @@ import {
   RotateCcw,
   Search,
   TrendingUp,
-  ShieldCheck,
+  TrendingDown,
+  Zap,
+  Clock,
+  ExternalLink,
+  ClipboardCheck,
 } from 'lucide-react'
+import { saveReadinessResult, getPreviousResult } from '@/lib/readiness-storage'
+import { READINESS_ACTIONS, type ReadinessAction } from '@/lib/readiness-actions'
+import type { ReadinessLevel } from '@/lib/readiness-storage'
+
+// ── Question Data ────────────────────────────────────────────────────
 
 interface Question {
   id: string
@@ -159,6 +168,27 @@ const QUESTIONS: Question[] = [
 
 const MAX_SCORE = QUESTIONS.length * 3
 
+// ── Helpers ──────────────────────────────────────────────────────────
+
+function computeLevel(pct: number): ReadinessLevel {
+  if (pct >= 80) return 'grant-ready'
+  if (pct >= 50) return 'getting-there'
+  if (pct >= 25) return 'building-foundations'
+  return 'early-stage'
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+function getPriorityInfo(score: number): { label: string; colorClass: string } {
+  if (score === 0) return { label: 'High', colorClass: 'border-red-200 bg-red-50 text-red-700' }
+  if (score === 1) return { label: 'Medium', colorClass: 'border-amber-200 bg-amber-50 text-amber-700' }
+  return { label: 'Low', colorClass: 'border-blue-200 bg-blue-50 text-blue-700' }
+}
+
+// ── Quiz Component ───────────────────────────────────────────────────
+
 export function ReadinessQuiz() {
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number>>({})
@@ -168,24 +198,37 @@ export function ReadinessQuiz() {
   const progress = (currentStep / QUESTIONS.length) * 100
 
   const handleAnswer = (questionId: string, score: number, tip: string) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: score }))
+    // Build new maps locally to avoid React batching issues
+    const newAnswers = { ...answers, [questionId]: score }
+    const newTips = { ...tips }
     if (tip) {
-      setTips((prev) => ({ ...prev, [questionId]: tip }))
+      newTips[questionId] = tip
     } else {
-      setTips((prev) => {
-        const next = { ...prev }
-        delete next[questionId]
-        return next
-      })
+      delete newTips[questionId]
     }
+
+    setAnswers(newAnswers)
+    setTips(newTips)
 
     // Auto-advance
     if (currentStep < QUESTIONS.length - 1) {
       setTimeout(() => setCurrentStep((s) => s + 1), 300)
     } else {
       setTimeout(() => {
+        // Save structured result
+        const totalScore = Object.values(newAnswers).reduce((sum, s) => sum + s, 0)
+        const percentage = Math.round((totalScore / MAX_SCORE) * 100)
+        saveReadinessResult({
+          id: crypto.randomUUID(),
+          timestamp: new Date().toISOString(),
+          totalScore,
+          maxScore: MAX_SCORE,
+          percentage,
+          level: computeLevel(percentage),
+          answers: newAnswers,
+          tips: newTips,
+        })
         setShowResults(true)
-        try { localStorage.setItem('gl_readiness_completed', 'true') } catch {}
       }, 300)
     }
   }
@@ -201,7 +244,7 @@ export function ReadinessQuiz() {
   const percentage = Math.round((totalScore / MAX_SCORE) * 100)
 
   if (showResults) {
-    return <Results percentage={percentage} tips={tips} onRestart={restart} />
+    return <Results percentage={percentage} answers={answers} tips={tips} onRestart={restart} />
   }
 
   const question = QUESTIONS[currentStep]
@@ -288,15 +331,39 @@ export function ReadinessQuiz() {
   )
 }
 
+// ── Results Component ────────────────────────────────────────────────
+
 interface ResultsProps {
   percentage: number
+  answers: Record<string, number>
   tips: Record<string, string>
   onRestart: () => void
 }
 
-function Results({ percentage, tips, onRestart }: ResultsProps) {
+function Results({ percentage, answers, tips, onRestart }: ResultsProps) {
   const tipEntries = Object.entries(tips)
+  const previousResult = getPreviousResult()
 
+  // Build enriched tip items with action data
+  const enrichedTips = tipEntries
+    .map(([questionId, tip]) => {
+      const question = QUESTIONS.find((q) => q.id === questionId)
+      const action = READINESS_ACTIONS.find((a) => a.questionId === questionId)
+      const score = answers[questionId] ?? 0
+      return { questionId, tip, question, action, score }
+    })
+    .sort((a, b) => a.score - b.score) // highest priority (lowest score) first
+
+  // Split into quick wins vs longer-term
+  const quickWins = enrichedTips.filter(
+    (t) => t.action?.quickWin && t.action?.primaryAction
+  ).sort((a, b) => (b.action?.impactWeight ?? 0) - (a.action?.impactWeight ?? 0))
+
+  const longerTerm = enrichedTips.filter(
+    (t) => !t.action?.quickWin || !t.action?.primaryAction
+  ).sort((a, b) => (b.action?.impactWeight ?? 0) - (a.action?.impactWeight ?? 0))
+
+  // Readiness level
   let level: { label: string; color: string; icon: typeof CheckCircle2; message: string }
 
   if (percentage >= 80) {
@@ -311,28 +378,51 @@ function Results({ percentage, tips, onRestart }: ResultsProps) {
       label: 'Getting There',
       color: 'text-blue-600',
       icon: TrendingUp,
-      message: 'You have a good foundation but there are a few areas to strengthen. Addressing the tips below will make your applications more competitive.',
+      message: 'You have a good foundation but there are a few areas to strengthen. Addressing the actions below will make your applications more competitive.',
     }
   } else if (percentage >= 25) {
     level = {
       label: 'Building Foundations',
       color: 'text-amber-600',
       icon: AlertTriangle,
-      message: 'You\'re on your way, but there\'s meaningful work to do before pursuing large grants. Start with smaller, first-time-friendly opportunities while strengthening your infrastructure.',
+      message: 'You\'re on your way, but there\'s meaningful work to do before pursuing large grants. Start with the quick wins below to build momentum.',
     }
   } else {
     level = {
       label: 'Early Stage',
       color: 'text-red-500',
       icon: XCircle,
-      message: 'Your organization would benefit from building core infrastructure before applying for most grants. Focus on the foundational areas below — many can be addressed in 3-6 months.',
+      message: 'Your organization would benefit from building core infrastructure before applying for most grants. Focus on the foundational steps below — many can be addressed in 3-6 months.',
     }
   }
 
   const Icon = level.icon
+  const tipsHeading = percentage >= 80 ? 'Fine-Tuning' : 'Areas to Strengthen'
 
   return (
     <div>
+      {/* Score comparison banner */}
+      {previousResult && previousResult.percentage !== percentage && (
+        <div className={`mb-4 flex items-center gap-2 rounded-lg border p-3 text-sm ${
+          percentage > previousResult.percentage
+            ? 'border-emerald-200 bg-emerald-50/50 text-emerald-800'
+            : 'border-amber-200 bg-amber-50/50 text-amber-800'
+        }`}>
+          {percentage > previousResult.percentage ? (
+            <TrendingUp className="h-4 w-4 shrink-0" />
+          ) : (
+            <TrendingDown className="h-4 w-4 shrink-0" />
+          )}
+          <span>
+            Your score {percentage > previousResult.percentage ? 'improved' : 'changed'} from{' '}
+            <strong>{previousResult.percentage}%</strong> to <strong>{percentage}%</strong>
+            {previousResult.timestamp && (
+              <span className="text-muted-foreground"> since {formatDate(previousResult.timestamp)}</span>
+            )}
+          </span>
+        </div>
+      )}
+
       {/* Score header */}
       <div className="mb-8 rounded-xl border border-border/60 bg-card p-6 text-center shadow-sm">
         <Icon className={`mx-auto mb-3 h-12 w-12 ${level.color}`} />
@@ -343,24 +433,137 @@ function Results({ percentage, tips, onRestart }: ResultsProps) {
         </p>
       </div>
 
-      {/* Tips */}
-      {tipEntries.length > 0 && (
+      {/* Action Plan */}
+      {(quickWins.length > 0 || longerTerm.length > 0) && (
         <div className="mb-8">
           <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-foreground">
-            <ShieldCheck className="h-5 w-5 text-primary" />
-            Areas to Strengthen ({tipEntries.length})
+            <ClipboardCheck className="h-5 w-5 text-primary" />
+            Your Action Plan
+          </h3>
+
+          {/* Quick Wins */}
+          {quickWins.length > 0 && (
+            <div className="mb-5">
+              <p className="mb-2.5 flex items-center gap-1.5 text-sm font-medium text-emerald-700">
+                <Zap className="h-4 w-4" />
+                Quick Wins — do these today in GrantLink
+              </p>
+              <div className="space-y-2">
+                {quickWins.map((item, index) => (
+                  <Link
+                    key={item.questionId}
+                    href={item.action!.primaryAction!.href}
+                    className="flex items-center gap-3 rounded-lg border border-border/50 bg-card p-3 transition-all hover:border-primary/30 hover:shadow-sm"
+                  >
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">
+                      {index + 1}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-foreground">
+                        {item.action!.primaryAction!.label}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.action!.primaryAction!.description}
+                      </p>
+                    </div>
+                    <span className="shrink-0 text-xs text-muted-foreground">
+                      ~{item.action!.primaryAction!.estimatedMinutes} min
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/40" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Longer-term items */}
+          {longerTerm.length > 0 && (
+            <div>
+              <p className="mb-2.5 flex items-center gap-1.5 text-sm font-medium text-amber-700">
+                <Clock className="h-4 w-4" />
+                Longer-Term — plan for these over the next 1-3 months
+              </p>
+              <div className="space-y-2">
+                {longerTerm.map((item) => (
+                  <div
+                    key={item.questionId}
+                    className="flex items-start gap-3 rounded-lg border border-border/50 bg-muted/30 p-3"
+                  >
+                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-muted-foreground/20">
+                      <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-foreground">
+                        {item.question?.category}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.tip}
+                      </p>
+                      {item.action?.externalResource && (
+                        <a
+                          href={item.action.externalResource.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {item.action.externalResource.label}
+                          <span className="text-muted-foreground">
+                            — {item.action.externalResource.source}
+                          </span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Detailed Tips */}
+      {enrichedTips.length > 0 && (
+        <div className="mb-8">
+          <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-foreground">
+            {tipsHeading} ({enrichedTips.length})
           </h3>
           <div className="space-y-3">
-            {tipEntries.map(([questionId, tip]) => {
-              const question = QUESTIONS.find((q) => q.id === questionId)
+            {enrichedTips.map((item) => {
+              const priority = getPriorityInfo(item.score)
               return (
-                <div key={questionId} className="rounded-lg border border-amber-200 bg-amber-50/50 p-4">
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-amber-700">
-                    {question?.category}
+                <div key={item.questionId} className="rounded-lg border border-border/60 bg-card p-4 shadow-sm">
+                  <div className="mb-2 flex items-center justify-between">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {item.question?.category}
+                    </p>
+                    <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold ${priority.colorClass}`}>
+                      {priority.label} Priority
+                    </span>
+                  </div>
+                  <p className="mb-3 text-sm leading-relaxed text-foreground">
+                    {item.tip}
                   </p>
-                  <p className="text-sm leading-relaxed text-foreground">
-                    {tip}
-                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {item.action?.primaryAction && (
+                      <Button asChild size="sm">
+                        <Link href={item.action.primaryAction.href}>
+                          {item.action.primaryAction.label}
+                          <span className="ml-1 text-xs opacity-70">
+                            ~{item.action.primaryAction.estimatedMinutes} min
+                          </span>
+                        </Link>
+                      </Button>
+                    )}
+                    {item.action?.externalResource && (
+                      <Button asChild size="sm" variant="outline">
+                        <a href={item.action.externalResource.href} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="mr-1 h-3.5 w-3.5" />
+                          {item.action.externalResource.label}
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                 </div>
               )
             })}
