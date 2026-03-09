@@ -112,7 +112,7 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
           </h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Grants, impact data, readiness tools, and more — one connected platform built so your team can focus on what matters most.
+            Grants, impact data, readiness tools, and more. Built to enable your team to focus on what matters most.
           </p>
 
           {/* Deadline counter badge */}
