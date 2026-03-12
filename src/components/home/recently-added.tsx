@@ -17,7 +17,7 @@ export function RecentlyAddedSection({ opportunities }: RecentlyAddedProps) {
           <div className="flex items-center gap-3">
             <Sparkles className="h-5 w-5 text-muted-foreground" />
             <div>
-              <h2 className="font-serif text-xl font-bold text-foreground md:text-2xl">
+              <h2 className="font-serif text-xl font-extrabold text-foreground md:text-2xl">
                 Just Added
               </h2>
               <p className="text-sm text-muted-foreground">

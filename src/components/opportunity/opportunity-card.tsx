@@ -25,7 +25,7 @@ export function OpportunityCard({ opportunity, fitScore }: OpportunityCardProps)
 
   return (
     <Link href={`/opportunity/${opportunity.slug}`} className="group block">
-      <div className="rounded-lg border border-border/40 bg-card p-6 transition-all duration-300 hover:border-primary/20 hover:shadow-sm">
+      <div className="rounded-xl border border-border/40 bg-card p-6 transition-all duration-300 hover:border-primary/25 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5">
         {/* Top row: type badge + fit badge + bookmark + deadline */}
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">

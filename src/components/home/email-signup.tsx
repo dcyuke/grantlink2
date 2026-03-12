@@ -110,7 +110,7 @@ export function EmailSignup() {
             <p className="mb-3 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
               Stay Updated
             </p>
-            <h2 className="mb-3 font-serif text-3xl font-bold text-foreground">
+            <h2 className="mb-3 font-serif text-3xl font-extrabold text-foreground">
               Get New Grant Alerts
             </h2>
             <p className="mb-8 text-muted-foreground">

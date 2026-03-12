@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import { Menu, X, Building2 } from 'lucide-react'
 import { FeedbackDialog } from '@/components/feedback-dialog'
 import { AuthButton } from '@/components/auth/auth-button'
@@ -13,6 +14,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [orgName, setOrgName] = useState<string | null>(null)
   const ticking = useRef(false)
+  const pathname = usePathname()
+  void pathname // kept for future route-awareness
 
   useEffect(() => {
     const load = () => {
@@ -39,11 +42,13 @@ export function Header() {
   }, [])
 
   return (
-    <header className={cn(
-      "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur transition-all duration-300 supports-[backdrop-filter]:bg-background/80",
-      scrolled ? "h-14 border-border/40 shadow-sm" : "h-16 border-transparent"
-    )}>
-      <div className="container mx-auto flex h-full items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full px-4 py-3 transition-all duration-300">
+      <div className={cn(
+        "mx-auto flex max-w-6xl items-center justify-between rounded-2xl border bg-white/80 px-4 py-2.5 backdrop-blur-md transition-all duration-300",
+        scrolled
+          ? "border-border/40 shadow-md"
+          : "border-transparent shadow-sm"
+      )}>
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <span className="font-serif text-xl font-bold tracking-tight text-foreground">
@@ -53,34 +58,24 @@ export function Header() {
 
         {/* Desktop nav — centered floating pill */}
         <nav className="hidden items-center md:flex">
-          <div className="flex items-center gap-1 rounded-full border border-border/60 bg-card/80 px-1.5 py-1 backdrop-blur-sm">
-            <Link
-              href="/search"
-              className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            >
-              Browse Grants
-            </Link>
-            <Link
-              href="/partners"
-              className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            >
-              Funders
-            </Link>
-            <Link
-              href="/readiness"
-              className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            >
-              Grant Readiness
-            </Link>
-            <Link
-              href="/impact"
-              className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            >
-              Impact Data
-            </Link>
+          <div className="flex items-center gap-1 rounded-full border border-border/30 bg-muted/50 px-1.5 py-1">
+            {[
+              { href: '/search', label: 'Browse Grants' },
+              { href: '/partners', label: 'Funders' },
+              { href: '/readiness', label: 'Grant Readiness' },
+              { href: '/impact', label: 'Impact Data' },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               href="/organization"
-              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
             >
               <Building2 className="h-3.5 w-3.5" />
               {orgName || 'My Org'}
@@ -97,7 +92,7 @@ export function Header() {
         <div className="flex items-center gap-2 md:hidden">
           <AuthButton />
           <button
-            className="inline-flex items-center justify-center rounded-full p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="inline-flex items-center justify-center rounded-full p-2 text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -107,7 +102,7 @@ export function Header() {
 
       {/* Mobile nav */}
       {mobileMenuOpen && (
-        <div className="border-t border-border/40 bg-background md:hidden">
+        <div className="border-t border-border/40 bg-white/95 backdrop-blur-sm md:hidden">
           <nav className="container mx-auto flex flex-col gap-1 px-4 py-3">
             <Link
               href="/search"

@@ -12,7 +12,7 @@ export function ImpactCTA() {
             <p className="mb-3 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
               Impact
             </p>
-            <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            <h2 className="font-serif text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
               Data Wins Grants. Are You Collecting Yours?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
@@ -36,7 +36,7 @@ export function ImpactCTA() {
                 desc: 'Turn your data into polished reports that demonstrate outcomes, not just activities.',
               },
             ].map((item, i) => (
-              <div key={i} className="border-t border-border pt-5">
+              <div key={i} className="border-t border-border pt-5 transition-colors hover:border-primary/30">
                 <h3 className="mb-2 font-medium text-foreground">{item.title}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
               </div>

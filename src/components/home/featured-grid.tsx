@@ -17,7 +17,7 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
           <p className="mb-2 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
             Featured
           </p>
-          <h2 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
+          <h2 className="font-serif text-3xl font-extrabold text-foreground md:text-4xl">
             Featured Opportunities
           </h2>
           <p className="mt-2 text-muted-foreground">

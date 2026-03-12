@@ -22,10 +22,10 @@ export function GrantMotivation() {
   const [quote] = useState(() => getDailyQuote())
 
   return (
-    <section className="py-24">
+    <section className="bg-muted/50 py-24">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="font-serif text-3xl font-normal leading-snug tracking-tight text-muted-foreground/40 md:text-4xl">
+          <p className="font-serif text-3xl font-light leading-snug tracking-tight text-muted-foreground/40 md:text-4xl">
             &ldquo;{quote.text}&rdquo;
           </p>
           <p className="mt-6 text-sm font-medium text-foreground">{quote.context}</p>

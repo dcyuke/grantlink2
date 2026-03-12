@@ -56,42 +56,64 @@
   --color-amber-600: oklch(0.666 0.179 58.318);
   --color-rose-500: oklch(0.645 0.246 16.439);
   --color-rose-600: oklch(0.586 0.253 17.585);
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-fg: var(--hero-fg);
+  --color-hero-muted: var(--hero-muted);
+  --color-hero-card: var(--hero-card);
+  --color-hero-border: var(--hero-border);
+  --color-hero-input-bg: var(--hero-input-bg);
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-fg: var(--footer-fg);
+  --color-footer-muted: var(--footer-muted);
+  --color-footer-border: var(--footer-border);
 }
 
 :root {
   --radius: 0.625rem;
-  /* Clean white + sage green — modern product aesthetic */
-  --background: oklch(0.995 0.002 90);
-  --foreground: oklch(0.145 0.005 50);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0.005 50);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.005 50);
-  --primary: oklch(0.52 0.08 145);
+  /* Light sage green — clean SaaS aesthetic */
+  --background: oklch(0.985 0.005 145);
+  --foreground: oklch(0.15 0.02 145);
+  --card: oklch(1.00 0.00 0);
+  --card-foreground: oklch(0.15 0.02 145);
+  --popover: oklch(1.00 0.00 0);
+  --popover-foreground: oklch(0.15 0.02 145);
+  --primary: oklch(0.50 0.12 145);
   --primary-foreground: oklch(0.995 0.002 90);
-  --secondary: oklch(0.955 0.012 140);
-  --secondary-foreground: oklch(0.30 0.05 145);
-  --muted: oklch(0.965 0.005 90);
-  --muted-foreground: oklch(0.46 0.015 50);
-  --accent: oklch(0.945 0.015 140);
-  --accent-foreground: oklch(0.30 0.06 145);
+  --secondary: oklch(0.95 0.01 145);
+  --secondary-foreground: oklch(0.30 0.03 145);
+  --muted: oklch(0.96 0.008 145);
+  --muted-foreground: oklch(0.45 0.03 145);
+  --accent: oklch(0.95 0.015 145);
+  --accent-foreground: oklch(0.20 0.02 145);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.925 0.005 90);
-  --input: oklch(0.925 0.005 90);
-  --ring: oklch(0.52 0.08 145);
-  --chart-1: oklch(0.52 0.08 145);
+  --border: oklch(0.90 0.01 145);
+  --input: oklch(0.90 0.01 145);
+  --ring: oklch(0.50 0.12 145);
+  --chart-1: oklch(0.50 0.12 145);
   --chart-2: oklch(0.769 0.188 70.08);
   --chart-3: oklch(0.488 0.243 264.376);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.98 0.003 90);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.52 0.08 145);
+  --sidebar: oklch(0.98 0.005 145);
+  --sidebar-foreground: oklch(0.15 0.02 145);
+  --sidebar-primary: oklch(0.50 0.12 145);
   --sidebar-primary-foreground: oklch(0.995 0.002 90);
-  --sidebar-accent: oklch(0.965 0.005 90);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.925 0.005 90);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: oklch(0.95 0.015 145);
+  --sidebar-accent-foreground: oklch(0.20 0.02 145);
+  --sidebar-border: oklch(0.90 0.01 145);
+  --sidebar-ring: oklch(0.50 0.12 145);
+  /* Hero — soft green-tinted white */
+  --hero-bg: oklch(0.97 0.01 145);
+  --hero-fg: oklch(0.15 0.02 145);
+  --hero-muted: oklch(0.45 0.03 145);
+  --hero-card: oklch(1.00 0.00 0);
+  --hero-border: oklch(0.88 0.015 145);
+  --hero-input-bg: oklch(1.00 0.00 0);
+  /* Footer — clean light */
+  --footer-bg: oklch(0.98 0.005 145);
+  --footer-fg: oklch(0.15 0.02 145);
+  --footer-muted: oklch(0.45 0.03 145);
+  --footer-border: oklch(0.90 0.01 145);
 }
 
 @layer base {
@@ -102,7 +124,7 @@
     @apply bg-background text-foreground;
   }
   ::selection {
-    background: oklch(0.52 0.08 145 / 0.15);
+    background: oklch(0.50 0.12 145 / 0.15);
     color: inherit;
   }
 }
@@ -111,6 +133,18 @@
 @layer utilities {
   .transition-default {
     @apply transition-all duration-200 ease-in-out;
+  }
+  .animate-blob-drift {
+    animation: blob-drift 20s ease-in-out infinite;
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out both;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
   }
 }
 
@@ -136,4 +170,15 @@
 @keyframes grant-rain {
   0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }

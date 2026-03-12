@@ -94,47 +94,54 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
   }
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="container mx-auto px-4 pb-12 pt-20 md:pb-20 md:pt-28">
+    <section className="relative overflow-hidden bg-hero-bg">
+      {/* Dynamic gradient blobs — shades of green */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-[oklch(0.85_0.08_145_/_0.30)] blur-[118px] will-change-transform animate-blob-drift" />
+        <div className="absolute -top-20 -right-40 h-[500px] w-[500px] rounded-full bg-[oklch(0.88_0.06_160_/_0.25)] blur-[118px] will-change-transform animate-blob-drift animation-delay-200" />
+        <div className="absolute -bottom-40 left-1/3 h-[400px] w-[400px] rounded-full bg-[oklch(0.82_0.05_130_/_0.20)] blur-[118px] will-change-transform animate-blob-drift animation-delay-400" />
+      </div>
+
+      <div className="relative container mx-auto px-4 pb-16 pt-24 md:pb-28 md:pt-32">
         {/* Large serif display heading */}
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-8 inline-block rounded-md border-[3px] border-primary/70 px-5 py-2 -rotate-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.08)]">
-            <p className="text-sm font-extrabold tracking-[0.2em] uppercase text-primary/80">
-              Built for small and mid-sized nonprofits
+          <div className="mb-8 inline-block rounded-full border border-hero-border bg-hero-card/50 px-5 py-2 backdrop-blur-sm">
+            <p className="text-sm font-extrabold tracking-[0.2em] uppercase text-primary">
+              Built for small to mid-sized nonprofits
             </p>
           </div>
 
-          <h1 className="mb-6 font-serif text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]">
+          <h1 className="mb-6 font-serif text-5xl font-extrabold tracking-tight text-hero-fg sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05] animate-fade-in-up">
             Your Mission.{' '}
             <span className="text-primary">
               One Platform.
             </span>
           </h1>
 
-          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-hero-muted md:text-xl animate-fade-in-up animation-delay-200">
             Grants, impact data, readiness tools, and more. Built to enable your team to focus on what matters most.
           </p>
 
           {/* Deadline counter badge */}
           {deadlinesThisMonth != null && deadlinesThisMonth > 0 && (
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-primary/15 px-4 py-1.5 text-sm font-medium text-primary">
               <CalendarClock className="h-4 w-4" />
               {deadlinesThisMonth} deadline{deadlinesThisMonth === 1 ? '' : 's'} closing this month
             </div>
           )}
 
           {/* Search bar — pill shape */}
-          <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-2xl">
-            <div className="flex items-center gap-2 rounded-full border border-border bg-card p-1.5 shadow-sm transition-all focus-within:border-primary/40 focus-within:shadow-md">
+          <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-2xl animate-fade-in-up animation-delay-400">
+            <div className="flex items-center gap-2 rounded-full border border-hero-border bg-hero-input-bg p-1.5 shadow-lg shadow-primary/5 transition-all focus-within:border-primary/60 focus-within:shadow-primary/10">
               <div className="flex flex-1 items-center gap-3 pl-4">
-                <Search className="h-5 w-5 shrink-0 text-muted-foreground/60" />
+                <Search className="h-5 w-5 shrink-0 text-hero-muted/60" />
                 <input
                   id="search-input"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search grants, fellowships, focus areas..."
-                  className="w-full bg-transparent py-2.5 text-base outline-none placeholder:text-muted-foreground/50"
+                  className="w-full bg-transparent py-2.5 text-base text-hero-fg outline-none placeholder:text-hero-muted/50"
                 />
               </div>
               <Button type="submit" size="lg" className="shrink-0 rounded-full px-6">
@@ -150,12 +157,12 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
 
           {/* Quick filter pills */}
           <div className="mb-16 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-sm text-muted-foreground/60">Quick search:</span>
+            <span className="text-sm text-hero-muted/60">Quick search:</span>
             {QUICK_FILTERS.map((filter) => (
               <Link
                 key={filter.label}
                 href={`/search?${filter.param}`}
-                className="rounded-full border border-border/60 bg-transparent px-4 py-1.5 text-sm text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
+                className="rounded-full border border-hero-border/60 bg-transparent px-4 py-1.5 text-sm text-hero-muted transition-all hover:border-primary/40 hover:bg-primary/10 hover:text-hero-fg"
               >
                 {filter.label}
               </Link>
@@ -163,19 +170,19 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Tool cards — minimal grid with thin top borders like reference */}
+        {/* Tool cards — minimal grid with thin top borders */}
         <div className="mx-auto mt-20 max-w-5xl">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
             {TOOL_CARDS.map((tool) => (
               <Link
                 key={tool.title}
                 href={tool.href}
-                className="group flex flex-col border-t border-border pt-5"
+                className="group flex flex-col border-t border-hero-border pt-5"
               >
-                <tool.icon className="mb-3 h-5 w-5 text-foreground/70 transition-colors group-hover:text-primary" />
-                <h3 className="text-sm font-semibold text-foreground">{tool.title}</h3>
-                <p className="mt-1 text-[12px] leading-snug text-muted-foreground">{tool.desc}</p>
-                <ArrowRight className="mt-3 h-3.5 w-3.5 text-muted-foreground/30 transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
+                <tool.icon className="mb-3 h-5 w-5 text-hero-muted transition-colors group-hover:text-primary" />
+                <h3 className="text-sm font-semibold text-hero-fg">{tool.title}</h3>
+                <p className="mt-1 text-[12px] leading-snug text-hero-muted">{tool.desc}</p>
+                <ArrowRight className="mt-3 h-3.5 w-3.5 text-hero-muted/30 transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
               </Link>
             ))}
           </div>

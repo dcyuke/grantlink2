@@ -16,7 +16,7 @@ export function ClosingSoonSection({ opportunities }: ClosingSoonProps) {
         <div className="flex items-center gap-3">
           <Clock className="h-5 w-5 text-muted-foreground" />
           <div>
-            <h2 className="font-serif text-xl font-bold text-foreground md:text-2xl">
+            <h2 className="font-serif text-xl font-extrabold text-foreground md:text-2xl">
               Closing Soon
             </h2>
             <p className="text-sm text-muted-foreground">
