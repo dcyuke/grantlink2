@@ -1,22 +1,33 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { Moon, Sun } from 'lucide-react'
 
-export function ThemeToggle() {
-  const [dark, setDark] = useState(false)
+function getSnapshot() {
+  return document.documentElement.classList.contains('dark')
+}
+function getServerSnapshot() {
+  return false
+}
+function subscribe(cb: () => void) {
+  const observer = new MutationObserver(cb)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  return () => observer.disconnect()
+}
 
-  useEffect(() => {
-    const stored = localStorage.getItem('grantlink-theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const isDark = stored === 'dark' || (!stored && prefersDark)
-    setDark(isDark)
-    document.documentElement.classList.toggle('dark', isDark)
-  }, [])
+// Apply theme before React hydrates to avoid flash
+if (typeof window !== 'undefined') {
+  const stored = localStorage.getItem('grantlink-theme')
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const isDark = stored === 'dark' || (!stored && prefersDark)
+  document.documentElement.classList.toggle('dark', isDark)
+}
+
+export function ThemeToggle() {
+  const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const toggle = () => {
     const next = !dark
-    setDark(next)
     document.documentElement.classList.toggle('dark', next)
     localStorage.setItem('grantlink-theme', next ? 'dark' : 'light')
   }

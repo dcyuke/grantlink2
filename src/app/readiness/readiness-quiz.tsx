@@ -340,22 +340,31 @@ interface ResultsProps {
   onRestart: () => void
 }
 
+const CONFETTI_COLORS = ['#22c55e', '#16a34a', '#86efac', '#fbbf24', '#f59e0b', '#a78bfa']
+const CONFETTI_PIECES = Array.from({ length: 40 }, (_, i) => ({
+  left: `${(((i * 7 + 13) * 37) % 100)}%`,
+  width: `${6 + ((i * 3 + 5) % 7)}px`,
+  height: `${6 + ((i * 5 + 2) % 7)}px`,
+  background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+  borderRadius: i % 3 === 0 ? '50%' : '2px',
+  delay: `${(i * 0.02)}s`,
+}))
+
 function Confetti() {
-  const colors = ['#22c55e', '#16a34a', '#86efac', '#fbbf24', '#f59e0b', '#a78bfa']
   return (
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
-      {Array.from({ length: 40 }).map((_, i) => (
+      {CONFETTI_PIECES.map((p, i) => (
         <div
           key={i}
           className="absolute animate-[confetti-fall_2.5s_ease-out_forwards]"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `-5%`,
-            width: `${6 + Math.random() * 6}px`,
-            height: `${6 + Math.random() * 6}px`,
-            background: colors[i % colors.length],
-            borderRadius: Math.random() > 0.5 ? '50%' : '2px',
-            animationDelay: `${Math.random() * 0.8}s`,
+            left: p.left,
+            top: '-5%',
+            width: p.width,
+            height: p.height,
+            background: p.background,
+            borderRadius: p.borderRadius,
+            animationDelay: p.delay,
             opacity: 0,
           }}
         />
