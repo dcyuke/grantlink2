@@ -1,4 +1,5 @@
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
+import { OpportunityGridSkeleton } from '@/components/opportunity/opportunity-card-skeleton'
 import type { OpportunityListItem } from '@/types/opportunity'
 import { Clock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
@@ -8,7 +9,7 @@ interface ClosingSoonProps {
 }
 
 export function ClosingSoonSection({ opportunities }: ClosingSoonProps) {
-  if (opportunities.length === 0) return null
+  const isEmpty = opportunities.length === 0
 
   return (
     <section className="container mx-auto px-4 py-16">
@@ -33,11 +34,15 @@ export function ClosingSoonSection({ opportunities }: ClosingSoonProps) {
         </Link>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {opportunities.map((opp) => (
-          <OpportunityCard key={opp.id} opportunity={opp} />
-        ))}
-      </div>
+      {isEmpty ? (
+        <OpportunityGridSkeleton count={3} />
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {opportunities.map((opp) => (
+            <OpportunityCard key={opp.id} opportunity={opp} />
+          ))}
+        </div>
+      )}
 
       <div className="mt-6 text-center md:hidden">
         <Link

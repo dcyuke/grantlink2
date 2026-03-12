@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import {
@@ -340,9 +340,39 @@ interface ResultsProps {
   onRestart: () => void
 }
 
+function Confetti() {
+  const colors = ['#22c55e', '#16a34a', '#86efac', '#fbbf24', '#f59e0b', '#a78bfa']
+  return (
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
+      {Array.from({ length: 40 }).map((_, i) => (
+        <div
+          key={i}
+          className="absolute animate-[confetti-fall_2.5s_ease-out_forwards]"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `-5%`,
+            width: `${6 + Math.random() * 6}px`,
+            height: `${6 + Math.random() * 6}px`,
+            background: colors[i % colors.length],
+            borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+            animationDelay: `${Math.random() * 0.8}s`,
+            opacity: 0,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 function Results({ percentage, answers, tips, onRestart }: ResultsProps) {
+  const [showConfetti, setShowConfetti] = useState(true)
   const tipEntries = Object.entries(tips)
   const previousResult = getPreviousResult()
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowConfetti(false), 3500)
+    return () => clearTimeout(timer)
+  }, [])
 
   // Build enriched tip items with action data
   const enrichedTips = tipEntries
@@ -401,6 +431,8 @@ function Results({ percentage, answers, tips, onRestart }: ResultsProps) {
 
   return (
     <div>
+      {showConfetti && <Confetti />}
+
       {/* Score comparison banner */}
       {previousResult && previousResult.percentage !== percentage && (
         <div className={`mb-4 flex items-center gap-2 rounded-lg border p-3 text-sm ${

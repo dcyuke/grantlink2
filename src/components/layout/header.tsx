@@ -8,6 +8,7 @@ import { FeedbackDialog } from '@/components/feedback-dialog'
 import { AuthButton } from '@/components/auth/auth-button'
 import { cn } from '@/lib/utils'
 import { getOrgProfile } from '@/lib/org-profile-storage'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -44,7 +45,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full px-4 py-3 transition-all duration-300">
       <div className={cn(
-        "mx-auto flex max-w-6xl items-center justify-between rounded-2xl border bg-white/80 px-4 py-2.5 backdrop-blur-md transition-all duration-300",
+        "mx-auto flex max-w-6xl items-center justify-between rounded-2xl border bg-card/80 px-4 py-2.5 backdrop-blur-md transition-all duration-300",
         scrolled
           ? "border-border/40 shadow-md"
           : "border-transparent shadow-sm"
@@ -83,8 +84,9 @@ export function Header() {
           </div>
         </nav>
 
-        {/* Auth button (desktop) */}
-        <div className="hidden md:flex">
+        {/* Auth + theme toggle (desktop) */}
+        <div className="hidden items-center gap-1 md:flex">
+          <ThemeToggle />
           <AuthButton />
         </div>
 
@@ -102,7 +104,7 @@ export function Header() {
 
       {/* Mobile nav */}
       {mobileMenuOpen && (
-        <div className="border-t border-border/40 bg-white/95 backdrop-blur-sm md:hidden">
+        <div className="border-t border-border/40 bg-card/95 backdrop-blur-sm md:hidden">
           <nav className="container mx-auto flex flex-col gap-1 px-4 py-3">
             <Link
               href="/search"
