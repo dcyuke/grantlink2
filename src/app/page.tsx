@@ -13,12 +13,34 @@ import { ImpactCTA } from '@/components/home/impact-cta'
 import { AnimateOnScroll } from '@/components/ui/animate-on-scroll'
 import { getHomepageData } from '@/lib/data'
 import { FOCUS_AREAS } from '@/lib/constants'
+import { safeJsonLd } from '@/lib/safe-json-ld'
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GrantLink',
+  url: 'https://grantlink.org',
+  description:
+    'Discover grants, fellowships, prizes, and funding opportunities for nonprofits and social enterprises.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://grantlink.org/search?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
 
 export default async function HomePage() {
   const data = await getHomepageData()
 
   return (
     <div className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteJsonLd) }}
+      />
       {/* Page-level gradient blobs for 3D depth throughout */}
       <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute top-[20%] -left-[10%] h-[700px] w-[700px] rounded-full bg-[oklch(0.88_0.06_145_/_0.15)] blur-[140px] will-change-transform animate-blob-drift" />
