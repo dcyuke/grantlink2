@@ -69,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ colorScheme: 'light' }}>
       <head>
         <link rel="alternate" type="application/atom+xml" title="GrantLink Feed" href="/feed.xml" />
         <Script
