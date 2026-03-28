@@ -88,8 +88,7 @@ export default function AboutPage() {
                 challenges they address, but not always the budget or bandwidth to
                 maximize their impact. GrantLink supports these organizations by
                 delivering a connected suite of solutions that enable even the smallest
-                teams to operate with the effectiveness and capacity of a much larger
-                organization.
+                teams to operate with efficiency and effectiveness.
               </p>
             </div>
           </section>
