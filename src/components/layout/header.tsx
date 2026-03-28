@@ -8,24 +8,48 @@ import { FeedbackDialog } from '@/components/feedback-dialog'
 import { AuthButton } from '@/components/auth/auth-button'
 import { cn } from '@/lib/utils'
 import { getOrgProfile } from '@/lib/org-profile-storage'
+import { createClient } from '@/lib/supabase/client'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [orgName, setOrgName] = useState<string | null>(null)
+  const [isAuthed, setIsAuthed] = useState(false)
   const ticking = useRef(false)
   const pathname = usePathname()
   void pathname // kept for future route-awareness
 
   useEffect(() => {
-    const load = () => {
+    const supabase = createClient()
+
+    const loadOrg = () => {
       const p = getOrgProfile()
       setOrgName(p?.name?.trim() || null)
     }
-    load()
-    window.addEventListener('orgProfileUpdated', load)
-    return () => window.removeEventListener('orgProfileUpdated', load)
+
+    // Check auth state, only show org name if logged in
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setIsAuthed(!!user)
+      if (user) loadOrg()
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthed(!!session?.user)
+      if (session?.user) {
+        loadOrg()
+      } else {
+        setOrgName(null)
+      }
+    })
+
+    window.addEventListener('orgProfileUpdated', loadOrg)
+    return () => {
+      subscription.unsubscribe()
+      window.removeEventListener('orgProfileUpdated', loadOrg)
+    }
   }, [])
 
   useEffect(() => {
@@ -74,13 +98,15 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/organization"
-              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
-            >
-              <Building2 className="h-3.5 w-3.5" />
-              {orgName || 'My Org'}
-            </Link>
+            {isAuthed && (
+              <Link
+                href="/organization"
+                className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+              >
+                <Building2 className="h-3.5 w-3.5" />
+                {orgName || 'My Org'}
+              </Link>
+            )}
           </div>
         </nav>
 
@@ -134,14 +160,16 @@ export function Header() {
             >
               Impact Data
             </Link>
-            <Link
-              href="/organization"
-              className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <Building2 className="h-4 w-4" />
-              {orgName || 'My Organization'}
-            </Link>
+            {isAuthed && (
+              <Link
+                href="/organization"
+                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Building2 className="h-4 w-4" />
+                {orgName || 'My Organization'}
+              </Link>
+            )}
             <Link
               href="/dashboard"
               className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
