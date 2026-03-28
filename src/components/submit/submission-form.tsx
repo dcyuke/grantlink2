@@ -448,8 +448,8 @@ function FieldWrapper({
       <label className="mb-1.5 block text-sm font-medium text-foreground">
         {label}
         {required && <span className="ml-0.5 text-red-500">*</span>}
+        <div className="mt-1.5">{children}</div>
       </label>
-      {children}
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   )

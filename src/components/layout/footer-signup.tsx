@@ -64,6 +64,7 @@ export function FooterSignup() {
             if (status === 'error') setStatus('idle')
           }}
           placeholder="Your email"
+          aria-label="Email address for grant alerts"
           className="w-full min-w-0 rounded-lg border border-footer-border bg-hero-input-bg px-3 py-1.5 text-sm text-footer-fg outline-none transition-colors placeholder:text-footer-muted/50 focus:border-primary/40"
         />
         <Button type="submit" size="sm" className="shrink-0">

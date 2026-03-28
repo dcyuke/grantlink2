@@ -29,6 +29,31 @@ export async function GET(request: Request) {
 
     const supabase = createAdminClient()
 
+    // Check if token exists before updating
+    const { data: subscriber } = await supabase
+      .from('email_subscribers')
+      .select('id')
+      .eq('unsubscribe_token', token)
+      .single()
+
+    if (!subscriber) {
+      return new Response(
+        `<!DOCTYPE html>
+<html>
+<head><title>Invalid Link | GrantLink</title></head>
+<body style="font-family: system-ui, sans-serif; max-width: 480px; margin: 80px auto; text-align: center; padding: 20px;">
+  <h1 style="color: #5C7C5E;">GrantLink</h1>
+  <h2>Invalid unsubscribe link</h2>
+  <p style="color: #666;">This link is invalid or has already been used. If you&rsquo;re still receiving emails, please contact us.</p>
+  <p><a href="mailto:grantlinkfeedback@gmail.com" style="color: #5C7C5E;">Contact support</a> &middot; <a href="https://grantlink.org" style="color: #5C7C5E;">Return to GrantLink</a></p>
+</body>
+</html>`,
+        {
+          headers: { 'Content-Type': 'text/html' },
+        }
+      )
+    }
+
     const { error } = await supabase
       .from('email_subscribers')
       .update({ is_active: false, updated_at: new Date().toISOString() })
@@ -45,10 +70,10 @@ export async function GET(request: Request) {
 <html>
 <head><title>Unsubscribed | GrantLink</title></head>
 <body style="font-family: system-ui, sans-serif; max-width: 480px; margin: 80px auto; text-align: center; padding: 20px;">
-  <h1 style="color: #16a34a;">GrantLink</h1>
-  <h2>You've been unsubscribed</h2>
+  <h1 style="color: #5C7C5E;">GrantLink</h1>
+  <h2>You&rsquo;ve been unsubscribed</h2>
   <p style="color: #666;">You will no longer receive weekly grant alert emails from GrantLink.</p>
-  <p><a href="https://grantlink.org" style="color: #16a34a;">Return to GrantLink</a></p>
+  <p><a href="https://grantlink.org" style="color: #5C7C5E;">Return to GrantLink</a></p>
 </body>
 </html>`,
       {
