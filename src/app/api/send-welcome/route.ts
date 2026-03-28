@@ -21,7 +21,14 @@ export async function POST(request: Request) {
     }
 
     const resend = new Resend(apiKey)
-    const { email, focusAreas, alertPreference } = await request.json()
+
+    let body: unknown
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+    }
+    const { email, focusAreas, alertPreference } = body as Record<string, unknown>
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
