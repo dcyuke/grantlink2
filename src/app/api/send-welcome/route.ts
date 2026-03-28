@@ -28,7 +28,11 @@ export async function POST(request: Request) {
     } catch {
       return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
     }
-    const { email, focusAreas, alertPreference } = body as Record<string, unknown>
+    const { email, focusAreas, alertPreference } = body as {
+      email?: string
+      focusAreas?: string[]
+      alertPreference?: string
+    }
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })

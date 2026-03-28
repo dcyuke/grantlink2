@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     }
     const { opportunityId, funderId, action } = body
 
-    if (!opportunityId || !action || !['approve', 'reject'].includes(action)) {
+    if (!opportunityId || !action || typeof action !== 'string' || !['approve', 'reject'].includes(action)) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
     }
 
