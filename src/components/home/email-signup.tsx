@@ -130,6 +130,7 @@ export function EmailSignup() {
                       if (status === 'error') setStatus('idle')
                     }}
                     placeholder="Enter your email address"
+                    aria-label="Email address for grant alerts"
                     className="w-full rounded-full border border-border bg-card py-2.5 pl-10 pr-3 text-sm outline-none transition-colors focus:border-primary/40"
                   />
                 </div>
