@@ -95,6 +95,11 @@ export function Footer() {
                   Contact Us
                 </a>
               </li>
+              <li>
+                <Link href="/privacy" className="text-sm text-footer-muted transition-colors hover:text-footer-fg">
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
