@@ -207,6 +207,13 @@ export function EmailSignup() {
                   })}
                 </div>
               </div>
+              <p className="mt-6 text-xs leading-relaxed text-muted-foreground/60">
+                We&apos;ll only email you about grants matching your preferences. No ads, no data sharing. Unsubscribe anytime with one click.{' '}
+                <a href="/privacy" className="underline hover:text-foreground">
+                  Privacy policy
+                </a>
+                .
+              </p>
             </form>
           </div>
         </div>

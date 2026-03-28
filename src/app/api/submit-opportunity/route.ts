@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { submissionSchema } from '@/types/submission'
-import { slugify } from '@/lib/utils'
+import { slugify, escapeHtml } from '@/lib/utils'
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(request: Request) {
@@ -155,16 +155,16 @@ export async function POST(request: Request) {
               <h2 style="color: #1a1a1a; font-size: 20px; margin-bottom: 16px;">New Opportunity Submission</h2>
 
               <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Organization:</strong> ${data.funder_name}</p>
-                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Opportunity:</strong> ${data.title}</p>
-                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Type:</strong> ${data.opportunity_type}</p>
-                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Contact:</strong> ${data.contact_email}</p>
-                ${amountDisplay ? `<p style="margin: 0 0 8px; font-size: 14px;"><strong>Amount:</strong> ${amountDisplay}</p>` : ''}
-                ${data.deadline_date ? `<p style="margin: 0; font-size: 14px;"><strong>Deadline:</strong> ${data.deadline_date}</p>` : ''}
+                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Organization:</strong> ${escapeHtml(data.funder_name)}</p>
+                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Opportunity:</strong> ${escapeHtml(data.title)}</p>
+                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Type:</strong> ${escapeHtml(data.opportunity_type)}</p>
+                <p style="margin: 0 0 8px; font-size: 14px;"><strong>Contact:</strong> ${escapeHtml(data.contact_email)}</p>
+                ${amountDisplay ? `<p style="margin: 0 0 8px; font-size: 14px;"><strong>Amount:</strong> ${escapeHtml(amountDisplay)}</p>` : ''}
+                ${data.deadline_date ? `<p style="margin: 0; font-size: 14px;"><strong>Deadline:</strong> ${escapeHtml(data.deadline_date)}</p>` : ''}
               </div>
 
               <p style="margin-bottom: 8px; font-size: 14px;"><strong>Summary:</strong></p>
-              <p style="color: #4a4a4a; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">${data.summary}</p>
+              <p style="color: #4a4a4a; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">${escapeHtml(data.summary)}</p>
 
               <a href="${reviewUrl}" style="display: inline-block; background-color: #16a34a; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">
                 Review Submission
