@@ -98,15 +98,13 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            {isAuthed && (
-              <Link
-                href="/organization"
-                className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
-              >
-                <Building2 className="h-3.5 w-3.5" />
-                {orgName || 'My Org'}
-              </Link>
-            )}
+            <Link
+              href="/organization"
+              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+            >
+              <Building2 className="h-3.5 w-3.5" />
+              {isAuthed && orgName ? orgName : 'My Org'}
+            </Link>
           </div>
         </nav>
 
@@ -160,16 +158,14 @@ export function Header() {
             >
               Impact Data
             </Link>
-            {isAuthed && (
-              <Link
-                href="/organization"
-                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Building2 className="h-4 w-4" />
-                {orgName || 'My Organization'}
-              </Link>
-            )}
+            <Link
+              href="/organization"
+              className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Building2 className="h-4 w-4" />
+              {isAuthed && orgName ? orgName : 'My Organization'}
+            </Link>
             <Link
               href="/dashboard"
               className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
