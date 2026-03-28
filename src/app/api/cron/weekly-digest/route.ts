@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { FOCUS_AREAS } from '@/lib/constants'
+import { escapeHtml } from '@/lib/utils'
 
 /**
  * Weekly digest cron: sends email alerts to all active subscribers
@@ -159,12 +160,12 @@ function buildDigestEmail(
       return `
         <tr>
           <td style="padding: 16px 0; border-bottom: 1px solid #f0f0f0;">
-            <a href="https://grantlink.org/opportunity/${opp.slug}" style="color: #5C7C5E; font-size: 16px; font-weight: 600; text-decoration: none;">${opp.title}</a>
-            ${funder?.name ? `<div style="color: #888; font-size: 13px; margin-top: 4px;">by ${funder.name}</div>` : ''}
-            ${opp.summary ? `<div style="color: #555; font-size: 14px; margin-top: 6px; line-height: 1.5;">${(opp.summary as string).slice(0, 160)}${(opp.summary as string).length > 160 ? '...' : ''}</div>` : ''}
+            <a href="https://grantlink.org/opportunity/${escapeHtml(String(opp.slug))}" style="color: #5C7C5E; font-size: 16px; font-weight: 600; text-decoration: none;">${escapeHtml(String(opp.title))}</a>
+            ${funder?.name ? `<div style="color: #888; font-size: 13px; margin-top: 4px;">by ${escapeHtml(funder.name)}</div>` : ''}
+            ${opp.summary ? `<div style="color: #555; font-size: 14px; margin-top: 6px; line-height: 1.5;">${escapeHtml((opp.summary as string).slice(0, 160))}${(opp.summary as string).length > 160 ? '...' : ''}</div>` : ''}
             <div style="margin-top: 8px; font-size: 13px; color: #888;">
-              ${opp.amount_display ? `<span style="margin-right: 12px;">💰 ${opp.amount_display}</span>` : ''}
-              ${opp.deadline_display ? `<span>📅 ${opp.deadline_display}</span>` : ''}
+              ${opp.amount_display ? `<span style="margin-right: 12px;">💰 ${escapeHtml(String(opp.amount_display))}</span>` : ''}
+              ${opp.deadline_display ? `<span>📅 ${escapeHtml(String(opp.deadline_display))}</span>` : ''}
             </div>
           </td>
         </tr>

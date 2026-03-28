@@ -98,6 +98,18 @@ export function isFirstTimeFriendly(opp: {
   return false
 }
 
+/**
+ * Escape user-provided strings before interpolating into HTML emails.
+ */
+export function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()
