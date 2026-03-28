@@ -122,20 +122,22 @@ export function ActiveFilters() {
 
   return (
     <div className="flex flex-wrap items-center gap-2 pt-3">
-      {pills.map((pill) => (
+      {pills.map((pill, i) => (
         <button
           key={pill.key}
           onClick={() => removePill(pill)}
-          className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+          className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-all hover:bg-primary/20 hover:shadow-sm animate-[chip-in_0.25s_ease-out_both]"
+          style={{ animationDelay: `${i * 40}ms` }}
         >
           {pill.label}
-          <X className="h-3 w-3" />
+          <X className="h-3 w-3 transition-transform hover:scale-125" />
         </button>
       ))}
       {pills.length > 1 && (
         <button
           onClick={clearAll}
-          className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+          className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground animate-[chip-in_0.25s_ease-out_both]"
+          style={{ animationDelay: `${pills.length * 40}ms` }}
         >
           Clear all
         </button>

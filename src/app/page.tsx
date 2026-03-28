@@ -1,4 +1,3 @@
-import { PageTint } from '@/components/layout/page-tint'
 import { HeroSection } from '@/components/home/hero-section'
 import { StatsBar } from '@/components/home/stats-bar'
 import { FeaturedGrid } from '@/components/home/featured-grid'
@@ -14,13 +13,41 @@ import { ImpactCTA } from '@/components/home/impact-cta'
 import { AnimateOnScroll } from '@/components/ui/animate-on-scroll'
 import { getHomepageData } from '@/lib/data'
 import { FOCUS_AREAS } from '@/lib/constants'
+import { safeJsonLd } from '@/lib/safe-json-ld'
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GrantLink',
+  url: 'https://grantlink.org',
+  description:
+    'Discover grants, fellowships, prizes, and funding opportunities for nonprofits and social enterprises.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://grantlink.org/search?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
 
 export default async function HomePage() {
   const data = await getHomepageData()
 
   return (
     <div className="relative">
-      <PageTint color="oklch(0.75 0.15 145 / 0.25)" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteJsonLd) }}
+      />
+      {/* Page-level gradient blobs for 3D depth throughout */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute top-[20%] -left-[10%] h-[700px] w-[700px] rounded-full bg-[oklch(0.88_0.06_145_/_0.15)] blur-[140px] will-change-transform animate-blob-drift" />
+        <div className="absolute top-[50%] -right-[10%] h-[600px] w-[600px] rounded-full bg-[oklch(0.90_0.05_160_/_0.12)] blur-[140px] will-change-transform animate-blob-drift animation-delay-200" />
+        <div className="absolute top-[75%] left-[20%] h-[500px] w-[500px] rounded-full bg-[oklch(0.86_0.04_130_/_0.10)] blur-[140px] will-change-transform animate-blob-drift animation-delay-400" />
+      </div>
+      <div className="relative z-[1]">
       <HeroSection deadlinesThisMonth={data.deadlinesThisMonth} />
       <AnimateOnScroll>
         <StatsBar
@@ -60,6 +87,7 @@ export default async function HomePage() {
       <AnimateOnScroll>
         <EmailSignup />
       </AnimateOnScroll>
+      </div>
     </div>
   )
 }

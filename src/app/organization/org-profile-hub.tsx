@@ -267,17 +267,35 @@ export function OrgProfileHub() {
             </div>
           </div>
 
-          {/* Completion bar */}
-          <div className="mt-4 flex items-center gap-3">
-            <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted/60">
-              <div
-                className="h-full rounded-full bg-primary transition-all duration-500"
-                style={{ width: `${completionPct}%` }}
-              />
+          {/* Completion ring */}
+          <div className="mt-4 flex items-center gap-4">
+            <div className="relative h-14 w-14 shrink-0">
+              <svg className="h-14 w-14 -rotate-90" viewBox="0 0 56 56">
+                <circle cx="28" cy="28" r="24" fill="none" strokeWidth="4" className="stroke-muted/60" />
+                <circle
+                  cx="28" cy="28" r="24" fill="none" strokeWidth="4"
+                  strokeLinecap="round"
+                  className="stroke-primary transition-all duration-700"
+                  style={{
+                    strokeDasharray: `${2 * Math.PI * 24}`,
+                    strokeDashoffset: `${2 * Math.PI * 24 * (1 - completionPct / 100)}`,
+                  }}
+                />
+              </svg>
+              <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-foreground">
+                {completionPct}%
+              </span>
             </div>
-            <span className="text-xs font-medium text-muted-foreground">
-              {completionPct}% complete
-            </span>
+            <div>
+              <p className="text-sm font-medium text-foreground">
+                {completionPct === 100 ? 'Profile complete!' : 'Profile completion'}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {completionPct < 100
+                  ? `Fill in ${Math.round((100 - completionPct) / (100 / 7))} more fields to unlock full personalization`
+                  : 'All tools are fully connected'}
+              </p>
+            </div>
           </div>
         </div>
 

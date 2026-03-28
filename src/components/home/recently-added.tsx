@@ -1,4 +1,5 @@
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
+import { OpportunityGridSkeleton } from '@/components/opportunity/opportunity-card-skeleton'
 import type { OpportunityListItem } from '@/types/opportunity'
 import { Sparkles, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
@@ -8,7 +9,7 @@ interface RecentlyAddedProps {
 }
 
 export function RecentlyAddedSection({ opportunities }: RecentlyAddedProps) {
-  if (opportunities.length === 0) return null
+  const isEmpty = opportunities.length === 0
 
   return (
     <section className="py-16">
@@ -17,7 +18,7 @@ export function RecentlyAddedSection({ opportunities }: RecentlyAddedProps) {
           <div className="flex items-center gap-3">
             <Sparkles className="h-5 w-5 text-muted-foreground" />
             <div>
-              <h2 className="font-serif text-xl font-bold text-foreground md:text-2xl">
+              <h2 className="font-serif text-xl font-extrabold text-foreground md:text-2xl">
                 Just Added
               </h2>
               <p className="text-sm text-muted-foreground">
@@ -34,11 +35,15 @@ export function RecentlyAddedSection({ opportunities }: RecentlyAddedProps) {
           </Link>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {opportunities.map((opp) => (
-            <OpportunityCard key={opp.id} opportunity={opp} />
-          ))}
-        </div>
+        {isEmpty ? (
+          <OpportunityGridSkeleton count={3} />
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {opportunities.map((opp) => (
+              <OpportunityCard key={opp.id} opportunity={opp} />
+            ))}
+          </div>
+        )}
 
         <div className="mt-6 text-center md:hidden">
           <Link

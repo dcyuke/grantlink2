@@ -1,13 +1,10 @@
 import type { Metadata } from "next"
-import Script from "next/script"
 import { DM_Sans, Crimson_Text } from "next/font/google"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { KonamiProvider } from "@/components/easter-eggs/konami-provider"
 import { KeyboardShortcuts } from "@/components/layout/keyboard-shortcuts"
 import "./globals.css"
-
-const GA_MEASUREMENT_ID = "G-5QW521ZPX4"
 
 const dmSans = DM_Sans({
   variable: "--font-geist-sans",
@@ -27,7 +24,7 @@ const SITE_DESCRIPTION =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "GrantLink - Find Funding for What Matters",
+    default: "GrantLink - Grants, Impact Data, Readiness Tools, and More",
     template: "%s | GrantLink",
   },
   description: SITE_DESCRIPTION,
@@ -50,12 +47,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "GrantLink",
-    title: "GrantLink - Find Funding for What Matters",
+    title: "GrantLink - Grants, Impact Data, Readiness Tools, and More",
     description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "GrantLink - Find Funding for What Matters",
+    title: "GrantLink - Grants, Impact Data, Readiness Tools, and More",
     description: SITE_DESCRIPTION,
   },
   alternates: {
@@ -69,20 +66,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ colorScheme: 'light' }}>
       <head>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
-          `}
-        </Script>
+        <link rel="alternate" type="application/atom+xml" title="GrantLink Feed" href="/feed.xml" />
       </head>
       <body className={`${dmSans.variable} ${crimsonText.variable} font-sans antialiased`}>
         <KonamiProvider>

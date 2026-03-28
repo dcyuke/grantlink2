@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function ReadinessPage() {
   return (
     <div className="relative container mx-auto px-4 py-8">
-      <PageTint color="oklch(0.55 0.05 260 / 0.25)" />
+      <PageTint color="oklch(0.55 0.08 145 / 0.20)" />
       <div className="mx-auto max-w-2xl">
         {/* Hero */}
         <div className="mb-8 text-center">

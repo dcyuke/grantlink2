@@ -8,7 +8,7 @@ export function FunderLogoBar({ funders }: FunderLogoBarProps) {
   if (funders.length < 3) return null
 
   return (
-    <section className="py-14">
+    <section className="border-y border-border/30 py-14">
       <div className="container mx-auto px-4">
         <p className="mb-6 text-center text-xs font-medium tracking-widest uppercase text-muted-foreground/50">
           Featuring opportunities from leading funders

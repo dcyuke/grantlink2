@@ -148,6 +148,7 @@ export interface SearchFilters {
   firstTimeFriendly?: boolean
   sort?: string
   page?: number
+  pageSize?: number
 }
 
 export async function searchOpportunities(filters: SearchFilters): Promise<{
@@ -310,7 +311,7 @@ export async function searchOpportunities(filters: SearchFilters): Promise<{
 
   const totalCount = results.length
   const page = filters.page || 1
-  const pageSize = 12
+  const pageSize = filters.pageSize || 12
   const start = (page - 1) * pageSize
   const paged = results.slice(start, start + pageSize)
 

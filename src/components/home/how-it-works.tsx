@@ -1,4 +1,4 @@
-import { Building2, Search, BarChart3, FileText } from 'lucide-react'
+import { Building2, Search, BarChart3, FileText, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -41,7 +41,7 @@ export function HowItWorks() {
           <p className="mb-3 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
             How-to
           </p>
-          <h2 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
+          <h2 className="font-serif text-3xl font-extrabold text-foreground md:text-4xl">
             How GrantLink Works
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
@@ -61,8 +61,11 @@ export function HowItWorks() {
             </div>
           ))}
           <div className="pt-4">
-            <Button asChild className="rounded-full px-6" variant="default">
-              <Link href="/organization">Get Started</Link>
+            <Button asChild size="lg" className="rounded-full px-6" variant="default">
+              <Link href="/organization">
+                Get Started
+                <ArrowRight className="ml-1.5 h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>

@@ -23,7 +23,7 @@ export function CategoryCards({ categories }: CategoryCardsProps) {
           <p className="mb-3 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
             Focus Areas
           </p>
-          <h2 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
+          <h2 className="font-serif text-3xl font-extrabold text-foreground md:text-4xl">
             Browse by Focus Area
           </h2>
           <p className="mx-auto mt-3 max-w-md text-muted-foreground">
@@ -38,7 +38,7 @@ export function CategoryCards({ categories }: CategoryCardsProps) {
               <Link
                 key={cat.slug}
                 href={`/grants-for/${cat.slug}`}
-                className="group flex flex-col items-center gap-3 rounded-2xl border border-border/50 bg-card p-5 text-center transition-all duration-200 hover:border-primary/20 hover:shadow-sm"
+                className="group flex flex-col items-center gap-3 rounded-2xl border border-border/50 bg-card p-5 text-center transition-all duration-300 hover:border-primary/25 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-muted transition-colors group-hover:bg-primary/10">
                   {Icon && <Icon className="h-5 w-5 text-foreground/60 transition-colors group-hover:text-primary" />}

@@ -22,9 +22,7 @@ export default function AboutPage() {
             About GrantLink
           </h1>
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            The nonprofit back office in a browser. GrantLink brings together grant discovery,
-            impact measurement, partner matching, and organizational tools so your team can
-            focus on the mission — not the admin.
+            Connected tools that help small nonprofits find funding, prove impact, and focus on what matters most.
           </p>
         </div>
       </div>
@@ -90,8 +88,7 @@ export default function AboutPage() {
                 challenges they address, but not always the budget or bandwidth to
                 maximize their impact. GrantLink supports these organizations by
                 delivering a connected suite of solutions that enable even the smallest
-                teams to operate with the effectiveness and capacity of a much larger
-                organization.
+                teams to operate with efficiency and effectiveness.
               </p>
             </div>
           </section>

@@ -52,8 +52,8 @@ export function FooterSignup() {
 
   return (
     <div>
-      <h3 className="mb-2 text-sm font-semibold text-foreground">Get Grant Alerts</h3>
-      <p className="mb-3 text-sm text-muted-foreground">Get notified about new grants in your inbox.</p>
+      <h3 className="mb-2 text-sm font-semibold text-footer-fg">Get Grant Alerts</h3>
+      <p className="mb-3 text-sm text-footer-muted">Get notified about new grants in your inbox.</p>
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="email"
@@ -64,7 +64,7 @@ export function FooterSignup() {
             if (status === 'error') setStatus('idle')
           }}
           placeholder="Your email"
-          className="w-full min-w-0 rounded-lg border border-border bg-card px-3 py-1.5 text-sm outline-none transition-colors focus:border-primary/40"
+          className="w-full min-w-0 rounded-lg border border-footer-border bg-hero-input-bg px-3 py-1.5 text-sm text-footer-fg outline-none transition-colors placeholder:text-footer-muted/50 focus:border-primary/40"
         />
         <Button type="submit" size="sm" className="shrink-0">
           <Mail className="h-3.5 w-3.5" />

@@ -1,4 +1,5 @@
 import { OpportunityCard } from '@/components/opportunity/opportunity-card'
+import { OpportunityGridSkeleton } from '@/components/opportunity/opportunity-card-skeleton'
 import type { OpportunityListItem } from '@/types/opportunity'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -8,7 +9,7 @@ interface FeaturedGridProps {
 }
 
 export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
-  if (opportunities.length === 0) return null
+  const isEmpty = opportunities.length === 0
 
   return (
     <section className="container mx-auto px-4 py-24">
@@ -17,7 +18,7 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
           <p className="mb-2 text-sm font-medium tracking-widest uppercase text-muted-foreground/60">
             Featured
           </p>
-          <h2 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
+          <h2 className="font-serif text-3xl font-extrabold text-foreground md:text-4xl">
             Featured Opportunities
           </h2>
           <p className="mt-2 text-muted-foreground">
@@ -33,11 +34,15 @@ export function FeaturedGrid({ opportunities }: FeaturedGridProps) {
         </Link>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {opportunities.slice(0, 6).map((opp) => (
-          <OpportunityCard key={opp.id} opportunity={opp} />
-        ))}
-      </div>
+      {isEmpty ? (
+        <OpportunityGridSkeleton count={6} />
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {opportunities.slice(0, 6).map((opp) => (
+            <OpportunityCard key={opp.id} opportunity={opp} />
+          ))}
+        </div>
+      )}
 
       <div className="mt-8 text-center md:hidden">
         <Link
