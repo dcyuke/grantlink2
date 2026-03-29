@@ -15,9 +15,9 @@ export default function PrivacyPage() {
         <section>
           <h2 className="mb-3 text-lg font-semibold text-foreground">The short version</h2>
           <p>
-            GrantLink exists to help small and mid-sized nonprofits find funding. We don&apos;t sell your data,
-            we don&apos;t run ads, and we don&apos;t share your information with third parties for marketing.
-            Your data is yours.
+            GrantLink exists to help small nonprofits find funding, prove impact, and focus on what matters
+            most. We don&apos;t sell your data, we don&apos;t run ads, and we don&apos;t share your information
+            with third parties for marketing. Your data is yours.
           </p>
         </section>
 
