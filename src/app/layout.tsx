@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { DM_Sans, Crimson_Text } from "next/font/google"
+import Script from "next/script"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { KonamiProvider } from "@/components/easter-eggs/konami-provider"
@@ -69,6 +70,12 @@ export default function RootLayout({
     <html lang="en" style={{ colorScheme: 'light' }}>
       <head>
         <link rel="alternate" type="application/atom+xml" title="GrantLink Feed" href="/feed.xml" />
+        <Script
+          defer
+          data-domain="grantlink.org"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={`${dmSans.variable} ${crimsonText.variable} font-sans antialiased`}>
         <KonamiProvider>
