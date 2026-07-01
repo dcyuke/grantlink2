@@ -9,7 +9,7 @@ export default function PrivacyPage() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-16 md:py-24">
       <h1 className="mb-2 font-serif text-4xl font-bold tracking-tight">Privacy Policy</h1>
-      <p className="mb-12 text-sm text-muted-foreground">Last updated: March 28, 2026</p>
+      <p className="mb-12 text-sm text-muted-foreground">Last updated: July 1, 2026</p>
 
       <div className="space-y-10 text-[15px] leading-relaxed text-foreground/90">
         <section>
@@ -44,13 +44,32 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="mb-3 text-lg font-semibold text-foreground">What we don&apos;t collect</h2>
+          <h2 className="mb-3 text-lg font-semibold text-foreground">Analytics</h2>
+          <p className="mb-3">
+            We use two analytics tools to understand how people use GrantLink so we can improve it:
+          </p>
           <ul className="list-disc space-y-2 pl-5">
-            <li>We don&apos;t use analytics or tracking scripts</li>
-            <li>We don&apos;t use advertising cookies or pixels</li>
-            <li>We don&apos;t fingerprint your browser</li>
-            <li>We don&apos;t track you across other websites</li>
+            <li>
+              <strong>Plausible Analytics</strong> — A privacy-friendly tool that counts pageviews and
+              traffic sources without cookies or personal identifiers. No data is shared with advertisers.
+            </li>
+            <li>
+              <strong>Google Analytics</strong> — Tracks pageviews, session duration, and general usage
+              patterns. Google may set cookies and process data per their{' '}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline"
+              >
+                privacy policy
+              </a>
+              . We do not use Google Analytics to target ads or share data with third parties.
+            </li>
           </ul>
+          <p className="mt-3">
+            We do not use advertising pixels, browser fingerprinting, or cross-site tracking for marketing purposes.
+          </p>
         </section>
 
         <section>
@@ -83,14 +102,23 @@ export default function PrivacyPage() {
               <strong>Vercel</strong> — Hosting. GrantLink is hosted on Vercel. They may process standard
               server logs (IP addresses, request timestamps) as part of infrastructure operations.
             </li>
+            <li>
+              <strong>Plausible Analytics</strong> — Cookie-free, privacy-friendly pageview analytics.
+              No personal data is collected or shared.
+            </li>
+            <li>
+              <strong>Google Analytics</strong> — Usage analytics. Google processes data per their own
+              privacy policy. We use it only to understand how GrantLink is used, not for advertising.
+            </li>
           </ul>
         </section>
 
         <section>
           <h2 className="mb-3 text-lg font-semibold text-foreground">Cookies</h2>
           <p>
-            GrantLink uses only essential cookies for authentication (keeping you logged in). We don&apos;t
-            use tracking cookies, advertising cookies, or any third-party cookies.
+            GrantLink uses essential cookies for authentication (keeping you logged in) and analytics
+            cookies from Google Analytics to understand general usage patterns. We do not use advertising
+            cookies or sell cookie data to third parties.
           </p>
         </section>
 
