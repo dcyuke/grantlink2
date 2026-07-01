@@ -119,7 +119,7 @@ export function HeroSection({ deadlinesThisMonth }: HeroSectionProps) {
           </h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-hero-muted md:text-xl animate-fade-in-up animation-delay-200">
-            Grants, impact data, readiness tools, and more. Built to enable your team to focus on what matters most.
+            Find the right grants, measure your impact, and build the case funders want to see — all in one place for small and mid-sized nonprofits.
           </p>
 
           {/* Deadline counter badge */}

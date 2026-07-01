@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'GrantLink - Grants, Impact Data, Readiness Tools, and More'
+export const alt = 'GrantLink — Grants, Impact Data, Readiness Tools, and More'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -10,47 +10,115 @@ export default function Image() {
     (
       <div
         style={{
-          background: 'linear-gradient(135deg, #f0f7f1 0%, #e8f0e9 50%, #dce8dd 100%)',
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 40%, #f0fdf4 100%)',
           width: '100%',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          fontFamily: 'Georgia, serif',
+          padding: '80px',
+          position: 'relative',
         }}
       >
+        {/* Decorative circles */}
         <div
           style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            fontSize: 72,
+            position: 'absolute',
+            top: -120,
+            left: -120,
+            width: 480,
+            height: 480,
+            borderRadius: '50%',
+            background: 'rgba(34, 197, 94, 0.12)',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: -80,
+            right: -80,
+            width: 360,
+            height: 360,
+            borderRadius: '50%',
+            background: 'rgba(34, 197, 94, 0.08)',
+          }}
+        />
+
+        {/* Wordmark */}
+        <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 36 }}>
+          <span style={{ fontFamily: 'Georgia, serif', fontSize: 56, fontWeight: 700, color: '#14532d', letterSpacing: '-1px' }}>
+            Grant
+          </span>
+          <span style={{ fontFamily: 'Georgia, serif', fontSize: 56, fontWeight: 700, color: '#16a34a', letterSpacing: '-1px' }}>
+            Link
+          </span>
+        </div>
+
+        {/* Headline */}
+        <div
+          style={{
+            fontFamily: 'Georgia, serif',
+            fontSize: 44,
             fontWeight: 700,
-            letterSpacing: '-1px',
+            color: '#14532d',
+            textAlign: 'center',
+            lineHeight: 1.2,
+            maxWidth: 800,
+            marginBottom: 24,
           }}
         >
-          <span style={{ color: '#1a1a1a' }}>Grant</span>
-          <span style={{ color: '#5C7C5E' }}>Link</span>
+          Your Mission. One Platform.
         </div>
+
+        {/* Subtitle */}
         <div
           style={{
-            fontSize: 28,
-            color: '#666',
-            marginTop: 16,
             fontFamily: 'system-ui, sans-serif',
+            fontSize: 22,
+            color: '#4b7a4e',
+            textAlign: 'center',
+            maxWidth: 680,
+            lineHeight: 1.5,
+            marginBottom: 48,
           }}
         >
-          Grants, impact data, readiness tools, and more.
+          Find the right grants, measure your impact, and build the case funders want to see.
         </div>
+
+        {/* Feature pills */}
+        <div style={{ display: 'flex', gap: 16 }}>
+          {['Grant Search', 'Impact Tools', 'Readiness Assessment'].map((label) => (
+            <div
+              key={label}
+              style={{
+                background: 'rgba(22, 163, 74, 0.10)',
+                border: '1.5px solid rgba(22, 163, 74, 0.28)',
+                borderRadius: 100,
+                padding: '10px 24px',
+                fontSize: 16,
+                fontWeight: 600,
+                color: '#16a34a',
+                fontFamily: 'system-ui, sans-serif',
+              }}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
+
+        {/* URL */}
         <div
           style={{
+            position: 'absolute',
+            bottom: 44,
+            fontFamily: 'system-ui, sans-serif',
             fontSize: 18,
-            color: '#999',
-            marginTop: 12,
-            fontFamily: 'system-ui, sans-serif',
+            color: '#6b9b6e',
+            fontWeight: 500,
           }}
         >
-          Built for small and mid-sized nonprofits
+          grantlink.org
         </div>
       </div>
     ),

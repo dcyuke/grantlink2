@@ -11,7 +11,7 @@ export function FunderLogoBar({ funders }: FunderLogoBarProps) {
     <section className="border-y border-border/30 py-14">
       <div className="container mx-auto px-4">
         <p className="mb-6 text-center text-xs font-medium tracking-widest uppercase text-muted-foreground/50">
-          Featuring opportunities from leading funders
+          Opportunities from
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">

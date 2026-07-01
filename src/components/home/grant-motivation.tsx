@@ -25,11 +25,11 @@ export function GrantMotivation() {
     <section className="bg-muted/50 py-24">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="font-serif text-3xl font-light leading-snug tracking-tight text-muted-foreground/40 md:text-4xl">
+          <p className="font-serif text-3xl font-light leading-snug tracking-tight text-foreground/70 md:text-4xl">
             &ldquo;{quote.text}&rdquo;
           </p>
-          <p className="mt-6 text-sm font-medium text-foreground">{quote.context}</p>
-          <p className="text-xs tracking-wide text-muted-foreground/50">Daily motivation from GrantLink</p>
+          <p className="mt-6 text-sm font-semibold text-foreground">{quote.context}</p>
+          <p className="mt-1 text-xs tracking-wide text-muted-foreground/50">Daily reflection from GrantLink</p>
         </div>
       </div>
     </section>

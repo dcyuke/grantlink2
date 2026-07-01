@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 
 export function ImpactCTA() {
   return (
-    <section className="py-24">
+    <section className="py-24 bg-muted/20">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-5xl">
           {/* Section header */}
@@ -16,7 +16,7 @@ export function ImpactCTA() {
               Data Wins Grants. Are You Collecting Yours?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-              82% of funders say measurable outcomes influence their funding decisions. Small and mid-sized nonprofits that track their impact are 3× more likely to secure repeat funding — yet most lack the tools to do it. GrantLink changes that.
+              Funders increasingly expect measurable outcomes. Most small nonprofits know this — but lack a simple way to track data and turn it into a compelling grant narrative. GrantLink bridges that gap.
             </p>
           </div>
 

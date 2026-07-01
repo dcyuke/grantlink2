@@ -9,7 +9,6 @@ import { AuthButton } from '@/components/auth/auth-button'
 import { cn } from '@/lib/utils'
 import { getOrgProfile } from '@/lib/org-profile-storage'
 import { createClient } from '@/lib/supabase/client'
-import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -108,9 +107,8 @@ export function Header() {
           </div>
         </nav>
 
-        {/* Auth + theme toggle (desktop) */}
+        {/* Auth (desktop) */}
         <div className="hidden items-center gap-1 md:flex">
-          <ThemeToggle />
           <AuthButton />
         </div>
 
